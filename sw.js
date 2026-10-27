@@ -1,5 +1,5 @@
-const CACHE = 'whale-v3';
-const FILES = ['./', './index.html', './manifest.json', './crab.png', './icon-192.png', './icon-512.png'];
+const CACHE = 'whale-v4';
+const FILES = ['./', './index.html', './manifest.json', './crab.png', './sword.png', './horse.png', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
   self.skipWaiting();

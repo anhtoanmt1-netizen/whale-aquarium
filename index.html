@@ -30,7 +30,7 @@ body.so #gear{transform:rotate(180deg)}
 .b{flex:1;min-width:0;border:0;border-radius:15px;padding:7px 2px;font-weight:700;font-size:11px;line-height:1.2;box-shadow:0 3px 0 #0003}
 .b:disabled{opacity:.45}
 .b.f{background:#cfe8fb;color:#1d5f94}.b.k{background:#ffd9d2;color:#a8402f}.b.e{background:#ffe9b0;color:#7a5200}.b.s{background:#d3f1e2;color:#1f7a57}
-@media (orientation:landscape) and (max-height:500px){#hud{flex-direction:row;align-items:center}#hud .row:last-child{flex:1;max-width:560px}}
+#shopb{width:42px;height:42px;border:0;border-radius:50%;background:#ffffffee;font-size:21px;box-shadow:0 2px 0 #0002}
 #msg{position:fixed;left:0;right:0;top:120px;text-align:center;color:#fff;font-weight:700;font-size:14px;text-shadow:0 2px 6px #0009;pointer-events:none;z-index:30;padding:0 12px}
 /* Overlay */
 .ov{position:fixed;inset:0;background:#0a2a4a99;backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:10;padding:10px;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -83,20 +83,40 @@ label.r2{color:#a35a1f}label.r2 input{display:none}label.r2 input:checked+.sw{ba
 .two{display:flex;gap:8px}.two .m{flex:1}
 #cc{align-self:center;border-radius:12px;background:repeating-conic-gradient(#dde 0 25%,#fff 0 50%) 0 0/16px 16px;touch-action:none;box-shadow:0 4px 14px #0002}
 select{padding:10px;border-radius:12px;border:2px solid #d5e4f0;font-family:inherit;font-weight:600;color:#35506b;background:#fff}
+
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:2px solid transparent;background:#fff;color:#3f8cc6;border-radius:14px;padding:7px 11px;font-size:12px;font-weight:700;box-shadow:0 2px 0 #3f8cc622}
+.tabs button.on{background:#3f8cc6;color:#fff;border-color:#fff;box-shadow:0 4px 10px #3f8cc655}
+.tl.di b{position:absolute;bottom:0;left:0;right:0;background:#fffd;font-size:9.5px;padding:1px 0;text-align:center}
+.shg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shp{border:0;border-radius:18px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;color:#35506b;box-shadow:0 3px 0 #0001;text-align:center}
+.shp .ic{height:56px;display:grid;place-items:center;font-size:38px}
+.shp .ic img{max-height:56px;max-width:84px;object-fit:contain}
+.shp b{font-size:13px;font-weight:800}
+.shp small{font-size:10.5px;color:#6f8aa3;font-weight:500;line-height:1.25;min-height:26px}
+.shp em{font-style:normal;background:#fff;border-radius:12px;padding:4px 11px;font-size:12px;font-weight:800;color:#2d4a66}
+.shp .cn{position:absolute;top:6px;right:6px;background:#fff;border-radius:9px;padding:1px 7px;font-size:10px;font-weight:800;font-style:normal;color:#2d4a66}
+.shp:disabled{opacity:.5;filter:grayscale(.3)}
+.s1{background:#e2f0fb}.s2{background:#e8e4fb}.s3{background:#fff0e4}.s4{background:#ffe4e0}.s5{background:#fff6d6}.s6{background:#e4f6ee}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="hud">
-  <div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div id="sp"></div><button id="gear" aria-label="Cài đặt">⚙️</button></div>
-  <div class="row">
-    <button class="b f" id="buy">🐋 Mua cá<br>100</button>
-    <button class="b k" id="crab">🦀 Mua cua<br>200</button>
-    <button class="b e" id="up">🍤 Thức ăn<br>Lv1</button>
-    <button class="b s" id="slot">🏝️ +5 chỗ<br>300</button>
-  </div>
-</div>
+<div id="hud"><div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div id="sp"></div><button id="shopb" aria-label="Cửa hàng">🛒</button><button id="gear" aria-label="Cài đặt">⚙️</button></div></div>
 <div id="msg"></div>
+
+<div class="ov" id="shop"><div class="pn">
+  <div class="ph"><h3>🛒 Cửa hàng</h3><div class="pill" id="coins2">🪙 0</div><button class="x" id="shclose" aria-label="Đóng">✕</button></div>
+  <div class="shg">
+    <button class="shp s1" id="buy"><i class="cn" id="c_buy"></i><span class="ic">🐋</span><b>Cá voi</b><small>Lớn lên sẽ đẻ xu</small><em id="p_buy">100</em></button>
+    <button class="shp s2" id="sword"><i class="cn" id="c_sword"></i><span class="ic"><img src="sword.png" alt=""></span><b>Cá kiếm</b><small>Lao đâm quái vật rất hung hăng</small><em id="p_sword">300</em></button>
+    <button class="shp s3" id="horse"><i class="cn" id="c_horse"></i><span class="ic"><img src="horse.png" alt=""></span><b>Cá ngựa</b><small>Phun thức ăn cho cá</small><em id="p_horse">250</em></button>
+    <button class="shp s4" id="crab"><i class="cn" id="c_crab"></i><span class="ic"><img src="crab.png" alt=""></span><b>Cua</b><small>Nhặt xu ở đáy hồ</small><em id="p_crab">200</em></button>
+    <button class="shp s5" id="up"><i class="cn" id="c_up"></i><span class="ic">🍤</span><b>Thức ăn</b><small>Thả được nhiều viên hơn</small><em id="p_up">150</em></button>
+    <button class="shp s6" id="slot"><i class="cn" id="c_slot"></i><span class="ic">🏝️</span><b>+5 chỗ</b><small>Hồ rộng hơn (tối đa 50 cá)</small><em id="p_slot">300</em></button>
+  </div>
+</div></div>
 
 <div class="ov" id="set"><div class="pn">
   <div class="ph"><h3>⚙️ Cài đặt</h3><button class="x" id="sclose" aria-label="Đóng">✕</button></div>
@@ -117,13 +137,13 @@ select{padding:10px;border-radius:12px;border:2px solid #d5e4f0;font-family:inhe
     <button class="r2" id="inst"><span>📲 Cài game vào điện thoại</span><em>›</em></button>
   </section>
 
-  <section class="cd sky" style="--d:.19s"><h4><i>🖼️</i>Hình nền hồ<small id="bgn">0/5</small></h4>
-    <div class="gal" id="gbg"></div><small>Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
-  </section>
-
-  <section class="cd peach" style="--d:.26s"><h4><i>🐋</i>Hình chú cá<small id="fn">0/5</small></h4>
-    <div class="gal" id="gfish"></div><small>Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
-    <label class="r2"><span>↔️ Ảnh cá đang quay mặt sang trái</span><input type="checkbox" id="flip"><b class="sw"></b></label>
+  <section class="cd sky" style="--d:.19s"><h4><i>🖼️</i>Hình ảnh<small id="gn">0/5</small></h4>
+    <div class="tabs" id="tabs">
+      <button data-t="bg">🌊 Nền hồ</button><button data-t="fish">🐋 Cá voi</button><button data-t="sword">🗡️ Cá kiếm</button><button data-t="horse">🐴 Cá ngựa</button><button data-t="crab">🦀 Cua</button><button data-t="gold">🟡 Xu vàng</button><button data-t="silver">⚪ Xu bạc</button>
+    </div>
+    <div class="gal" id="gal"></div>
+    <small id="ghint">Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
+    <label class="r2" id="flipw"><span>↔️ Ảnh cá voi đang quay mặt sang trái</span><input type="checkbox" id="flip"><b class="sw"></b></label>
   </section>
 
   <button class="m p" id="sdone">Xong</button>
@@ -148,16 +168,20 @@ const R=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>a>b?(a+b)/2:Math.max(a,Math.min
 const MAXF=50;
 
 let S=JSON.parse(localStorage.getItem('whale1')||'null')||{coins:50,lv:1,fish:[{stage:0,hunger:0},{stage:0,hunger:0}]};
-S.crabs=S.crabs||0;S.flip=!!S.flip;S.cap=Math.min(MAXF,Math.max(S.cap||10,S.fish.length));S.snd=S.snd||'wave';S.vol=S.vol==null?.5:S.vol;
-let fish=[],food=[],coins=[],bubbles=[],crabs=[],alien=null,alienT=40,t=0,msgT=0,bgImg=null,fishImg=null;
-const crabImg=new Image();crabImg.src='crab.png';
+S.crabs=S.crabs||0;S.swords=S.swords||0;S.horses=S.horses||0;S.flip=!!S.flip;S.cap=Math.min(MAXF,Math.max(S.cap||10,S.fish.length));S.snd=S.snd||'wave';S.vol=S.vol==null?.5:S.vol;
+let fish=[],food=[],coins=[],bubbles=[],crabs=[],swords=[],horses=[],fx=[],alien=null,alienT=40,t=0,msgT=0;
+const IM={},DEF={},img=n=>IM[n]||DEF[n];for(const n of['crab','sword','horse']){DEF[n]=new Image();DEF[n].src=n+'.png'}
 
 const sz=f=>26+f.stage*9;
 function bnd(f){const s=sz(f);return{x0:s*1.5,x1:W-s*1.5,y0:TOP+s*1.3,y1:H-s-12}}
 function newFish(stage=0,hunger=0){const f={x:0,y:0,vx:R(-30,30),vy:0,dir:1,stage,hunger,eaten:0,coinT:R(4,8),spout:0,ph:R(0,6)};const b=bnd(f);f.x=R(b.x0,b.x1);f.y=R(b.y0,b.y1);f.tx=R(b.x0,b.x1);f.ty=R(b.y0,b.y1);f.x=cl(f.x,b.x0,b.x1);f.y=cl(f.y,b.y0,b.y1);return f}
 function newCrab(){return{x:R(40,W-40),dir:1,vx:0,tx:R(40,W-40),ph:R(0,6)}}
 S.fish.forEach(f=>fish.push(newFish(f.stage,f.hunger)));
+function newSword(){return{x:R(80,W-80),y:R(TOP+60,H-100),vx:R(-30,30),vy:0,hx:-1,hy:0,tx:R(80,W-80),ty:R(TOP+60,H-100),cd:0,lunge:0,did:false,ph:R(0,6)}}
+function newHorse(){return{x:R(60,W-60),y:R(TOP+60,H*.6),vx:0,vy:0,face:-1,tx:R(60,W-60),ty:R(TOP+60,H*.6),spitT:R(2,4),sp:0,ph:R(0,6)}}
 for(let i=0;i<S.crabs;i++)crabs.push(newCrab());
+for(let i=0;i<S.swords;i++)swords.push(newSword());
+for(let i=0;i<S.horses;i++)horses.push(newHorse());
 for(let i=0;i<34;i++)bubbles.push({amb:1,x:R(0,W),y:R(0,H),r:R(2,9),ph:R(0,6)});
 const spk=[];for(let i=0;i<40;i++)spk.push({x:R(0,1),y:R(0,.85),r:R(3,7),s:R(.6,1.8),p:R(0,6.3)});
 function save(){S.fish=fish.map(f=>({stage:f.stage,hunger:Math.floor(f.hunger)}));try{localStorage.setItem('whale1',JSON.stringify(S))}catch(e){}}
@@ -218,20 +242,29 @@ $('vol').oninput=e=>{S.vol=+e.target.value;if(AC)MG.gain.setTargetAtTime(S.vol*.
 // ================= HUD =================
 const slotCost=()=>300+150*((S.cap-10)/5);
 function hud(){
-  $('coins').textContent='🪙 '+S.coins;$('cnt').textContent='🐋 '+fish.length+'/'+S.cap;
-  $('buy').disabled=S.coins<100||fish.length>=S.cap;
-  $('buy').innerHTML='🐋 Mua cá<br>'+(fish.length>=S.cap?'Đầy chỗ':'100');
-  $('crab').disabled=S.coins<200||crabs.length>=5;$('crab').innerHTML='🦀 Mua cua<br>'+(crabs.length>=5?'Tối đa 5/5':'200 · '+crabs.length+'/5');
-  $('up').disabled=S.lv>=4||S.coins<150*S.lv;$('up').innerHTML='🍤 Thức ăn<br>'+(S.lv>=4?'Tối đa':'Lv'+S.lv+' · '+150*S.lv);
-  $('slot').disabled=S.cap>=MAXF||S.coins<slotCost();$('slot').innerHTML='🏝️ +5 chỗ<br>'+(S.cap>=MAXF?'Tối đa 50':slotCost());
+  const txt=(id,v)=>{const e=$(id);if(e.textContent!==v)e.textContent=v};
+  txt('coins','🪙 '+S.coins);txt('coins2','🪙 '+S.coins);txt('cnt','🐋 '+fish.length+'/'+S.cap);
+  const it=(id,dis,price,cnt)=>{$(id).disabled=dis;txt('p_'+id,price);txt('c_'+id,cnt)};
+  it('buy',S.coins<100||fish.length>=S.cap,fish.length>=S.cap?'Đầy chỗ':'🪙 100',fish.length+'/'+S.cap);
+  it('sword',S.coins<300||swords.length>=5,swords.length>=5?'Tối đa':'🪙 300',swords.length+'/5');
+  it('horse',S.coins<250||horses.length>=5,horses.length>=5?'Tối đa':'🪙 250',horses.length+'/5');
+  it('crab',S.coins<200||crabs.length>=5,crabs.length>=5?'Tối đa':'🪙 200',crabs.length+'/5');
+  it('up',S.lv>=4||S.coins<150*S.lv,S.lv>=4?'Tối đa':'🪙 '+150*S.lv,'Lv'+S.lv);
+  it('slot',S.cap>=MAXF||S.coins<slotCost(),S.cap>=MAXF?'Tối đa':'🪙 '+slotCost(),S.cap+' chỗ');
 }
 $('buy').onclick=()=>{if(fish.length>=S.cap){say('Hồ đã đầy! Hãy mua thêm chỗ 🏝️');return}if(S.coins>=100){S.coins-=100;fish.push(newFish());say('Cá voi mới! 🐋')}};
 $('crab').onclick=()=>{if(S.coins>=200&&crabs.length<5){S.coins-=200;S.crabs++;crabs.push(newCrab());say('Cua sẽ nhặt xu ở đáy hồ 🦀')}};
 $('up').onclick=()=>{const p=150*S.lv;if(S.lv<4&&S.coins>=p){S.coins-=p;S.lv++;say('Thức ăn nâng cấp! Thả được nhiều viên hơn')}};
 $('slot').onclick=()=>{const p=slotCost();if(S.cap<MAXF&&S.coins>=p){S.coins-=p;S.cap+=5;say('Hồ rộng thêm 5 chỗ! 🏝️ ('+S.cap+' chỗ)');save()}};
 
+$('sword').onclick=()=>{if(S.coins>=300&&swords.length<5){S.coins-=300;S.swords++;swords.push(newSword());say('Cá kiếm sẽ tự tấn công quái vật ⚔️')}};
+$('horse').onclick=()=>{if(S.coins>=250&&horses.length<5){S.coins-=250;S.horses++;horses.push(newHorse());say('Cá ngựa sẽ phun thức ăn cho cá 🍤')}};
+$('shopb').onclick=()=>$('shop').classList.add('on');
+$('shclose').onclick=()=>$('shop').classList.remove('on');
+$('shop').addEventListener('pointerdown',e=>{if(e.target==$('shop'))$('shop').classList.remove('on')});
+
 // ================= CÀI ĐẶT =================
-function openSet(){sndUI();gal('bg');gal('fish');$('flip').checked=S.flip;lstate();$('set').classList.add('on');document.body.classList.add('so')}
+function openSet(){sndUI();tabUI();$('flip').checked=S.flip;lstate();$('set').classList.add('on');document.body.classList.add('so')}
 function closeSet(){$('set').classList.remove('on');document.body.classList.remove('so')}
 $('gear').onclick=openSet;$('sclose').onclick=closeSet;$('sdone').onclick=closeSet;
 $('set').addEventListener('pointerdown',e=>{if(e.target==$('set'))closeSet()});
@@ -254,32 +287,38 @@ $('land').onclick=async()=>{
 addEventListener('fullscreenchange',()=>{lstate();setTimeout(resize,200)});
 addEventListener('orientationchange',()=>setTimeout(resize,300));
 
-// ---- Thư viện hình (tối đa 5 hình gần đây mỗi loại)
-const G={bg:{k:'whale_bgs',s:'whale_bgsel',list:[],sel:''},fish:{k:'whale_fishs',s:'whale_fishsel',list:[],sel:''}};
-for(const n in G){const g=G[n];try{g.list=JSON.parse(localStorage.getItem(g.k)||'[]')}catch(e){}g.sel=localStorage.getItem(g.s)||'';
-  const old=localStorage.getItem(n=='bg'?'whale_bg':'whale_fish');if(old&&!g.list.length){g.list.push({id:'m1',d:old});g.sel='m1';gSave(n);localStorage.removeItem(n=='bg'?'whale_bg':'whale_fish')}
+// ---- Thư viện hình (mỗi loại lưu tối đa 5 hình gần đây)
+const KD={bg:{n:'Nền hồ',e:'🌊'},fish:{n:'Cá voi',e:'🐋',a:1,w:256,h:256},sword:{n:'Cá kiếm',e:'🗡️',a:384/229,w:384,h:229},horse:{n:'Cá ngựa',e:'🐴',a:.625,w:200,h:320},crab:{n:'Cua',e:'🦀',a:1,w:256,h:256},gold:{n:'Xu vàng',e:'🟡',a:1,w:128,h:128},silver:{n:'Xu bạc',e:'⚪',a:1,w:128,h:128}};
+const G={};let tab='bg',pick=null,CR=null;
+for(const n in KD){const g=G[n]={k:'whale_'+n+'s',s:'whale_'+n+'sel',list:[],sel:''};try{g.list=JSON.parse(localStorage.getItem(g.k)||'[]')}catch(e){}g.sel=localStorage.getItem(g.s)||'';
+  const ok=n=='bg'?'whale_bg':n=='fish'?'whale_fish':null,old=ok&&localStorage.getItem(ok);
+  if(old&&!g.list.length){g.list.push({id:'m1',d:old});g.sel='m1';gSave(n);localStorage.removeItem(ok)}
   gApply(n)}
 function gSave(n){const g=G[n];try{localStorage.setItem(g.k,JSON.stringify(g.list));localStorage.setItem(g.s,g.sel);return true}catch(e){return false}}
-function setImg(n,i){if(n=='bg')bgImg=i;else fishImg=i}
-function gApply(n){const g=G[n],it=g.list.find(x=>x.id==g.sel);if(!it){setImg(n,null);return}const i=new Image();i.onload=()=>setImg(n,i);i.src=it.d}
-function gal(n){const g=G[n];let h=`<div class="tl${g.sel?'':' sel'}" data-i=""><span>${n=='bg'?'🌊':'🐋'}</span><b>Gốc</b></div>`;
+function gApply(n){const g=G[n],it=g.list.find(x=>x.id==g.sel);if(!it){delete IM[n];return}const i=new Image();i.onload=()=>{IM[n]=i};i.src=it.d}
+function gal(){
+  const n=tab,g=G[n],hasDef=['sword','horse','crab'].includes(n);
+  let h=`<div class="tl def${hasDef?' di':''}${g.sel?'':' sel'}" data-i="">${hasDef?`<img src="${n}.png" alt="">`:`<span>${KD[n].e}</span>`}<b>Gốc</b></div>`;
   g.list.forEach(x=>h+=`<div class="tl${g.sel==x.id?' sel':''}" data-i="${x.id}"><img src="${x.d}" alt=""><button class="dx" data-del="${x.id}" aria-label="Xoá">✕</button></div>`);
   h+=g.list.length<5?'<div class="tl add" data-add="1"><span>＋</span><b>Thêm</b></div>':'<div class="tl add full" data-add="1"><span>🔒</span><b>Đủ 5</b></div>';
-  $(n=='bg'?'gbg':'gfish').innerHTML=h;$(n=='bg'?'bgn':'fn').textContent=g.list.length+'/5'}
-let pick=null,CR=null;
-for(const n of['bg','fish'])$(n=='bg'?'gbg':'gfish').onclick=e=>{
-  const g=G[n],d=e.target.closest('[data-del]');
-  if(d){g.list=g.list.filter(x=>x.id!=d.dataset.del);if(g.sel==d.dataset.del)g.sel='';gSave(n);gApply(n);gal(n);return}
+  $('gal').innerHTML=h;$('gn').textContent=g.list.length+'/5';
+  $('ghint').textContent='Chạm để chọn · ✕ để xoá · tối đa 5 hình'+(['sword','horse','crab'].includes(n)?(n=='crab'?'':' · ảnh nên quay đầu sang TRÁI'):'');
+}
+function tabUI(){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t==tab));$('flipw').style.display=tab=='fish'?'':'none';gal()}
+$('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.t;tabUI()};
+$('gal').onclick=e=>{
+  const n=tab,g=G[n],d=e.target.closest('[data-del]');
+  if(d){g.list=g.list.filter(x=>x.id!=d.dataset.del);if(g.sel==d.dataset.del)g.sel='';gSave(n);gApply(n);gal();return}
   if(e.target.closest('[data-add]')){if(g.list.length>=5){say('Đã đủ 5 hình, hãy xoá bớt để thêm hình mới');return}pick=n;$('file').click();return}
-  const tl=e.target.closest('.tl');if(tl){g.sel=tl.dataset.i;gSave(n);gApply(n);gal(n)}};
+  const tl=e.target.closest('.tl');if(tl){g.sel=tl.dataset.i;gSave(n);gApply(n);gal()}};
 
 // ---- Cắt hình
 $('file').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
-  const img=new Image();img.onload=()=>{CR={kind:pick,img,zoom:1,ox:0,oy:0};closeSet();$('crop').classList.add('on');
-    $('ctitle').textContent=pick=='bg'?'🖼️ Cắt hình nền hồ':'🐋 Cắt hình chú cá (1:1)';$('asp').style.display=pick=='bg'?'':'none';setupCrop()};
-  img.onerror=()=>say('Không đọc được ảnh');img.src=URL.createObjectURL(f)};
+  const im=new Image();im.onload=()=>{CR={kind:pick,img:im,zoom:1,ox:0,oy:0};closeSet();$('crop').classList.add('on');
+    $('ctitle').textContent='✂️ Cắt hình: '+KD[pick].n;$('asp').style.display=pick=='bg'?'':'none';setupCrop()};
+  im.onerror=()=>say('Không đọc được ảnh');im.src=URL.createObjectURL(f)};
 const cc=$('cc');
-function aspect(){if(CR.kind=='fish')return 1;const v=$('asp').value;return v=='16:9'?16/9:v=='9:16'?9/16:W/H}
+function aspect(){if(CR.kind!='bg')return KD[CR.kind].a;const v=$('asp').value;return v=='16:9'?16/9:v=='9:16'?9/16:W/H}
 function setupCrop(){
   const a=aspect();let pw=Math.min(W-60,340),ph=pw/a;const mh=H-270;if(ph>mh){ph=Math.max(mh,120);pw=ph*a}
   cc.width=Math.round(pw);cc.height=Math.round(ph);cc.style.width=pw+'px';cc.style.height=ph+'px';
@@ -298,7 +337,7 @@ function endCrop(){$('crop').classList.remove('on');CR=null;openSet()}
 $('cx').onclick=endCrop;
 $('cs').onclick=()=>{
   const n=CR.kind,g=G[n],a=aspect();let ow,oh;
-  if(n=='fish'){ow=oh=256}else if(a>=1){ow=1280;oh=Math.round(1280/a)}else{oh=1280;ow=Math.round(1280*a)}
+  if(n!='bg'){ow=KD[n].w;oh=KD[n].h}else if(a>=1){ow=1280;oh=Math.round(1280/a)}else{oh=1280;ow=Math.round(1280*a)}
   const o=document.createElement('canvas');o.width=ow;o.height=oh;drawCrop(o.getContext('2d'),ow,oh,ow/cc.width);
   const d=n=='bg'?o.toDataURL('image/jpeg',.82):o.toDataURL('image/png'),id='i'+Date.now();
   g.list.push({id,d});g.sel=id;
@@ -320,7 +359,7 @@ function update(dt){
   t+=dt;tingT-=dt;
   if(msgT>0){msgT-=dt;if(msgT<=0)$('msg').textContent=''}
   $('msg').style.top=(TOP+4)+'px';
-  for(const f of food){f.x=cl(f.x,10,W-10);if(f.y<H-30)f.y+=45*dt;else{f.age+=dt;if(f.age>6)f.dead=true}}
+  for(const f of food){f.x=cl(f.x+(f.vx||0)*dt,10,W-10);f.vx=(f.vx||0)*Math.pow(.15,dt);const vy=f.vy||0;f.vy=vy*Math.pow(.05,dt);if(f.y<H-30)f.y+=(45+vy)*dt;else{f.age+=dt;if(f.age>6)f.dead=true}}
   food=food.filter(f=>!f.dead);
   for(const f of fish){
     const s=sz(f),b=bnd(f);
@@ -337,12 +376,12 @@ function update(dt){
     const nx=cl(f.x,b.x0,b.x1),ny=cl(f.y,b.y0,b.y1);if(nx!=f.x)f.vx*=-.3;if(ny!=f.y)f.vy*=-.3;f.x=nx;f.y=ny;
     if(Math.abs(f.vx)>8)f.dir=f.vx>0?1:-1;
     if(target&&Math.hypot(target.x-f.x,target.y-f.y)<s*1.3&&!target.dead){target.dead=true;f.hunger=0;f.eaten++;if(f.eaten>=4&&f.stage<2){f.stage++;f.eaten=0;say('Cá voi lớn lên! ✨')}}
-    if(f.stage>0){f.coinT-=dt;if(f.coinT<=0){f.coinT=R(7,11);coins.push({x:f.x,y:f.y,v:f.stage==1?15:40,age:0,gold:f.stage==2})}}
+    if(f.stage>0){f.coinT-=dt;if(f.coinT<=0){f.coinT=R(7,11);coins.push({x:f.x,y:f.y,v:f.stage==1?15:40,age:0,vy:-60,ph:R(0,6),rest:0,gold:f.stage==2})}}
     if(f.hunger>110){f.dead=true;say('Một chú cá đói quá 😢')}
   }
   fish=fish.filter(f=>!f.dead);
   if(!fish.length){fish.push(newFish());say('Tặng bạn một chú cá mới 🐋')}
-  for(const k of coins){k.x=cl(k.x,16,W-16);if(k.y<H-26)k.y+=60*dt;else k.age+=dt;if(k.age>10)k.dead=true}
+  for(const k of coins){k.x=cl(k.x,16,W-16);if(!k.rest){k.vy+=(52-k.vy)*Math.min(1,dt*1.6);k.y+=k.vy*dt;k.x+=Math.sin(t*2+k.ph)*16*dt;if(k.y>=H-26){k.y=H-26;k.rest=1;k.age=0}}else k.age+=dt;if(k.age>10)k.dead=true}
   for(const cr of crabs){
     let tg=null,b=1e9;for(const k of coins){const d=Math.abs(k.x-cr.x)+(k.y<H-100?200:0);if(!k.dead&&d<b){b=d;tg=k}}
     if(tg)cr.tx=tg.x;else if(Math.abs(cr.tx-cr.x)<10||Math.random()<dt*.15)cr.tx=R(40,W-40);
@@ -358,6 +397,40 @@ function update(dt){
     if(n){const d=b||1;alien.x=cl(alien.x+(n.x-alien.x)/d*55*dt,40,W-40);alien.y=Math.min(H-40,alien.y+(n.y-alien.y)/d*55*dt);
       if(b<50){alien.eatT-=dt;if(alien.eatT<=0){n.dead=true;alien.eatT=3.5;say('Cá bị ăn mất! 😱')}}}
   }
+  // cá kiếm: lao đâm quái vật
+  for(const w of swords){
+    w.cd-=dt;
+    if(alien){
+      const dx=alien.x-w.x,dy=alien.y-w.y,d=Math.hypot(dx,dy)||1;
+      if(w.lunge>0){w.lunge-=dt;
+        if(!w.did&&d<64){w.did=true;alien.hp-=2;alien.hit=.3;alien.eatT=Math.max(alien.eatT,1.5);fx.push({x:alien.x,y:alien.y,l:.5,e:'💥'});
+          if(alien.hp<=0){S.coins+=60;say('Cá kiếm hạ quái vật! +60 🪙');alien=null;alienT=R(35,55)}}
+      }else{
+        w.vx+=(dx/d*270-w.vx)*dt*3;w.vy+=(dy/d*270-w.vy)*dt*3;
+        if(d<160&&w.cd<=0){w.lunge=.3;w.cd=1;w.did=false;w.vx=dx/d*580;w.vy=dy/d*580;fx.push({x:w.x,y:w.y-34,l:.6,e:'💢'})}
+      }
+    }else{
+      w.lunge=0;
+      if(Math.hypot(w.tx-w.x,w.ty-w.y)<30||Math.random()<dt*.08){w.tx=R(60,W-60);w.ty=R(TOP+50,H-70)}
+      const dx=w.tx-w.x,dy=w.ty-w.y,d=Math.hypot(dx,dy)||1;w.vx+=(dx/d*75-w.vx)*dt*1.5;w.vy+=(dy/d*75-w.vy)*dt*1.5;
+    }
+    w.x+=w.vx*dt;w.y+=w.vy*dt;
+    const nx=cl(w.x,50,W-50),ny=cl(w.y,TOP+35,H-55);if(nx!=w.x)w.vx*=-.4;if(ny!=w.y)w.vy*=-.4;w.x=nx;w.y=ny;
+    const sp=Math.hypot(w.vx,w.vy);if(sp>15){const k=Math.min(1,dt*10);w.hx+=(w.vx/sp-w.hx)*k;w.hy+=(w.vy/sp-w.hy)*k}
+  }
+  // cá ngựa: phun thức ăn
+  for(const h of horses){
+    if(Math.hypot(h.tx-h.x,h.ty-h.y)<15||Math.random()<dt*.08){h.tx=R(60,W-60);h.ty=R(TOP+50,H*.65)}
+    const dx=h.tx-h.x,dy=h.ty-h.y,d=Math.hypot(dx,dy)||1;h.vx+=(dx/d*28-h.vx)*dt;h.vy+=(dy/d*28-h.vy)*dt;
+    h.x=cl(h.x+h.vx*dt,45,W-45);h.y=cl(h.y+h.vy*dt,TOP+50,H-90);if(Math.abs(h.vx)>6)h.face=h.vx>0?1:-1;
+    h.sp-=dt;h.spitT-=dt;
+    if(h.spitT<=0){h.spitT=R(3.5,6);
+      if(food.length<16&&fish.some(f=>f.hunger>30)){
+        const im=img('horse'),hh=96,ww=im&&im.naturalWidth?hh*im.naturalWidth/im.naturalHeight:62,mx=h.x+h.face*ww*.46,my=h.y-hh*.13;
+        food.push({x:mx,y:my,vx:h.face*75,vy:-55,age:0});h.sp=.3;
+        for(let i=0;i<3;i++)bubbles.push({x:mx,y:my,r:R(1.5,3),ph:R(0,6)});fx.push({x:mx+h.face*14,y:my-6,l:.4,e:'💦'})}}
+  }
+  for(let i=fx.length-1;i>=0;i--){fx[i].l-=dt;if(fx[i].l<=0)fx.splice(i,1)}
   for(let i=bubbles.length-1;i>=0;i--){const b=bubbles[i];b.y-=(14+b.r*5)*dt;b.x+=Math.sin(t*1.3+b.ph)*10*dt;
     if(b.y<-10){if(b.amb){b.y=H+10;b.x=R(0,W);b.r=R(2,9)}else bubbles.splice(i,1)}}
   hud();
@@ -367,8 +440,8 @@ function update(dt){
 function whale(f){
   const s=sz(f),hungry=f.hunger>70;
   c.save();c.translate(f.x,f.y);
-  if(fishImg){
-    const z=s*2.6;c.scale(f.dir*(S.flip?-1:1),1);c.rotate(Math.sin(t*6+f.ph)*.06);c.drawImage(fishImg,-z/2,-z/2,z,z);c.restore();
+  if(IM.fish){
+    const z=s*2.6;c.scale(f.dir*(S.flip?-1:1),1);c.rotate(Math.sin(t*6+f.ph)*.06);c.drawImage(IM.fish,-z/2,-z/2,z,z);c.restore();
     if(hungry){c.font='20px sans-serif';c.textAlign='center';c.fillText('😢',f.x,f.y-s*1.3)}return;
   }
   c.scale(f.dir,1);
@@ -405,8 +478,23 @@ function glitter(){
     c.beginPath();c.moveTo(x,y-r);c.quadraticCurveTo(x,y,x+r,y);c.quadraticCurveTo(x,y,x,y+r);c.quadraticCurveTo(x,y,x-r,y);c.quadraticCurveTo(x,y,x,y-r);c.fill()}
   c.globalAlpha=1;
 }
+function drawCrab(cr){const im=img('crab');if(!im||!im.naturalWidth)return;const r=im.naturalHeight/im.naturalWidth;let w=64,h=w*r;if(h>72){h=72;w=h/r}
+  const bob=Math.abs(Math.sin(t*10+cr.ph))*(Math.abs(cr.vx)>10?4:0);c.save();c.translate(cr.x,H-8-bob);c.scale(cr.dir,1);c.drawImage(im,-w/2,-h,w,h);c.restore()}
+function drawSword(w){const im=img('sword');if(!im||!im.naturalWidth)return;const ww=120,hh=ww*im.naturalHeight/im.naturalWidth,a=Math.atan2(w.hy,w.hx);
+  c.save();c.translate(w.x,w.y);if(Math.cos(a)>=0){c.rotate(a);c.scale(-1,1)}else c.rotate(a-Math.PI);
+  if(w.lunge<=0)c.rotate(Math.sin(t*5+w.ph)*.04);c.drawImage(im,-ww/2,-hh/2,ww,hh);c.restore()}
+function drawHorse(h){const im=img('horse');if(!im||!im.naturalWidth)return;const hh=96,ww=hh*im.naturalWidth/im.naturalHeight,k=1+(h.sp>0?.1*h.sp/.3:0);
+  c.save();c.translate(h.x,h.y+Math.sin(t*2+h.ph)*3);c.rotate(Math.sin(t*1.5+h.ph)*.07);c.scale(-h.face*k,k);c.drawImage(im,-ww/2,-hh/2,ww,hh);c.restore()}
+function drawCoin(k){
+  const im=IM[k.gold?'gold':'silver'],sx=k.rest?1:.35+.65*Math.abs(Math.cos(t*2.6+k.ph)),a=k.age>8?Math.max(0,1-(k.age-8)/2):1;
+  c.save();c.globalAlpha=a;c.translate(k.x,k.y);c.scale(sx,1);
+  if(im)c.drawImage(im,-18,-18,36,36);
+  else{c.fillStyle=k.gold?'#ffc400':'#d6dde6';c.strokeStyle=k.gold?'#a87800':'#8895a5';c.lineWidth=2.5;c.beginPath();c.arc(0,0,16,0,7);c.fill();c.stroke();c.fillStyle=c.strokeStyle;c.font='bold 16px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('$',0,1)}
+  c.restore();
+}
+function drawFx(){c.textAlign='center';c.textBaseline='middle';c.font='22px sans-serif';for(const f of fx){c.globalAlpha=Math.min(1,f.l*2.5);c.fillText(f.e,f.x,f.y-(.6-f.l)*30)}c.globalAlpha=1}
 function draw(){
-  if(bgImg){const s=Math.max(W/bgImg.width,H/bgImg.height),w=bgImg.width*s,h=bgImg.height*s;c.drawImage(bgImg,(W-w)/2,(H-h)/2,w,h)}
+  if(IM.bg){const s=Math.max(W/IM.bg.width,H/IM.bg.height),w=IM.bg.width*s,h=IM.bg.height*s;c.drawImage(IM.bg,(W-w)/2,(H-h)/2,w,h)}
   else{
     const g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#3aa8e0');g.addColorStop(1,'#0b4f80');c.fillStyle=g;c.fillRect(0,0,W,H);
     c.fillStyle='#e8cf8a';c.beginPath();c.moveTo(0,H);for(let x=0;x<=W;x+=20)c.lineTo(x,H-14+Math.sin(x*.05)*5);c.lineTo(W,H);c.fill();
@@ -418,13 +506,10 @@ function draw(){
     c.fillStyle='rgba(255,255,255,.75)';c.beginPath();c.arc(x-b.r*.35,b.y-b.r*.35,Math.max(.8,b.r*.22),0,7);c.fill()}
   c.globalAlpha=1;
   for(const f of food){c.fillStyle=f.age>3?'#8a6b3a':'#ff8a4c';c.beginPath();c.arc(f.x,f.y,7,0,7);c.fill();c.fillStyle='#fff6';c.beginPath();c.arc(f.x-2,f.y-2,2.5,0,7);c.fill()}
-  if(crabImg.complete&&crabImg.naturalWidth)for(const cr of crabs){
-    const w=62,h=w*crabImg.naturalHeight/crabImg.naturalWidth,bob=Math.abs(Math.sin(t*10+cr.ph))*(Math.abs(cr.vx)>10?4:0);
-    c.save();c.translate(cr.x,H-8-bob);c.scale(cr.dir,1);c.drawImage(crabImg,-w/2,-h,w,h);c.restore();
-  }
-  for(const f of fish)whale(f);
-  for(const k of coins){c.fillStyle=k.gold?'#ffc400':'#d6dde6';c.strokeStyle=k.gold?'#a87800':'#8895a5';c.lineWidth=2.5;c.beginPath();c.arc(k.x,k.y,16,0,7);c.fill();c.stroke();c.fillStyle=c.strokeStyle;c.font='bold 16px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('$',k.x,k.y+1)}
-  glitter();
+  for(const cr of crabs)drawCrab(cr);
+  for(const f of fish)whale(f);for(const h of horses)drawHorse(h);for(const w of swords)drawSword(w);
+  for(const k of coins)drawCoin(k);
+  glitter();drawFx();
   if(alien){const a=alien,w=Math.sin(t*8)*3;c.save();c.translate(a.x,a.y);if(a.hit>0)c.translate(R(-4,4),0);
     c.fillStyle='#7ed957';c.strokeStyle='#3c8a1d';c.lineWidth=3;c.beginPath();c.arc(0,0,38,0,7);c.fill();c.stroke();
     for(let i=-1;i<=1;i++){c.beginPath();c.moveTo(i*20,32);c.lineTo(i*20+w,52);c.stroke()}
