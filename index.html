@@ -10,221 +10,362 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 <title>Cá Voi Nhỏ</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
-html,body{margin:0;height:100%;overflow:hidden;background:#0b5d8f;font-family:system-ui,sans-serif;touch-action:none}
+html,body{margin:0;height:100%;overflow:hidden;background:#0b5d8f;font-family:'Montserrat',system-ui,sans-serif;touch-action:none;color:#35506b}
+button{font-family:inherit;cursor:pointer;transition:transform .15s,filter .2s,box-shadow .2s}
+button:active{transform:scale(.95);filter:brightness(.96)}
 canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
+/* HUD */
 #hud{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 6px) calc(env(safe-area-inset-right,0px) + 8px) 6px calc(env(safe-area-inset-left,0px) + 8px);display:flex;flex-direction:column;gap:6px;z-index:2}
 .row{display:flex;gap:6px;align-items:center}
-#coins{background:#fff;color:#0b5d8f;font-weight:700;border-radius:20px;padding:7px 14px;font-size:16px;box-shadow:0 2px 0 #0003}
+.pill{background:#ffffffee;color:#0b5d8f;font-weight:800;border-radius:20px;padding:7px 12px;font-size:14px;box-shadow:0 2px 0 #0002;white-space:nowrap}
 #sp{flex:1}
-#gear{width:42px;height:42px;border:0;border-radius:50%;background:#fff;font-size:22px;box-shadow:0 2px 0 #0003}
-.b{flex:1;border:0;border-radius:16px;padding:7px 4px;background:#ffd23f;color:#5a3b00;font-weight:700;font-size:12.5px;box-shadow:0 3px 0 #b88a00;line-height:1.15}
-.b:active,.m:active{transform:translateY(2px)}
-.b:disabled{opacity:.5}
-#msg{position:fixed;left:0;right:0;top:120px;text-align:center;color:#fff;font-weight:700;text-shadow:0 2px 4px #0008;pointer-events:none;z-index:20;padding:0 12px}
-.ov{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:10;padding:12px}
-.ov.on{display:flex}
-.pn{background:#fff;border-radius:20px;padding:16px;width:100%;max-width:380px;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:9px;color:#123}
-.pn h3{margin:0 0 2px;text-align:center}
-.m{border:0;border-radius:14px;padding:11px;background:#e6f3fb;color:#0b5d8f;font-weight:700;font-size:14px;text-align:left}
-.m.p{background:#0b5d8f;color:#fff;text-align:center}
-.m.g{background:#eee;color:#444;text-align:center}
+#gear{width:42px;height:42px;border:0;border-radius:50%;background:#ffffffee;font-size:21px;box-shadow:0 2px 0 #0002;transition:transform .6s cubic-bezier(.2,1.2,.4,1)}
+body.so #gear{transform:rotate(180deg)}
+.b{flex:1;min-width:0;border:0;border-radius:15px;padding:7px 2px;font-weight:700;font-size:11px;line-height:1.2;box-shadow:0 3px 0 #0003}
+.b:disabled{opacity:.45}
+.b.f{background:#cfe8fb;color:#1d5f94}.b.k{background:#ffd9d2;color:#a8402f}.b.e{background:#ffe9b0;color:#7a5200}.b.s{background:#d3f1e2;color:#1f7a57}
+@media (orientation:landscape) and (max-height:500px){#hud{flex-direction:row;align-items:center}#hud .row:last-child{flex:1;max-width:560px}}
+#msg{position:fixed;left:0;right:0;top:120px;text-align:center;color:#fff;font-weight:700;font-size:14px;text-shadow:0 2px 6px #0009;pointer-events:none;z-index:30;padding:0 12px}
+/* Overlay */
+.ov{position:fixed;inset:0;background:#0a2a4a99;backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:10;padding:10px;opacity:0;pointer-events:none;transition:opacity .25s}
+.ov.on{opacity:1;pointer-events:auto}
+.pn{background:#fbfdff;border-radius:24px;padding:14px;width:100%;max-width:420px;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px #0006;transform:translateY(24px) scale(.95);transition:transform .4s cubic-bezier(.2,1.2,.4,1)}
+.ov.on .pn{transform:none}
+.ph{display:flex;align-items:center;justify-content:space-between}
+.ph h3{margin:0;font-size:19px;font-weight:800;color:#2d4a66}
+.x{width:36px;height:36px;border:0;border-radius:50%;background:#eef3f8;color:#5b7690;font-size:16px;font-weight:700}
+.cd{border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:9px;opacity:0;transform:translateY(14px)}
+.ov.on .cd{animation:up .5s ease forwards;animation-delay:var(--d,0s)}
+@keyframes up{to{opacity:1;transform:none}}
+.cd h4{margin:0;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ac)}
+.cd h4 i{font-style:normal;width:30px;height:30px;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:16px;box-shadow:0 2px 6px #0001}
+.cd h4 small{margin-left:auto;background:#fff;color:var(--ac);padding:2px 9px;border-radius:10px;font-size:11px}
+.cd>small{font-size:11px;color:#6f8aa3;text-align:center;font-weight:500}
+.lav{background:#efeafd;--ac:#7a6bd0}.mint{background:#e4f6ee;--ac:#3fa57f}.sky{background:#e2f0fb;--ac:#3f8cc6}.peach{background:#fff0e4;--ac:#e08848}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:7px}
+.chip{border:2px solid transparent;background:#fff;border-radius:14px;padding:8px 4px;font-size:18px;font-weight:700;color:#5d4fb0;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative;box-shadow:0 2px 0 #7a6bd01f}
+.chip span{font-size:10.5px;font-weight:700}
+.chip.on{background:#7a6bd0;color:#fff;border-color:#fff;box-shadow:0 4px 12px #7a6bd055;transform:translateY(-1px)}
+.eq{display:none;position:absolute;top:5px;right:6px;gap:2px;height:10px;align-items:flex-end}
+.chip.on .eq{display:flex}
+.eq u{display:block;width:3px;background:#fff;border-radius:2px;animation:eq .9s ease-in-out infinite}
+.eq u:nth-child(2){animation-delay:.3s}.eq u:nth-child(3){animation-delay:.6s}
+@keyframes eq{0%,100%{height:3px}50%{height:10px}}
+.vol{display:flex;align-items:center;gap:8px;font-size:14px}
+input[type=range]{flex:1;width:100%;appearance:none;height:8px;border-radius:6px;background:#fff;outline:none}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:24px;height:24px;border-radius:50%;background:var(--ac,#7a6bd0);border:3px solid #fff;box-shadow:0 2px 6px #0003}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--ac,#7a6bd0);border:3px solid #fff}
+.r2{display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:#fff;border-radius:14px;padding:11px 12px;font-size:13px;font-weight:700;color:#2f6e58;text-align:left;box-shadow:0 2px 0 #3fa57f22;width:100%}
+.r2 em{font-style:normal;font-size:20px;color:#3fa57f}
+.sw{width:42px;height:24px;border-radius:14px;background:#cfd9e2;position:relative;flex:none;transition:background .25s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;transition:transform .25s cubic-bezier(.2,1.4,.4,1)}
+.r2.on .sw,input:checked+.sw{background:#3fa57f}
+.r2.on .sw::after,input:checked+.sw::after{transform:translateX(18px)}
+label.r2{color:#a35a1f}label.r2 input{display:none}label.r2 input:checked+.sw{background:#e08848}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:8px}
+.tl{aspect-ratio:1;border-radius:14px;background:#fff;border:3px solid transparent;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--ac);overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;cursor:pointer;box-shadow:0 2px 6px #0001}
+.tl b{font-size:10px}.tl:hover{transform:translateY(-2px) scale(1.04)}
+.tl.sel{border-color:var(--ac);box-shadow:0 0 0 3px #fff,0 4px 12px #0003;animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.1)}}
+.tl img{width:100%;height:100%;object-fit:cover;background:repeating-conic-gradient(#dde 0 25%,#fff 0 50%) 0 0/12px 12px}
+.tl.add{border:2px dashed var(--ac);background:#ffffff88}
+.tl.full{opacity:.6}
+.dx{position:absolute;top:3px;right:3px;width:22px;height:22px;border:0;border-radius:50%;background:#000a;color:#fff;font-size:11px;display:grid;place-items:center;padding:0}
+.m{border:0;border-radius:16px;padding:12px;background:#e6f3fb;color:#0b5d8f;font-weight:800;font-size:14px}
+.m.p{background:linear-gradient(135deg,#5eb3e8,#7a8fe0);color:#fff;box-shadow:0 4px 12px #5eb3e866}
+.m.g{background:#eef3f8;color:#5b7690}
 .two{display:flex;gap:8px}.two .m{flex:1}
-label.ck{font-size:13px;display:flex;gap:8px;align-items:center;padding:0 4px}
-#cc{align-self:center;border-radius:10px;background:repeating-conic-gradient(#dde 0 25%,#fff 0 50%) 0 0/16px 16px;touch-action:none}
-select,input[type=range]{width:100%}
-select{padding:8px;border-radius:10px;border:1px solid #bcd}
-small{color:#567;text-align:center}
+#cc{align-self:center;border-radius:12px;background:repeating-conic-gradient(#dde 0 25%,#fff 0 50%) 0 0/16px 16px;touch-action:none;box-shadow:0 4px 14px #0002}
+select{padding:10px;border-radius:12px;border:2px solid #d5e4f0;font-family:inherit;font-weight:600;color:#35506b;background:#fff}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div id="hud">
-  <div class="row"><div id="coins">🪙 0</div><div id="sp"></div><button id="gear" aria-label="Cài đặt">⚙️</button></div>
+  <div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div id="sp"></div><button id="gear" aria-label="Cài đặt">⚙️</button></div>
   <div class="row">
-    <button class="b" id="buy">🐋 Mua cá<br>100</button>
-    <button class="b" id="crab">🦀 Mua cua<br>200</button>
-    <button class="b" id="up">🍤 Thức ăn<br>Lv1 · 150</button>
+    <button class="b f" id="buy">🐋 Mua cá<br>100</button>
+    <button class="b k" id="crab">🦀 Mua cua<br>200</button>
+    <button class="b e" id="up">🍤 Thức ăn<br>Lv1</button>
+    <button class="b s" id="slot">🏝️ +5 chỗ<br>300</button>
   </div>
 </div>
 <div id="msg"></div>
 
 <div class="ov" id="set"><div class="pn">
-  <h3>⚙️ Cài đặt</h3>
-  <button class="m" id="inst">📲 Cài game vào điện thoại</button>
-  <button class="m" id="land">🔄 Màn hình ngang (toàn màn hình)</button>
-  <button class="m" id="bgb">🖼️ Đổi hình nền hồ (PNG)</button>
-  <button class="m" id="fb">🐋 Đổi hình chú cá (PNG)</button>
-  <label class="ck"><input type="checkbox" id="flip"> Ảnh cá đang quay mặt sang trái</label>
-  <div class="two"><button class="m g" id="rbg">↺ Nền gốc</button><button class="m g" id="rfb">↺ Cá gốc</button></div>
-  <button class="m p" id="sclose">Đóng</button>
+  <div class="ph"><h3>⚙️ Cài đặt</h3><button class="x" id="sclose" aria-label="Đóng">✕</button></div>
+
+  <section class="cd lav" style="--d:.05s"><h4><i>🎧</i>Âm thanh</h4>
+    <div class="chips" id="snd">
+      <button class="chip" data-k="off">🔇<span>Tắt</span></button>
+      <button class="chip" data-k="wave">🌊<span>Sóng biển</span><i class="eq"><u></u><u></u><u></u></i></button>
+      <button class="chip" data-k="pad">🌙<span>Hồ đêm</span><i class="eq"><u></u><u></u><u></u></i></button>
+      <button class="chip" data-k="box">🎵<span>Hộp nhạc</span><i class="eq"><u></u><u></u><u></u></i></button>
+      <button class="chip" data-k="bubble">🫧<span>Giọt nước</span><i class="eq"><u></u><u></u><u></u></i></button>
+    </div>
+    <div class="vol"><span>🔈</span><input type="range" id="vol" min="0" max="1" step=".05"><span>🔊</span></div>
+  </section>
+
+  <section class="cd mint" style="--d:.12s"><h4><i>📱</i>Hiển thị</h4>
+    <button class="r2" id="land"><span>🔄 Màn hình ngang (toàn màn hình)</span><b class="sw"></b></button>
+    <button class="r2" id="inst"><span>📲 Cài game vào điện thoại</span><em>›</em></button>
+  </section>
+
+  <section class="cd sky" style="--d:.19s"><h4><i>🖼️</i>Hình nền hồ<small id="bgn">0/5</small></h4>
+    <div class="gal" id="gbg"></div><small>Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
+  </section>
+
+  <section class="cd peach" style="--d:.26s"><h4><i>🐋</i>Hình chú cá<small id="fn">0/5</small></h4>
+    <div class="gal" id="gfish"></div><small>Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
+    <label class="r2"><span>↔️ Ảnh cá đang quay mặt sang trái</span><input type="checkbox" id="flip"><b class="sw"></b></label>
+  </section>
+
+  <button class="m p" id="sdone">Xong</button>
   <input type="file" id="file" accept="image/png,image/*" hidden>
 </div></div>
 
 <div class="ov" id="crop"><div class="pn">
-  <h3 id="ctitle">Cắt hình</h3>
+  <div class="ph"><h3 id="ctitle">Cắt hình</h3></div>
   <select id="asp"><option value="screen">Tỉ lệ theo màn hình hiện tại</option><option value="16:9">Ngang 16:9</option><option value="9:16">Dọc 9:16</option></select>
   <canvas id="cc"></canvas>
-  <input type="range" id="zm" min="0.3" max="4" step="0.05" value="1">
-  <small>Kéo ảnh để di chuyển · thanh trượt để phóng to/thu nhỏ</small>
+  <input type="range" id="zm" min="0.3" max="4" step="0.05" value="1" style="--ac:#3f8cc6">
+  <small style="text-align:center;color:#6f8aa3">Kéo ảnh để di chuyển · thanh trượt để phóng to / thu nhỏ</small>
   <div class="two"><button class="m g" id="cx">Huỷ</button><button class="m p" id="cs">Lưu</button></div>
 </div></div>
 
 <script>
 const cv=document.getElementById('c'),c=cv.getContext('2d'),$=id=>document.getElementById(id);
 let W,H,DPR,TOP=110;
-function resize(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;c.setTransform(DPR,0,0,DPR,0,0);TOP=$('hud').offsetHeight+8}
+function resize(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;c.setTransform(DPR,0,0,DPR,0,0);TOP=$('hud').offsetHeight+6}
 addEventListener('resize',resize);resize();
-const R=(a,b)=>a+Math.random()*(b-a);
+const R=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>a>b?(a+b)/2:Math.max(a,Math.min(b,v));
+const MAXF=50;
 
 let S=JSON.parse(localStorage.getItem('whale1')||'null')||{coins:50,lv:1,fish:[{stage:0,hunger:0},{stage:0,hunger:0}]};
-S.crabs=S.crabs||0;S.flip=!!S.flip;
-let fish=[],food=[],coins=[],bubbles=[],crabs=[],alien=null,alienT=40,t=0,msgT=0;
-let bgImg=null,fishImg=null;
+S.crabs=S.crabs||0;S.flip=!!S.flip;S.cap=Math.min(MAXF,Math.max(S.cap||10,S.fish.length));S.snd=S.snd||'wave';S.vol=S.vol==null?.5:S.vol;
+let fish=[],food=[],coins=[],bubbles=[],crabs=[],alien=null,alienT=40,t=0,msgT=0,bgImg=null,fishImg=null;
 const crabImg=new Image();crabImg.src='crab.png';
-function loadImg(key,cb){const d=localStorage.getItem(key);if(!d){cb(null);return}const i=new Image();i.onload=()=>cb(i);i.onerror=()=>cb(null);i.src=d}
-loadImg('whale_bg',i=>bgImg=i);loadImg('whale_fish',i=>fishImg=i);
 
-function newFish(stage=0,hunger=0){return{x:R(60,W-60),y:R(TOP+40,H-120),vx:R(-30,30),vy:0,dir:1,stage,hunger,eaten:0,coinT:R(4,8),spout:0,ph:R(0,6),tx:R(60,W-60),ty:R(TOP+40,H-120)}}
+const sz=f=>26+f.stage*9;
+function bnd(f){const s=sz(f);return{x0:s*1.5,x1:W-s*1.5,y0:TOP+s*1.3,y1:H-s-12}}
+function newFish(stage=0,hunger=0){const f={x:0,y:0,vx:R(-30,30),vy:0,dir:1,stage,hunger,eaten:0,coinT:R(4,8),spout:0,ph:R(0,6)};const b=bnd(f);f.x=R(b.x0,b.x1);f.y=R(b.y0,b.y1);f.tx=R(b.x0,b.x1);f.ty=R(b.y0,b.y1);f.x=cl(f.x,b.x0,b.x1);f.y=cl(f.y,b.y0,b.y1);return f}
 function newCrab(){return{x:R(40,W-40),dir:1,vx:0,tx:R(40,W-40),ph:R(0,6)}}
 S.fish.forEach(f=>fish.push(newFish(f.stage,f.hunger)));
 for(let i=0;i<S.crabs;i++)crabs.push(newCrab());
-for(let i=0;i<14;i++)bubbles.push({x:R(0,W),y:R(0,H),r:R(2,6),v:R(10,30)});
+for(let i=0;i<34;i++)bubbles.push({amb:1,x:R(0,W),y:R(0,H),r:R(2,9),ph:R(0,6)});
+const spk=[];for(let i=0;i<40;i++)spk.push({x:R(0,1),y:R(0,.85),r:R(3,7),s:R(.6,1.8),p:R(0,6.3)});
 function save(){S.fish=fish.map(f=>({stage:f.stage,hunger:Math.floor(f.hunger)}));try{localStorage.setItem('whale1',JSON.stringify(S))}catch(e){}}
 setInterval(save,4000);
-function say(m){const e=$('msg');e.textContent=m;msgT=2.5}
+function say(m){const e=$('msg');e.textContent=m;msgT=2.8}
 
-// ---- HUD
-function hud(){
-  $('coins').textContent='🪙 '+S.coins;
-  $('buy').disabled=S.coins<100||fish.length>=12;
-  $('crab').disabled=S.coins<200||crabs.length>=5;
-  $('crab').innerHTML='🦀 Mua cua<br>'+(crabs.length>=5?'Tối đa 5/5':'200 · '+crabs.length+'/5');
-  $('up').disabled=S.lv>=4||S.coins<150*S.lv;
-  $('up').innerHTML='🍤 Thức ăn<br>'+(S.lv>=4?'Tối đa':'Lv'+S.lv+' · '+150*S.lv);
+// ================= ÂM THANH (WebAudio, không cần file) =================
+let AC=null,MG,REV,cur=null;
+function audioInit(){
+  if(AC){AC.resume();return}
+  AC=new(window.AudioContext||window.webkitAudioContext)();MG=AC.createGain();MG.gain.value=S.vol*.8;MG.connect(AC.destination);
+  REV=AC.createConvolver();const n=AC.sampleRate*2.4,b=AC.createBuffer(2,n,AC.sampleRate);
+  for(let ch=0;ch<2;ch++){const d=b.getChannelData(ch);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,3)}
+  REV.buffer=b;REV.connect(MG);
 }
-$('buy').onclick=()=>{if(S.coins>=100&&fish.length<12){S.coins-=100;fish.push(newFish());say('Cá voi mới! 🐋')}};
-$('crab').onclick=()=>{if(S.coins>=200&&crabs.length<5){S.coins-=200;S.crabs++;crabs.push(newCrab());say('Cua sẽ nhặt xu ở đáy hồ 🦀')}};
-$('up').onclick=()=>{const p=150*S.lv;if(S.lv<4&&S.coins>=p){S.coins-=p;S.lv++;say('Thức ăn nâng cấp! Thả được '+(S.lv+2)+' viên')}};
+function noise(brown){const n=AC.sampleRate*3,b=AC.createBuffer(1,n,AC.sampleRate),d=b.getChannelData(0);let l=0;
+  for(let i=0;i<n;i++){const w=Math.random()*2-1;l=brown?(l+.02*w)/1.02:w;d[i]=brown?l*3.5:w}
+  const s=AC.createBufferSource();s.buffer=b;s.loop=true;return s}
+function lfo(freq,amt,param){const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=freq;g.gain.value=amt;o.connect(g);g.connect(param);o.start();return o}
+function setSound(k){
+  S.snd=k;save();
+  if(cur){const o=cur,now=AC.currentTime;o.bus.gain.setTargetAtTime(0,now,.3);o.send.gain.setTargetAtTime(0,now,.3);setTimeout(()=>o.stops.forEach(f=>{try{f()}catch(e){}}),2000);cur=null}
+  if(k=='off'||!AC)return;
+  const now=AC.currentTime,bus=AC.createGain(),send=AC.createGain(),stops=[];
+  bus.gain.value=0;bus.gain.setTargetAtTime(1,now,.9);send.gain.value=0;send.gain.setTargetAtTime(1,now,.9);bus.connect(MG);send.connect(REV);cur={bus,send,stops};
+  const wet=(n,a)=>{n.connect(bus);const w=AC.createGain();w.gain.value=a;n.connect(w);w.connect(send)};
+  const loopT=(fn,a,b)=>{let on=true;(function r(){if(!on)return;fn();setTimeout(r,R(a,b))})();stops.push(()=>on=false)};
+  if(k=='wave'){
+    const n=noise(1),f=AC.createBiquadFilter(),g=AC.createGain();f.type='lowpass';f.frequency.value=520;g.gain.value=.55;
+    n.connect(f);f.connect(g);g.connect(bus);n.start();
+    stops.push(()=>n.stop());
+    const l1=lfo(.1,.3,g.gain),l2=lfo(.07,220,f.frequency);stops.push(()=>l1.stop(),()=>l2.stop());
+  }else if(k=='pad'){
+    const ch=[[130.8,164.8,196,246.9],[110,130.8,164.8,196],[87.3,130.8,174.6,220],[98,146.8,196,246.9]],f=AC.createBiquadFilter();
+    f.type='lowpass';f.frequency.value=900;wet(f,.5);let idx=0;
+    const os=ch[0].map((fr,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type=i%2?'triangle':'sine';o.frequency.value=fr;o.detune.value=R(-6,6);g.gain.value=.09;o.connect(g);g.connect(f);o.start();stops.push(()=>o.stop());return o});
+    const tr=lfo(.12,.25,bus.gain);stops.push(()=>tr.stop());
+    loopT(()=>{idx=(idx+1)%4;os.forEach((o,i)=>o.frequency.setTargetAtTime(ch[idx][i],AC.currentTime,1.6))},8000,8000);
+  }else if(k=='box'){
+    const sc=[523.25,587.33,659.25,783.99,880,1046.5,1174.7];
+    const note=fr=>{const t0=AC.currentTime,g=AC.createGain();g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(.13,t0+.005);g.gain.exponentialRampToValueAtTime(.0001,t0+1.8);
+      [1,2.01].forEach((m,i)=>{const o=AC.createOscillator(),og=AC.createGain();o.type=i?'sine':'triangle';o.frequency.value=fr*m;og.gain.value=i?.25:1;o.connect(og);og.connect(g);o.start(t0);o.stop(t0+1.9)});wet(g,.7)};
+    loopT(()=>{const i=Math.floor(R(0,sc.length));note(sc[i]);if(Math.random()<.4)setTimeout(()=>note(sc[Math.min(sc.length-1,i+2)]),260)},700,1700);
+  }else{
+    const n=noise(1),f=AC.createBiquadFilter(),g=AC.createGain();f.type='lowpass';f.frequency.value=260;g.gain.value=.3;n.connect(f);f.connect(g);g.connect(bus);n.start();stops.push(()=>n.stop());
+    loopT(()=>{const t0=AC.currentTime,o=AC.createOscillator(),e=AC.createGain(),f0=R(260,620);o.frequency.setValueAtTime(f0,t0);o.frequency.exponentialRampToValueAtTime(f0*2.3,t0+.11);
+      e.gain.setValueAtTime(.0001,t0);e.gain.exponentialRampToValueAtTime(.16,t0+.02);e.gain.exponentialRampToValueAtTime(.0001,t0+.2);o.connect(e);wet(e,.4);o.start(t0);o.stop(t0+.25)},450,1900);
+  }
+}
+function ting(){if(!AC||S.snd=='off')return;const t0=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(1318,t0);o.frequency.setValueAtTime(1760,t0+.07);
+  g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(.09,t0+.01);g.gain.exponentialRampToValueAtTime(.0001,t0+.3);o.connect(g);g.connect(MG);o.start(t0);o.stop(t0+.32)}
+addEventListener('pointerdown',()=>{if(!AC&&S.snd!='off'){audioInit();setSound(S.snd)}else if(AC)AC.resume()},{capture:true});
+document.addEventListener('visibilitychange',()=>{if(AC)document.hidden?AC.suspend():AC.resume()});
+function sndUI(){document.querySelectorAll('#snd .chip').forEach(b=>b.classList.toggle('on',b.dataset.k==S.snd));$('vol').value=S.vol}
+$('snd').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;audioInit();setSound(b.dataset.k);sndUI()};
+$('vol').oninput=e=>{S.vol=+e.target.value;if(AC)MG.gain.setTargetAtTime(S.vol*.8,AC.currentTime,.05);save()};
 
-// ---- Cài đặt
-$('gear').onclick=()=>$('set').classList.add('on');
-$('sclose').onclick=()=>$('set').classList.remove('on');
-$('flip').checked=S.flip;$('flip').onchange=e=>{S.flip=e.target.checked;save()};
+// ================= HUD =================
+const slotCost=()=>300+150*((S.cap-10)/5);
+function hud(){
+  $('coins').textContent='🪙 '+S.coins;$('cnt').textContent='🐋 '+fish.length+'/'+S.cap;
+  $('buy').disabled=S.coins<100||fish.length>=S.cap;
+  $('buy').innerHTML='🐋 Mua cá<br>'+(fish.length>=S.cap?'Đầy chỗ':'100');
+  $('crab').disabled=S.coins<200||crabs.length>=5;$('crab').innerHTML='🦀 Mua cua<br>'+(crabs.length>=5?'Tối đa 5/5':'200 · '+crabs.length+'/5');
+  $('up').disabled=S.lv>=4||S.coins<150*S.lv;$('up').innerHTML='🍤 Thức ăn<br>'+(S.lv>=4?'Tối đa':'Lv'+S.lv+' · '+150*S.lv);
+  $('slot').disabled=S.cap>=MAXF||S.coins<slotCost();$('slot').innerHTML='🏝️ +5 chỗ<br>'+(S.cap>=MAXF?'Tối đa 50':slotCost());
+}
+$('buy').onclick=()=>{if(fish.length>=S.cap){say('Hồ đã đầy! Hãy mua thêm chỗ 🏝️');return}if(S.coins>=100){S.coins-=100;fish.push(newFish());say('Cá voi mới! 🐋')}};
+$('crab').onclick=()=>{if(S.coins>=200&&crabs.length<5){S.coins-=200;S.crabs++;crabs.push(newCrab());say('Cua sẽ nhặt xu ở đáy hồ 🦀')}};
+$('up').onclick=()=>{const p=150*S.lv;if(S.lv<4&&S.coins>=p){S.coins-=p;S.lv++;say('Thức ăn nâng cấp! Thả được nhiều viên hơn')}};
+$('slot').onclick=()=>{const p=slotCost();if(S.cap<MAXF&&S.coins>=p){S.coins-=p;S.cap+=5;say('Hồ rộng thêm 5 chỗ! 🏝️ ('+S.cap+' chỗ)');save()}};
+
+// ================= CÀI ĐẶT =================
+function openSet(){sndUI();gal('bg');gal('fish');$('flip').checked=S.flip;lstate();$('set').classList.add('on');document.body.classList.add('so')}
+function closeSet(){$('set').classList.remove('on');document.body.classList.remove('so')}
+$('gear').onclick=openSet;$('sclose').onclick=closeSet;$('sdone').onclick=closeSet;
+$('set').addEventListener('pointerdown',e=>{if(e.target==$('set'))closeSet()});
+$('flip').onchange=e=>{S.flip=e.target.checked;save()};
 let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e});
 addEventListener('appinstalled',()=>say('Đã cài đặt ✅'));
 $('inst').onclick=async()=>{
-  const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
-  if(standalone){say('Game đã được cài rồi ✅');return}
+  if(matchMedia('(display-mode: standalone)').matches||navigator.standalone){say('Game đã được cài rồi ✅');return}
   if(dp){dp.prompt();await dp.userChoice;dp=null;return}
-  say(/iphone|ipad/i.test(navigator.userAgent)?'Safari: nhấn Chia sẻ → Thêm vào MH chính':'Menu ⋮ của trình duyệt → Cài đặt ứng dụng / Thêm vào màn hình chính');
+  say(/iphone|ipad/i.test(navigator.userAgent)?'Safari: nhấn Chia sẻ → Thêm vào MH chính':'Menu ⋮ → Cài đặt ứng dụng / Thêm vào màn hình chính');
 };
+function lstate(){$('land').classList.toggle('on',!!document.fullscreenElement)}
 $('land').onclick=async()=>{
   try{
     if(!document.fullscreenElement){await document.documentElement.requestFullscreen();try{await screen.orientation.lock('landscape')}catch(e){say('Hãy bật xoay màn hình và xoay ngang điện thoại')}}
     else{try{screen.orientation.unlock()}catch(e){}await document.exitFullscreen()}
-    $('set').classList.remove('on');
   }catch(e){say('Máy không hỗ trợ toàn màn hình. Hãy xoay ngang điện thoại.')}
+  lstate();
 };
-addEventListener('fullscreenchange',()=>setTimeout(resize,200));
+addEventListener('fullscreenchange',()=>{lstate();setTimeout(resize,200)});
 addEventListener('orientationchange',()=>setTimeout(resize,300));
-$('rbg').onclick=()=>{localStorage.removeItem('whale_bg');bgImg=null;say('Đã về nền gốc')};
-$('rfb').onclick=()=>{localStorage.removeItem('whale_fish');fishImg=null;say('Đã về cá gốc')};
 
-// ---- Chọn ảnh + cắt
+// ---- Thư viện hình (tối đa 5 hình gần đây mỗi loại)
+const G={bg:{k:'whale_bgs',s:'whale_bgsel',list:[],sel:''},fish:{k:'whale_fishs',s:'whale_fishsel',list:[],sel:''}};
+for(const n in G){const g=G[n];try{g.list=JSON.parse(localStorage.getItem(g.k)||'[]')}catch(e){}g.sel=localStorage.getItem(g.s)||'';
+  const old=localStorage.getItem(n=='bg'?'whale_bg':'whale_fish');if(old&&!g.list.length){g.list.push({id:'m1',d:old});g.sel='m1';gSave(n);localStorage.removeItem(n=='bg'?'whale_bg':'whale_fish')}
+  gApply(n)}
+function gSave(n){const g=G[n];try{localStorage.setItem(g.k,JSON.stringify(g.list));localStorage.setItem(g.s,g.sel);return true}catch(e){return false}}
+function setImg(n,i){if(n=='bg')bgImg=i;else fishImg=i}
+function gApply(n){const g=G[n],it=g.list.find(x=>x.id==g.sel);if(!it){setImg(n,null);return}const i=new Image();i.onload=()=>setImg(n,i);i.src=it.d}
+function gal(n){const g=G[n];let h=`<div class="tl${g.sel?'':' sel'}" data-i=""><span>${n=='bg'?'🌊':'🐋'}</span><b>Gốc</b></div>`;
+  g.list.forEach(x=>h+=`<div class="tl${g.sel==x.id?' sel':''}" data-i="${x.id}"><img src="${x.d}" alt=""><button class="dx" data-del="${x.id}" aria-label="Xoá">✕</button></div>`);
+  h+=g.list.length<5?'<div class="tl add" data-add="1"><span>＋</span><b>Thêm</b></div>':'<div class="tl add full" data-add="1"><span>🔒</span><b>Đủ 5</b></div>';
+  $(n=='bg'?'gbg':'gfish').innerHTML=h;$(n=='bg'?'bgn':'fn').textContent=g.list.length+'/5'}
 let pick=null,CR=null;
-$('bgb').onclick=()=>{pick='bg';$('file').click()};
-$('fb').onclick=()=>{pick='fish';$('file').click()};
+for(const n of['bg','fish'])$(n=='bg'?'gbg':'gfish').onclick=e=>{
+  const g=G[n],d=e.target.closest('[data-del]');
+  if(d){g.list=g.list.filter(x=>x.id!=d.dataset.del);if(g.sel==d.dataset.del)g.sel='';gSave(n);gApply(n);gal(n);return}
+  if(e.target.closest('[data-add]')){if(g.list.length>=5){say('Đã đủ 5 hình, hãy xoá bớt để thêm hình mới');return}pick=n;$('file').click();return}
+  const tl=e.target.closest('.tl');if(tl){g.sel=tl.dataset.i;gSave(n);gApply(n);gal(n)}};
+
+// ---- Cắt hình
 $('file').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
-  const img=new Image();img.onload=()=>{CR={kind:pick,img,zoom:1,ox:0,oy:0};$('set').classList.remove('on');$('crop').classList.add('on');
-    $('ctitle').textContent=pick=='bg'?'Cắt hình nền hồ':'Cắt hình chú cá (1:1)';$('asp').style.display=pick=='bg'?'':'none';setupCrop()};
+  const img=new Image();img.onload=()=>{CR={kind:pick,img,zoom:1,ox:0,oy:0};closeSet();$('crop').classList.add('on');
+    $('ctitle').textContent=pick=='bg'?'🖼️ Cắt hình nền hồ':'🐋 Cắt hình chú cá (1:1)';$('asp').style.display=pick=='bg'?'':'none';setupCrop()};
   img.onerror=()=>say('Không đọc được ảnh');img.src=URL.createObjectURL(f)};
+const cc=$('cc');
 function aspect(){if(CR.kind=='fish')return 1;const v=$('asp').value;return v=='16:9'?16/9:v=='9:16'?9/16:W/H}
 function setupCrop(){
-  const a=aspect();let pw=Math.min(W-56,340),ph=pw/a;const mh=H-250;if(ph>mh){ph=Math.max(mh,120);pw=ph*a}
-  const cc=$('cc');cc.width=Math.round(pw);cc.height=Math.round(ph);cc.style.width=pw+'px';cc.style.height=ph+'px';
-  CR.ox=CR.oy=0;CR.zoom=1;$('zm').value=1;$('zm').min=CR.kind=='bg'?1:.3;drawCrop(cc.getContext('2d'),cc.width,cc.height,1);
+  const a=aspect();let pw=Math.min(W-60,340),ph=pw/a;const mh=H-270;if(ph>mh){ph=Math.max(mh,120);pw=ph*a}
+  cc.width=Math.round(pw);cc.height=Math.round(ph);cc.style.width=pw+'px';cc.style.height=ph+'px';
+  CR.ox=CR.oy=0;CR.zoom=1;$('zm').min=CR.kind=='bg'?1:.3;$('zm').value=1;redraw();
 }
 $('asp').onchange=setupCrop;
-function clampCrop(w,h){if(CR.kind!='bg')return;const s=Math.max(w/CR.img.width,h/CR.img.height)*CR.zoom,mx=Math.max(0,(CR.img.width*s-w)/2),my=Math.max(0,(CR.img.height*s-h)/2);CR.ox=Math.max(-mx,Math.min(mx,CR.ox));CR.oy=Math.max(-my,Math.min(my,CR.oy))}
-function drawCrop(x,w,h,k){
-  x.clearRect(0,0,w,h);const i=CR.img,s=Math.max(w/i.width,h/i.height)*CR.zoom,dw=i.width*s,dh=i.height*s;
-  x.drawImage(i,(w-dw)/2+CR.ox*k,(h-dh)/2+CR.oy*k,dw,dh);
-}
-function redraw(){const cc=$('cc');clampCrop(cc.width,cc.height);drawCrop(cc.getContext('2d'),cc.width,cc.height,1)}
+function clampCrop(w,h){if(CR.kind!='bg')return;const s=Math.max(w/CR.img.width,h/CR.img.height)*CR.zoom,mx=Math.max(0,(CR.img.width*s-w)/2),my=Math.max(0,(CR.img.height*s-h)/2);CR.ox=cl(CR.ox,-mx,mx);CR.oy=cl(CR.oy,-my,my)}
+function drawCrop(x,w,h,k){x.clearRect(0,0,w,h);const i=CR.img,s=Math.max(w/i.width,h/i.height)*CR.zoom,dw=i.width*s,dh=i.height*s;x.drawImage(i,(w-dw)/2+CR.ox*k,(h-dh)/2+CR.oy*k,dw,dh)}
+function redraw(){clampCrop(cc.width,cc.height);drawCrop(cc.getContext('2d'),cc.width,cc.height,1)}
 $('zm').oninput=e=>{CR.zoom=+e.target.value;redraw()};
-let drag=null;const cc=$('cc');
+let drag=null;
 cc.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY};cc.setPointerCapture(e.pointerId)};
 cc.onpointermove=e=>{if(!drag)return;const sc=cc.width/cc.getBoundingClientRect().width;CR.ox+=(e.clientX-drag.x)*sc;CR.oy+=(e.clientY-drag.y)*sc;drag={x:e.clientX,y:e.clientY};redraw()};
 cc.onpointerup=cc.onpointercancel=()=>drag=null;
-$('cx').onclick=()=>{$('crop').classList.remove('on');CR=null};
+function endCrop(){$('crop').classList.remove('on');CR=null;openSet()}
+$('cx').onclick=endCrop;
 $('cs').onclick=()=>{
-  const a=aspect();let ow,oh;
-  if(CR.kind=='fish'){ow=oh=256}else if(a>=1){ow=1280;oh=Math.round(1280/a)}else{oh=1280;ow=Math.round(1280*a)}
-  const o=document.createElement('canvas');o.width=ow;o.height=oh;const k=ow/cc.width;
-  drawCrop(o.getContext('2d'),ow,oh,k);
-  const key=CR.kind=='bg'?'whale_bg':'whale_fish',data=CR.kind=='bg'?o.toDataURL('image/jpeg',.85):o.toDataURL('image/png');
-  try{localStorage.setItem(key,data)}catch(e){say('Bộ nhớ đầy, ảnh chỉ dùng tạm thời')}
-  const i=new Image();i.onload=()=>{if(key=='whale_bg')bgImg=i;else fishImg=i};i.src=data;
-  $('crop').classList.remove('on');CR=null;say('Đã áp dụng hình mới ✅');
+  const n=CR.kind,g=G[n],a=aspect();let ow,oh;
+  if(n=='fish'){ow=oh=256}else if(a>=1){ow=1280;oh=Math.round(1280/a)}else{oh=1280;ow=Math.round(1280*a)}
+  const o=document.createElement('canvas');o.width=ow;o.height=oh;drawCrop(o.getContext('2d'),ow,oh,ow/cc.width);
+  const d=n=='bg'?o.toDataURL('image/jpeg',.82):o.toDataURL('image/png'),id='i'+Date.now();
+  g.list.push({id,d});g.sel=id;
+  if(!gSave(n)){g.list.pop();g.sel='';gSave(n);say('Bộ nhớ máy đầy, hãy xoá bớt hình cũ')}else{gApply(n);say('Đã lưu và áp dụng ✅')}
+  endCrop();
 };
 
-// ---- Chạm màn hình
+// ================= CHẠM MÀN HÌNH =================
 cv.addEventListener('pointerdown',e=>{
   const x=e.clientX,y=e.clientY;
-  for(const k of coins){if(Math.hypot(k.x-x,k.y-y)<34){S.coins+=k.v;k.dead=true;return}}
+  for(const k of coins){if(Math.hypot(k.x-x,k.y-y)<34){S.coins+=k.v;k.dead=true;ting();return}}
   if(alien&&Math.hypot(alien.x-x,alien.y-y)<55){alien.hit=.2;if(--alien.hp<=0){S.coins+=60;say('Diệt quái! +60 🪙');alien=null;alienT=R(35,55)}return}
-  if(food.filter(f=>!f.rot).length<S.lv+2)food.push({x,y:Math.max(y,TOP),rot:0,age:0});
+  if(food.length<S.lv+2+Math.floor(fish.length/8))food.push({x,y:Math.max(y,TOP),age:0});
 });
 
+// ================= CẬP NHẬT =================
+let tingT=0;
 function update(dt){
-  t+=dt;
+  t+=dt;tingT-=dt;
   if(msgT>0){msgT-=dt;if(msgT<=0)$('msg').textContent=''}
   $('msg').style.top=(TOP+4)+'px';
-  for(const f of food){if(f.y<H-30)f.y+=45*dt;else{f.age+=dt;if(f.age>6)f.dead=true}}
+  for(const f of food){f.x=cl(f.x,10,W-10);if(f.y<H-30)f.y+=45*dt;else{f.age+=dt;if(f.age>6)f.dead=true}}
   food=food.filter(f=>!f.dead);
   for(const f of fish){
+    const s=sz(f),b=bnd(f);
     f.hunger+=dt*2.2;f.spout-=dt;if(Math.random()<dt*.15)f.spout=1;
+    if(Math.random()<dt*.2&&bubbles.length<90)bubbles.push({x:f.x+f.dir*s*1.1,y:f.y-s*.2,r:R(2,4.5),ph:R(0,6)});
     let target=null,best=1e9;
     if(f.hunger>35)for(const o of food){const d=Math.hypot(o.x-f.x,o.y-f.y);if(d<best){best=d;target=o}}
     if(target){f.tx=target.x;f.ty=target.y}
-    else if(Math.hypot(f.tx-f.x,f.ty-f.y)<20||Math.random()<dt*.1){f.tx=R(50,W-50);f.ty=R(TOP+40,H-90)}
+    else if(Math.hypot(f.tx-f.x,f.ty-f.y)<20||Math.random()<dt*.1){f.tx=R(b.x0,b.x1);f.ty=R(b.y0,b.y1)}
+    f.tx=cl(f.tx,b.x0,b.x1);f.ty=cl(f.ty,b.y0,b.y1);
     const dx=f.tx-f.x,dy=f.ty-f.y,d=Math.hypot(dx,dy)||1,sp=target?110:45;
     f.vx+=(dx/d*sp-f.vx)*dt*2;f.vy+=(dy/d*sp-f.vy)*dt*2;
     f.x+=f.vx*dt;f.y+=f.vy*dt;
+    const nx=cl(f.x,b.x0,b.x1),ny=cl(f.y,b.y0,b.y1);if(nx!=f.x)f.vx*=-.3;if(ny!=f.y)f.vy*=-.3;f.x=nx;f.y=ny;
     if(Math.abs(f.vx)>8)f.dir=f.vx>0?1:-1;
-    const sz=26+f.stage*9;
-    if(target&&Math.hypot(target.x-f.x,target.y-f.y)<sz&&!target.dead){target.dead=true;f.hunger=0;f.eaten++;if(f.eaten>=4&&f.stage<2){f.stage++;f.eaten=0;say('Cá voi lớn lên! ✨')}}
+    if(target&&Math.hypot(target.x-f.x,target.y-f.y)<s*1.3&&!target.dead){target.dead=true;f.hunger=0;f.eaten++;if(f.eaten>=4&&f.stage<2){f.stage++;f.eaten=0;say('Cá voi lớn lên! ✨')}}
     if(f.stage>0){f.coinT-=dt;if(f.coinT<=0){f.coinT=R(7,11);coins.push({x:f.x,y:f.y,v:f.stage==1?15:40,age:0,gold:f.stage==2})}}
     if(f.hunger>110){f.dead=true;say('Một chú cá đói quá 😢')}
   }
   fish=fish.filter(f=>!f.dead);
   if(!fish.length){fish.push(newFish());say('Tặng bạn một chú cá mới 🐋')}
-  for(const k of coins){if(k.y<H-26)k.y+=60*dt;else k.age+=dt;if(k.age>10)k.dead=true}
-  // cua nhặt xu
+  for(const k of coins){k.x=cl(k.x,16,W-16);if(k.y<H-26)k.y+=60*dt;else k.age+=dt;if(k.age>10)k.dead=true}
   for(const cr of crabs){
     let tg=null,b=1e9;for(const k of coins){const d=Math.abs(k.x-cr.x)+(k.y<H-100?200:0);if(!k.dead&&d<b){b=d;tg=k}}
     if(tg)cr.tx=tg.x;else if(Math.abs(cr.tx-cr.x)<10||Math.random()<dt*.15)cr.tx=R(40,W-40);
-    const dx=cr.tx-cr.x;cr.vx+=((Math.abs(dx)>6?Math.sign(dx)*(tg?130:45):0)-cr.vx)*dt*4;cr.x+=cr.vx*dt;
-    cr.x=Math.max(30,Math.min(W-30,cr.x));if(Math.abs(cr.vx)>8)cr.dir=cr.vx>0?1:-1;
-    for(const k of coins)if(!k.dead&&Math.abs(k.x-cr.x)<36&&k.y>H-90){S.coins+=k.v;k.dead=true}
+    cr.tx=cl(cr.tx,30,W-30);
+    const dx=cr.tx-cr.x;cr.vx+=((Math.abs(dx)>6?Math.sign(dx)*(tg?130:45):0)-cr.vx)*dt*4;cr.x=cl(cr.x+cr.vx*dt,30,W-30);if(Math.abs(cr.vx)>8)cr.dir=cr.vx>0?1:-1;
+    for(const k of coins)if(!k.dead&&Math.abs(k.x-cr.x)<36&&k.y>H-90){S.coins+=k.v;k.dead=true;if(tingT<=0){ting();tingT=.25}}
   }
   coins=coins.filter(k=>!k.dead);
   alienT-=dt;
   if(!alien&&alienT<=0&&fish.length){alien={x:R(60,W-60),y:-40,hp:6+S.lv*2,max:6+S.lv*2,hit:0,eatT:2.5};say('⚠️ Quái vật xuất hiện! Chạm liên tục!')}
   if(alien){
     alien.hit-=dt;let n=null,b=1e9;for(const f of fish){const d=Math.hypot(f.x-alien.x,f.y-alien.y);if(d<b){b=d;n=f}}
-    if(n){const d=b||1;alien.x+=(n.x-alien.x)/d*55*dt;alien.y+=(n.y-alien.y)/d*55*dt;
+    if(n){const d=b||1;alien.x=cl(alien.x+(n.x-alien.x)/d*55*dt,40,W-40);alien.y=Math.min(H-40,alien.y+(n.y-alien.y)/d*55*dt);
       if(b<50){alien.eatT-=dt;if(alien.eatT<=0){n.dead=true;alien.eatT=3.5;say('Cá bị ăn mất! 😱')}}}
   }
-  for(const b of bubbles){b.y-=b.v*dt;if(b.y<-10){b.y=H+10;b.x=R(0,W)}}
+  for(let i=bubbles.length-1;i>=0;i--){const b=bubbles[i];b.y-=(14+b.r*5)*dt;b.x+=Math.sin(t*1.3+b.ph)*10*dt;
+    if(b.y<-10){if(b.amb){b.y=H+10;b.x=R(0,W);b.r=R(2,9)}else bubbles.splice(i,1)}}
   hud();
 }
 
+// ================= VẼ =================
 function whale(f){
-  const s=26+f.stage*9,hungry=f.hunger>70;
+  const s=sz(f),hungry=f.hunger>70;
   c.save();c.translate(f.x,f.y);
   if(fishImg){
     const z=s*2.6;c.scale(f.dir*(S.flip?-1:1),1);c.rotate(Math.sin(t*6+f.ph)*.06);c.drawImage(fishImg,-z/2,-z/2,z,z);c.restore();
@@ -249,23 +390,41 @@ function whale(f){
   if(hungry)c.arc(s*.8,s*.38,s*.1,3.4,6);else c.arc(s*.8,s*.2,s*.1,.3,2.8);
   c.stroke();c.restore();
 }
-
+function rays(){
+  for(let i=0;i<5;i++){
+    const x=W*(.04+i*.22)+Math.sin(t*.2+i*1.7)*40,w=28+(i%2)*20,len=H*.95,sh=W*.16;
+    const g=c.createLinearGradient(0,0,0,len);g.addColorStop(0,'rgba(255,255,225,'+(.22+.06*Math.sin(t*.6+i))+')');g.addColorStop(1,'rgba(255,255,225,0)');
+    c.fillStyle=g;c.beginPath();c.moveTo(x,0);c.lineTo(x+w,0);c.lineTo(x+w+sh+30,len);c.lineTo(x+sh-30,len);c.fill();
+  }
+  const g=c.createLinearGradient(0,0,0,60);g.addColorStop(0,'rgba(255,255,255,.28)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(0,0,W,60);
+}
+function glitter(){
+  c.fillStyle='#fffbe0';
+  for(const p of spk){const a=Math.pow(Math.max(0,Math.sin(t*p.s+p.p)),3);if(a<.05)continue;
+    const x=p.x*W+Math.sin(t*.3+p.p)*8,y=p.y*H+Math.cos(t*.25+p.p)*6,r=p.r*(.5+a*.7);c.globalAlpha=a*.9;
+    c.beginPath();c.moveTo(x,y-r);c.quadraticCurveTo(x,y,x+r,y);c.quadraticCurveTo(x,y,x,y+r);c.quadraticCurveTo(x,y,x-r,y);c.quadraticCurveTo(x,y,x,y-r);c.fill()}
+  c.globalAlpha=1;
+}
 function draw(){
   if(bgImg){const s=Math.max(W/bgImg.width,H/bgImg.height),w=bgImg.width*s,h=bgImg.height*s;c.drawImage(bgImg,(W-w)/2,(H-h)/2,w,h)}
   else{
     const g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#3aa8e0');g.addColorStop(1,'#0b4f80');c.fillStyle=g;c.fillRect(0,0,W,H);
-    c.fillStyle='#ffffff10';for(let i=0;i<4;i++){c.beginPath();c.moveTo(W*(.1+i*.25),0);c.lineTo(W*(.2+i*.25),0);c.lineTo(W*(.1+i*.25)+60,H);c.lineTo(W*(i*.25)-20,H);c.fill()}
     c.fillStyle='#e8cf8a';c.beginPath();c.moveTo(0,H);for(let x=0;x<=W;x+=20)c.lineTo(x,H-14+Math.sin(x*.05)*5);c.lineTo(W,H);c.fill();
   }
-  c.strokeStyle='#ffffff55';c.lineWidth=1.5;for(const b of bubbles){c.beginPath();c.arc(b.x+Math.sin(t+b.y*.02)*6,b.y,b.r,0,7);c.stroke()}
+  rays();
+  c.lineWidth=1.2;
+  for(const b of bubbles){const x=b.x+Math.sin(t*.8+b.ph)*6,a=Math.min(1,Math.max(0,b.y/(H*.12)));c.globalAlpha=a;
+    c.fillStyle='rgba(255,255,255,.10)';c.strokeStyle='rgba(255,255,255,.5)';c.beginPath();c.arc(x,b.y,b.r,0,7);c.fill();c.stroke();
+    c.fillStyle='rgba(255,255,255,.75)';c.beginPath();c.arc(x-b.r*.35,b.y-b.r*.35,Math.max(.8,b.r*.22),0,7);c.fill()}
+  c.globalAlpha=1;
   for(const f of food){c.fillStyle=f.age>3?'#8a6b3a':'#ff8a4c';c.beginPath();c.arc(f.x,f.y,7,0,7);c.fill();c.fillStyle='#fff6';c.beginPath();c.arc(f.x-2,f.y-2,2.5,0,7);c.fill()}
-  // cua (tầng đáy)
   if(crabImg.complete&&crabImg.naturalWidth)for(const cr of crabs){
     const w=62,h=w*crabImg.naturalHeight/crabImg.naturalWidth,bob=Math.abs(Math.sin(t*10+cr.ph))*(Math.abs(cr.vx)>10?4:0);
     c.save();c.translate(cr.x,H-8-bob);c.scale(cr.dir,1);c.drawImage(crabImg,-w/2,-h,w,h);c.restore();
   }
   for(const f of fish)whale(f);
-  for(const k of coins){c.fillStyle=k.gold?'#ffc400':'#d6dde6';c.strokeStyle=k.gold?'#a87800':'#8895a5';c.lineWidth=2.5;c.beginPath();c.arc(k.x,k.y,16,0,7);c.fill();c.stroke();c.fillStyle=c.strokeStyle;c.font='bold 16px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('$',k.x,k.y+1)}
+  for(const k of coins){c.fillStyle=k.gold?'#ffc400':'#d6dde6';c.strokeStyle=k.gold?'#a87800':'#8895a5';c.lineWidth=2.5;c.beginPath();c.arc(k.x,k.y,16,0,7);c.fill();c.stroke();c.fillStyle=c.strokeStyle;c.font='bold 16px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('$',k.x,k.y+1)}
+  glitter();
   if(alien){const a=alien,w=Math.sin(t*8)*3;c.save();c.translate(a.x,a.y);if(a.hit>0)c.translate(R(-4,4),0);
     c.fillStyle='#7ed957';c.strokeStyle='#3c8a1d';c.lineWidth=3;c.beginPath();c.arc(0,0,38,0,7);c.fill();c.stroke();
     for(let i=-1;i<=1;i++){c.beginPath();c.moveTo(i*20,32);c.lineTo(i*20+w,52);c.stroke()}
@@ -273,7 +432,6 @@ function draw(){
     c.strokeStyle='#222';c.beginPath();c.moveTo(-10,16);c.lineTo(-4,12);c.lineTo(4,16);c.lineTo(10,12);c.stroke();
     c.fillStyle='#0006';c.fillRect(-30,-56,60,7);c.fillStyle='#ff4d4d';c.fillRect(-30,-56,60*Math.max(0,a.hp/a.max),7);c.restore()}
 }
-
 let last=performance.now();
 function loop(n){const dt=Math.min(.05,(n-last)/1000);last=n;update(dt);draw();requestAnimationFrame(loop)}
 requestAnimationFrame(loop);
