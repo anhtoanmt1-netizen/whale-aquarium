@@ -1,0 +1,16 @@
+{
+  "name": "Cá Voi Nhỏ - Game nuôi cá",
+  "short_name": "Cá Voi Nhỏ",
+  "description": "Game nuôi cá voi kawaii kiểu Insaniquarium",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b5d8f",
+  "theme_color": "#0b5d8f",
+  "lang": "vi",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
