@@ -6,91 +6,214 @@
 <meta name="theme-color" content="#0b5d8f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cá Voi Nhỏ">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Cá Voi Nhỏ</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#0b5d8f;font-family:system-ui,sans-serif;touch-action:none}
-canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
-#hud{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px;display:flex;gap:6px;align-items:center;z-index:2}
-#coins{background:#fff;color:#0b5d8f;font-weight:700;border-radius:20px;padding:8px 14px;font-size:16px;box-shadow:0 2px 0 #0003}
-.b{flex:1;border:0;border-radius:16px;padding:8px 6px;background:#ffd23f;color:#5a3b00;font-weight:700;font-size:13px;box-shadow:0 3px 0 #b88a00;line-height:1.15}
-.b:active{transform:translateY(2px);box-shadow:0 1px 0 #b88a00}
+canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
+#hud{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 6px) calc(env(safe-area-inset-right,0px) + 8px) 6px calc(env(safe-area-inset-left,0px) + 8px);display:flex;flex-direction:column;gap:6px;z-index:2}
+.row{display:flex;gap:6px;align-items:center}
+#coins{background:#fff;color:#0b5d8f;font-weight:700;border-radius:20px;padding:7px 14px;font-size:16px;box-shadow:0 2px 0 #0003}
+#sp{flex:1}
+#gear{width:42px;height:42px;border:0;border-radius:50%;background:#fff;font-size:22px;box-shadow:0 2px 0 #0003}
+.b{flex:1;border:0;border-radius:16px;padding:7px 4px;background:#ffd23f;color:#5a3b00;font-weight:700;font-size:12.5px;box-shadow:0 3px 0 #b88a00;line-height:1.15}
+.b:active,.m:active{transform:translateY(2px)}
 .b:disabled{opacity:.5}
-#msg{position:fixed;left:0;right:0;top:70px;text-align:center;color:#fff;font-weight:700;text-shadow:0 2px 4px #0006;pointer-events:none;z-index:2}
+#msg{position:fixed;left:0;right:0;top:120px;text-align:center;color:#fff;font-weight:700;text-shadow:0 2px 4px #0008;pointer-events:none;z-index:20;padding:0 12px}
+.ov{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:10;padding:12px}
+.ov.on{display:flex}
+.pn{background:#fff;border-radius:20px;padding:16px;width:100%;max-width:380px;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:9px;color:#123}
+.pn h3{margin:0 0 2px;text-align:center}
+.m{border:0;border-radius:14px;padding:11px;background:#e6f3fb;color:#0b5d8f;font-weight:700;font-size:14px;text-align:left}
+.m.p{background:#0b5d8f;color:#fff;text-align:center}
+.m.g{background:#eee;color:#444;text-align:center}
+.two{display:flex;gap:8px}.two .m{flex:1}
+label.ck{font-size:13px;display:flex;gap:8px;align-items:center;padding:0 4px}
+#cc{align-self:center;border-radius:10px;background:repeating-conic-gradient(#dde 0 25%,#fff 0 50%) 0 0/16px 16px;touch-action:none}
+select,input[type=range]{width:100%}
+select{padding:8px;border-radius:10px;border:1px solid #bcd}
+small{color:#567;text-align:center}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div id="hud">
-  <div id="coins">🪙 0</div>
-  <button class="b" id="buy">🐋 Mua cá<br>100</button>
-  <button class="b" id="up">🍤 Thức ăn<br>Lv1 · 150</button>
+  <div class="row"><div id="coins">🪙 0</div><div id="sp"></div><button id="gear" aria-label="Cài đặt">⚙️</button></div>
+  <div class="row">
+    <button class="b" id="buy">🐋 Mua cá<br>100</button>
+    <button class="b" id="crab">🦀 Mua cua<br>200</button>
+    <button class="b" id="up">🍤 Thức ăn<br>Lv1 · 150</button>
+  </div>
 </div>
 <div id="msg"></div>
+
+<div class="ov" id="set"><div class="pn">
+  <h3>⚙️ Cài đặt</h3>
+  <button class="m" id="inst">📲 Cài game vào điện thoại</button>
+  <button class="m" id="land">🔄 Màn hình ngang (toàn màn hình)</button>
+  <button class="m" id="bgb">🖼️ Đổi hình nền hồ (PNG)</button>
+  <button class="m" id="fb">🐋 Đổi hình chú cá (PNG)</button>
+  <label class="ck"><input type="checkbox" id="flip"> Ảnh cá đang quay mặt sang trái</label>
+  <div class="two"><button class="m g" id="rbg">↺ Nền gốc</button><button class="m g" id="rfb">↺ Cá gốc</button></div>
+  <button class="m p" id="sclose">Đóng</button>
+  <input type="file" id="file" accept="image/png,image/*" hidden>
+</div></div>
+
+<div class="ov" id="crop"><div class="pn">
+  <h3 id="ctitle">Cắt hình</h3>
+  <select id="asp"><option value="screen">Tỉ lệ theo màn hình hiện tại</option><option value="16:9">Ngang 16:9</option><option value="9:16">Dọc 9:16</option></select>
+  <canvas id="cc"></canvas>
+  <input type="range" id="zm" min="0.3" max="4" step="0.05" value="1">
+  <small>Kéo ảnh để di chuyển · thanh trượt để phóng to/thu nhỏ</small>
+  <div class="two"><button class="m g" id="cx">Huỷ</button><button class="m p" id="cs">Lưu</button></div>
+</div></div>
+
 <script>
-const cv=document.getElementById('c'),c=cv.getContext('2d');
-let W,H,DPR;
-function resize(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;c.setTransform(DPR,0,0,DPR,0,0)}
+const cv=document.getElementById('c'),c=cv.getContext('2d'),$=id=>document.getElementById(id);
+let W,H,DPR,TOP=110;
+function resize(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;c.setTransform(DPR,0,0,DPR,0,0);TOP=$('hud').offsetHeight+8}
 addEventListener('resize',resize);resize();
-
 const R=(a,b)=>a+Math.random()*(b-a);
+
 let S=JSON.parse(localStorage.getItem('whale1')||'null')||{coins:50,lv:1,fish:[{stage:0,hunger:0},{stage:0,hunger:0}]};
-let fish=[],food=[],coins=[],bubbles=[],alien=null,alienT=40,t=0,msgT=0;
+S.crabs=S.crabs||0;S.flip=!!S.flip;
+let fish=[],food=[],coins=[],bubbles=[],crabs=[],alien=null,alienT=40,t=0,msgT=0;
+let bgImg=null,fishImg=null;
+const crabImg=new Image();crabImg.src='crab.png';
+function loadImg(key,cb){const d=localStorage.getItem(key);if(!d){cb(null);return}const i=new Image();i.onload=()=>cb(i);i.onerror=()=>cb(null);i.src=d}
+loadImg('whale_bg',i=>bgImg=i);loadImg('whale_fish',i=>fishImg=i);
+
+function newFish(stage=0,hunger=0){return{x:R(60,W-60),y:R(TOP+40,H-120),vx:R(-30,30),vy:0,dir:1,stage,hunger,eaten:0,coinT:R(4,8),spout:0,ph:R(0,6),tx:R(60,W-60),ty:R(TOP+40,H-120)}}
+function newCrab(){return{x:R(40,W-40),dir:1,vx:0,tx:R(40,W-40),ph:R(0,6)}}
 S.fish.forEach(f=>fish.push(newFish(f.stage,f.hunger)));
+for(let i=0;i<S.crabs;i++)crabs.push(newCrab());
 for(let i=0;i<14;i++)bubbles.push({x:R(0,W),y:R(0,H),r:R(2,6),v:R(10,30)});
-
-function newFish(stage=0,hunger=0){return{x:R(60,W-60),y:R(120,H-120),vx:R(-30,30),vy:0,dir:1,stage,hunger,eaten:0,coinT:R(4,8),spout:0,ph:R(0,6),tx:R(60,W-60),ty:R(120,H-120)}}
-function save(){S.fish=fish.map(f=>({stage:f.stage,hunger:Math.floor(f.hunger)}));localStorage.setItem('whale1',JSON.stringify(S))}
+function save(){S.fish=fish.map(f=>({stage:f.stage,hunger:Math.floor(f.hunger)}));try{localStorage.setItem('whale1',JSON.stringify(S))}catch(e){}}
 setInterval(save,4000);
-function say(m){const e=document.getElementById('msg');e.textContent=m;msgT=2}
+function say(m){const e=$('msg');e.textContent=m;msgT=2.5}
 
-const $c=document.getElementById('coins'),$b=document.getElementById('buy'),$u=document.getElementById('up');
-function hud(){$c.textContent='🪙 '+S.coins;$b.disabled=S.coins<100||fish.length>=12;$u.disabled=S.lv>=4||S.coins<150*S.lv;$u.innerHTML='🍤 Thức ăn<br>'+(S.lv>=4?'Tối đa':'Lv'+S.lv+' · '+150*S.lv)}
-$b.onclick=()=>{if(S.coins>=100&&fish.length<12){S.coins-=100;fish.push(newFish());say('Cá voi mới! 🐋')}};
-$u.onclick=()=>{const p=150*S.lv;if(S.lv<4&&S.coins>=p){S.coins-=p;S.lv++;say('Thức ăn nâng cấp! Thả được '+(S.lv+2)+' viên')}};
+// ---- HUD
+function hud(){
+  $('coins').textContent='🪙 '+S.coins;
+  $('buy').disabled=S.coins<100||fish.length>=12;
+  $('crab').disabled=S.coins<200||crabs.length>=5;
+  $('crab').innerHTML='🦀 Mua cua<br>'+(crabs.length>=5?'Tối đa 5/5':'200 · '+crabs.length+'/5');
+  $('up').disabled=S.lv>=4||S.coins<150*S.lv;
+  $('up').innerHTML='🍤 Thức ăn<br>'+(S.lv>=4?'Tối đa':'Lv'+S.lv+' · '+150*S.lv);
+}
+$('buy').onclick=()=>{if(S.coins>=100&&fish.length<12){S.coins-=100;fish.push(newFish());say('Cá voi mới! 🐋')}};
+$('crab').onclick=()=>{if(S.coins>=200&&crabs.length<5){S.coins-=200;S.crabs++;crabs.push(newCrab());say('Cua sẽ nhặt xu ở đáy hồ 🦀')}};
+$('up').onclick=()=>{const p=150*S.lv;if(S.lv<4&&S.coins>=p){S.coins-=p;S.lv++;say('Thức ăn nâng cấp! Thả được '+(S.lv+2)+' viên')}};
 
-// Chạm màn hình
+// ---- Cài đặt
+$('gear').onclick=()=>$('set').classList.add('on');
+$('sclose').onclick=()=>$('set').classList.remove('on');
+$('flip').checked=S.flip;$('flip').onchange=e=>{S.flip=e.target.checked;save()};
+let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e});
+addEventListener('appinstalled',()=>say('Đã cài đặt ✅'));
+$('inst').onclick=async()=>{
+  const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(standalone){say('Game đã được cài rồi ✅');return}
+  if(dp){dp.prompt();await dp.userChoice;dp=null;return}
+  say(/iphone|ipad/i.test(navigator.userAgent)?'Safari: nhấn Chia sẻ → Thêm vào MH chính':'Menu ⋮ của trình duyệt → Cài đặt ứng dụng / Thêm vào màn hình chính');
+};
+$('land').onclick=async()=>{
+  try{
+    if(!document.fullscreenElement){await document.documentElement.requestFullscreen();try{await screen.orientation.lock('landscape')}catch(e){say('Hãy bật xoay màn hình và xoay ngang điện thoại')}}
+    else{try{screen.orientation.unlock()}catch(e){}await document.exitFullscreen()}
+    $('set').classList.remove('on');
+  }catch(e){say('Máy không hỗ trợ toàn màn hình. Hãy xoay ngang điện thoại.')}
+};
+addEventListener('fullscreenchange',()=>setTimeout(resize,200));
+addEventListener('orientationchange',()=>setTimeout(resize,300));
+$('rbg').onclick=()=>{localStorage.removeItem('whale_bg');bgImg=null;say('Đã về nền gốc')};
+$('rfb').onclick=()=>{localStorage.removeItem('whale_fish');fishImg=null;say('Đã về cá gốc')};
+
+// ---- Chọn ảnh + cắt
+let pick=null,CR=null;
+$('bgb').onclick=()=>{pick='bg';$('file').click()};
+$('fb').onclick=()=>{pick='fish';$('file').click()};
+$('file').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+  const img=new Image();img.onload=()=>{CR={kind:pick,img,zoom:1,ox:0,oy:0};$('set').classList.remove('on');$('crop').classList.add('on');
+    $('ctitle').textContent=pick=='bg'?'Cắt hình nền hồ':'Cắt hình chú cá (1:1)';$('asp').style.display=pick=='bg'?'':'none';setupCrop()};
+  img.onerror=()=>say('Không đọc được ảnh');img.src=URL.createObjectURL(f)};
+function aspect(){if(CR.kind=='fish')return 1;const v=$('asp').value;return v=='16:9'?16/9:v=='9:16'?9/16:W/H}
+function setupCrop(){
+  const a=aspect();let pw=Math.min(W-56,340),ph=pw/a;const mh=H-250;if(ph>mh){ph=Math.max(mh,120);pw=ph*a}
+  const cc=$('cc');cc.width=Math.round(pw);cc.height=Math.round(ph);cc.style.width=pw+'px';cc.style.height=ph+'px';
+  CR.ox=CR.oy=0;CR.zoom=1;$('zm').value=1;$('zm').min=CR.kind=='bg'?1:.3;drawCrop(cc.getContext('2d'),cc.width,cc.height,1);
+}
+$('asp').onchange=setupCrop;
+function clampCrop(w,h){if(CR.kind!='bg')return;const s=Math.max(w/CR.img.width,h/CR.img.height)*CR.zoom,mx=Math.max(0,(CR.img.width*s-w)/2),my=Math.max(0,(CR.img.height*s-h)/2);CR.ox=Math.max(-mx,Math.min(mx,CR.ox));CR.oy=Math.max(-my,Math.min(my,CR.oy))}
+function drawCrop(x,w,h,k){
+  x.clearRect(0,0,w,h);const i=CR.img,s=Math.max(w/i.width,h/i.height)*CR.zoom,dw=i.width*s,dh=i.height*s;
+  x.drawImage(i,(w-dw)/2+CR.ox*k,(h-dh)/2+CR.oy*k,dw,dh);
+}
+function redraw(){const cc=$('cc');clampCrop(cc.width,cc.height);drawCrop(cc.getContext('2d'),cc.width,cc.height,1)}
+$('zm').oninput=e=>{CR.zoom=+e.target.value;redraw()};
+let drag=null;const cc=$('cc');
+cc.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY};cc.setPointerCapture(e.pointerId)};
+cc.onpointermove=e=>{if(!drag)return;const sc=cc.width/cc.getBoundingClientRect().width;CR.ox+=(e.clientX-drag.x)*sc;CR.oy+=(e.clientY-drag.y)*sc;drag={x:e.clientX,y:e.clientY};redraw()};
+cc.onpointerup=cc.onpointercancel=()=>drag=null;
+$('cx').onclick=()=>{$('crop').classList.remove('on');CR=null};
+$('cs').onclick=()=>{
+  const a=aspect();let ow,oh;
+  if(CR.kind=='fish'){ow=oh=256}else if(a>=1){ow=1280;oh=Math.round(1280/a)}else{oh=1280;ow=Math.round(1280*a)}
+  const o=document.createElement('canvas');o.width=ow;o.height=oh;const k=ow/cc.width;
+  drawCrop(o.getContext('2d'),ow,oh,k);
+  const key=CR.kind=='bg'?'whale_bg':'whale_fish',data=CR.kind=='bg'?o.toDataURL('image/jpeg',.85):o.toDataURL('image/png');
+  try{localStorage.setItem(key,data)}catch(e){say('Bộ nhớ đầy, ảnh chỉ dùng tạm thời')}
+  const i=new Image();i.onload=()=>{if(key=='whale_bg')bgImg=i;else fishImg=i};i.src=data;
+  $('crop').classList.remove('on');CR=null;say('Đã áp dụng hình mới ✅');
+};
+
+// ---- Chạm màn hình
 cv.addEventListener('pointerdown',e=>{
   const x=e.clientX,y=e.clientY;
   for(const k of coins){if(Math.hypot(k.x-x,k.y-y)<34){S.coins+=k.v;k.dead=true;return}}
-  if(alien&&Math.hypot(alien.x-x,alien.y-y)<55){alien.hp--;alien.hit=.2;if(alien.hp<=0){S.coins+=60;say('Diệt quái! +60 🪙');alien=null;alienT=R(35,55)}return}
-  if(food.filter(f=>!f.rot).length<S.lv+2)food.push({x,y:Math.max(y,90),rot:0,age:0});
+  if(alien&&Math.hypot(alien.x-x,alien.y-y)<55){alien.hit=.2;if(--alien.hp<=0){S.coins+=60;say('Diệt quái! +60 🪙');alien=null;alienT=R(35,55)}return}
+  if(food.filter(f=>!f.rot).length<S.lv+2)food.push({x,y:Math.max(y,TOP),rot:0,age:0});
 });
 
 function update(dt){
   t+=dt;
-  if(msgT>0){msgT-=dt;if(msgT<=0)document.getElementById('msg').textContent=''}
-  // thức ăn
+  if(msgT>0){msgT-=dt;if(msgT<=0)$('msg').textContent=''}
+  $('msg').style.top=(TOP+4)+'px';
   for(const f of food){if(f.y<H-30)f.y+=45*dt;else{f.age+=dt;if(f.age>6)f.dead=true}}
   food=food.filter(f=>!f.dead);
-  // cá
   for(const f of fish){
     f.hunger+=dt*2.2;f.spout-=dt;if(Math.random()<dt*.15)f.spout=1;
     let target=null,best=1e9;
     if(f.hunger>35)for(const o of food){const d=Math.hypot(o.x-f.x,o.y-f.y);if(d<best){best=d;target=o}}
     if(target){f.tx=target.x;f.ty=target.y}
-    else if(Math.hypot(f.tx-f.x,f.ty-f.y)<20||Math.random()<dt*.1){f.tx=R(50,W-50);f.ty=R(110,H-90)}
+    else if(Math.hypot(f.tx-f.x,f.ty-f.y)<20||Math.random()<dt*.1){f.tx=R(50,W-50);f.ty=R(TOP+40,H-90)}
     const dx=f.tx-f.x,dy=f.ty-f.y,d=Math.hypot(dx,dy)||1,sp=target?110:45;
     f.vx+=(dx/d*sp-f.vx)*dt*2;f.vy+=(dy/d*sp-f.vy)*dt*2;
     f.x+=f.vx*dt;f.y+=f.vy*dt;
     if(Math.abs(f.vx)>8)f.dir=f.vx>0?1:-1;
     const sz=26+f.stage*9;
     if(target&&Math.hypot(target.x-f.x,target.y-f.y)<sz&&!target.dead){target.dead=true;f.hunger=0;f.eaten++;if(f.eaten>=4&&f.stage<2){f.stage++;f.eaten=0;say('Cá voi lớn lên! ✨')}}
-    // đẻ xu
     if(f.stage>0){f.coinT-=dt;if(f.coinT<=0){f.coinT=R(7,11);coins.push({x:f.x,y:f.y,v:f.stage==1?15:40,age:0,gold:f.stage==2})}}
     if(f.hunger>110){f.dead=true;say('Một chú cá đói quá 😢')}
   }
   fish=fish.filter(f=>!f.dead);
   if(!fish.length){fish.push(newFish());say('Tặng bạn một chú cá mới 🐋')}
-  // xu
   for(const k of coins){if(k.y<H-26)k.y+=60*dt;else k.age+=dt;if(k.age>10)k.dead=true}
+  // cua nhặt xu
+  for(const cr of crabs){
+    let tg=null,b=1e9;for(const k of coins){const d=Math.abs(k.x-cr.x)+(k.y<H-100?200:0);if(!k.dead&&d<b){b=d;tg=k}}
+    if(tg)cr.tx=tg.x;else if(Math.abs(cr.tx-cr.x)<10||Math.random()<dt*.15)cr.tx=R(40,W-40);
+    const dx=cr.tx-cr.x;cr.vx+=((Math.abs(dx)>6?Math.sign(dx)*(tg?130:45):0)-cr.vx)*dt*4;cr.x+=cr.vx*dt;
+    cr.x=Math.max(30,Math.min(W-30,cr.x));if(Math.abs(cr.vx)>8)cr.dir=cr.vx>0?1:-1;
+    for(const k of coins)if(!k.dead&&Math.abs(k.x-cr.x)<36&&k.y>H-90){S.coins+=k.v;k.dead=true}
+  }
   coins=coins.filter(k=>!k.dead);
-  // quái vật
   alienT-=dt;
-  if(!alien&&alienT<=0&&fish.length){alien={x:R(60,W-60),y:-40,hp:6+Math.floor(S.lv*2),hit:0,eatT:2.5};say('⚠️ Quái vật xuất hiện! Chạm liên tục!')}
+  if(!alien&&alienT<=0&&fish.length){alien={x:R(60,W-60),y:-40,hp:6+S.lv*2,max:6+S.lv*2,hit:0,eatT:2.5};say('⚠️ Quái vật xuất hiện! Chạm liên tục!')}
   if(alien){
     alien.hit-=dt;let n=null,b=1e9;for(const f of fish){const d=Math.hypot(f.x-alien.x,f.y-alien.y);if(d<b){b=d;n=f}}
     if(n){const d=b||1;alien.x+=(n.x-alien.x)/d*55*dt;alien.y+=(n.y-alien.y)/d*55*dt;
@@ -102,42 +225,45 @@ function update(dt){
 
 function whale(f){
   const s=26+f.stage*9,hungry=f.hunger>70;
-  c.save();c.translate(f.x,f.y);c.scale(f.dir,1);
+  c.save();c.translate(f.x,f.y);
+  if(fishImg){
+    const z=s*2.6;c.scale(f.dir*(S.flip?-1:1),1);c.rotate(Math.sin(t*6+f.ph)*.06);c.drawImage(fishImg,-z/2,-z/2,z,z);c.restore();
+    if(hungry){c.font='20px sans-serif';c.textAlign='center';c.fillText('😢',f.x,f.y-s*1.3)}return;
+  }
+  c.scale(f.dir,1);
   const wag=Math.sin(t*6+f.ph)*.25,fill=hungry?'#9fbf9f':'#8ea6cc',line='#566b94';
   c.lineWidth=2.5;c.strokeStyle=line;c.lineJoin='round';
-  // vòi nước
   if(f.spout>0){c.strokeStyle='#bfe6ff';c.lineWidth=3;c.beginPath();c.moveTo(s*.1,-s*.9);c.lineTo(s*.1,-s*1.4);c.moveTo(s*.1,-s*1.4);c.quadraticCurveTo(s*-.1,-s*1.6,s*-.2,-s*1.35);c.moveTo(s*.1,-s*1.4);c.quadraticCurveTo(s*.3,-s*1.6,s*.4,-s*1.35);c.stroke();c.strokeStyle=line;c.lineWidth=2.5}
-  // đuôi
   c.save();c.translate(-s*.95,0);c.rotate(wag);c.fillStyle=fill;c.beginPath();
   c.moveTo(s*.3,0);c.bezierCurveTo(-s*.1,-s*.15,-s*.4,-s*.7,-s*.75,-s*.6);c.bezierCurveTo(-s*.55,-s*.2,-s*.55,s*.2,-s*.75,s*.6);c.bezierCurveTo(-s*.4,s*.7,-s*.1,s*.15,s*.3,0);c.fill();c.stroke();c.restore();
-  // thân
   c.fillStyle=fill;c.beginPath();c.ellipse(0,0,s*1.15,s*.9,0,0,7);c.fill();c.stroke();
-  // bụng trắng + sọc
   c.save();c.beginPath();c.ellipse(0,0,s*1.15,s*.9,0,0,7);c.clip();
   c.fillStyle='#fff';c.beginPath();c.ellipse(s*.15,s*.65,s*1.1,s*.55,0,0,7);c.fill();
   c.strokeStyle='#b9c8e3';c.lineWidth=1.5;for(let i=-3;i<=3;i++){c.beginPath();c.moveTo(s*(.15+i*.22),s*.3);c.lineTo(s*(.15+i*.22),s*.8);c.stroke()}c.restore();
   c.strokeStyle=line;c.lineWidth=2.5;c.beginPath();c.ellipse(0,0,s*1.15,s*.9,0,0,7);c.stroke();
-  // vây
   c.fillStyle=fill;c.beginPath();c.ellipse(-s*.1,s*.45,s*.3,s*.14,.6+Math.sin(t*5+f.ph)*.2,0,7);c.fill();c.stroke();
-  // má hồng, mắt, miệng
   c.fillStyle='#ff9fb0aa';c.beginPath();c.ellipse(s*.45,s*.2,s*.16,s*.1,0,0,7);c.fill();
-  const blink=Math.sin(t*.9+f.ph*3)>.97;
-  if(blink){c.strokeStyle='#222';c.beginPath();c.arc(s*.6,-s*.05,s*.12,.2,2.9);c.stroke()}
+  if(Math.sin(t*.9+f.ph*3)>.97){c.strokeStyle='#222';c.beginPath();c.arc(s*.6,-s*.05,s*.12,.2,2.9);c.stroke()}
   else{c.fillStyle='#222';c.beginPath();c.arc(s*.6,-s*.05,s*.17,0,7);c.fill();c.fillStyle='#fff';c.beginPath();c.arc(s*.65,-s*.1,s*.06,0,7);c.arc(s*.55,0,s*.03,0,7);c.fill()}
   c.strokeStyle='#222';c.lineWidth=2;c.beginPath();
   if(hungry)c.arc(s*.8,s*.38,s*.1,3.4,6);else c.arc(s*.8,s*.2,s*.1,.3,2.8);
-  c.stroke();
-  c.restore();
+  c.stroke();c.restore();
 }
 
 function draw(){
-  const g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#3aa8e0');g.addColorStop(1,'#0b4f80');c.fillStyle=g;c.fillRect(0,0,W,H);
-  // tia sáng
-  c.fillStyle='#ffffff10';for(let i=0;i<4;i++){c.beginPath();c.moveTo(W*(.1+i*.25),0);c.lineTo(W*(.2+i*.25),0);c.lineTo(W*(.1+i*.25)+60,H);c.lineTo(W*(i*.25)-20,H);c.fill()}
-  // cát
-  c.fillStyle='#e8cf8a';c.beginPath();c.moveTo(0,H);for(let x=0;x<=W;x+=20)c.lineTo(x,H-14+Math.sin(x*.05)*5);c.lineTo(W,H);c.fill();
+  if(bgImg){const s=Math.max(W/bgImg.width,H/bgImg.height),w=bgImg.width*s,h=bgImg.height*s;c.drawImage(bgImg,(W-w)/2,(H-h)/2,w,h)}
+  else{
+    const g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#3aa8e0');g.addColorStop(1,'#0b4f80');c.fillStyle=g;c.fillRect(0,0,W,H);
+    c.fillStyle='#ffffff10';for(let i=0;i<4;i++){c.beginPath();c.moveTo(W*(.1+i*.25),0);c.lineTo(W*(.2+i*.25),0);c.lineTo(W*(.1+i*.25)+60,H);c.lineTo(W*(i*.25)-20,H);c.fill()}
+    c.fillStyle='#e8cf8a';c.beginPath();c.moveTo(0,H);for(let x=0;x<=W;x+=20)c.lineTo(x,H-14+Math.sin(x*.05)*5);c.lineTo(W,H);c.fill();
+  }
   c.strokeStyle='#ffffff55';c.lineWidth=1.5;for(const b of bubbles){c.beginPath();c.arc(b.x+Math.sin(t+b.y*.02)*6,b.y,b.r,0,7);c.stroke()}
   for(const f of food){c.fillStyle=f.age>3?'#8a6b3a':'#ff8a4c';c.beginPath();c.arc(f.x,f.y,7,0,7);c.fill();c.fillStyle='#fff6';c.beginPath();c.arc(f.x-2,f.y-2,2.5,0,7);c.fill()}
+  // cua (tầng đáy)
+  if(crabImg.complete&&crabImg.naturalWidth)for(const cr of crabs){
+    const w=62,h=w*crabImg.naturalHeight/crabImg.naturalWidth,bob=Math.abs(Math.sin(t*10+cr.ph))*(Math.abs(cr.vx)>10?4:0);
+    c.save();c.translate(cr.x,H-8-bob);c.scale(cr.dir,1);c.drawImage(crabImg,-w/2,-h,w,h);c.restore();
+  }
   for(const f of fish)whale(f);
   for(const k of coins){c.fillStyle=k.gold?'#ffc400':'#d6dde6';c.strokeStyle=k.gold?'#a87800':'#8895a5';c.lineWidth=2.5;c.beginPath();c.arc(k.x,k.y,16,0,7);c.fill();c.stroke();c.fillStyle=c.strokeStyle;c.font='bold 16px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('$',k.x,k.y+1)}
   if(alien){const a=alien,w=Math.sin(t*8)*3;c.save();c.translate(a.x,a.y);if(a.hit>0)c.translate(R(-4,4),0);
@@ -145,14 +271,13 @@ function draw(){
     for(let i=-1;i<=1;i++){c.beginPath();c.moveTo(i*20,32);c.lineTo(i*20+w,52);c.stroke()}
     c.fillStyle='#fff';c.beginPath();c.arc(-13,-6,11,0,7);c.arc(13,-6,11,0,7);c.fill();c.fillStyle='#222';c.beginPath();c.arc(-11,-5,5,0,7);c.arc(15,-5,5,0,7);c.fill();
     c.strokeStyle='#222';c.beginPath();c.moveTo(-10,16);c.lineTo(-4,12);c.lineTo(4,16);c.lineTo(10,12);c.stroke();
-    c.fillStyle='#0006';c.fillRect(-30,-56,60,7);c.fillStyle='#ff4d4d';c.fillRect(-30,-56,60*Math.max(0,a.hp/(6+Math.floor(S.lv*2))),7);c.restore()}
+    c.fillStyle='#0006';c.fillRect(-30,-56,60,7);c.fillStyle='#ff4d4d';c.fillRect(-30,-56,60*Math.max(0,a.hp/a.max),7);c.restore()}
 }
 
 let last=performance.now();
 function loop(n){const dt=Math.min(.05,(n-last)/1000);last=n;update(dt);draw();requestAnimationFrame(loop)}
 requestAnimationFrame(loop);
 say('Chạm màn hình để thả thức ăn 🍤');
-
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
 </script>
 </body>
