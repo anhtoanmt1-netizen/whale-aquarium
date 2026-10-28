@@ -23,19 +23,19 @@ canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
 /* HUD */
 #hud{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 6px) calc(env(safe-area-inset-right,0px) + 8px) 6px calc(env(safe-area-inset-left,0px) + 8px);display:flex;flex-direction:column;gap:6px;z-index:2}
 .row{display:flex;gap:6px;align-items:center}
-.pill{background:#ffffffee;color:#0b5d8f;font-weight:800;border-radius:20px;padding:7px 12px;font-size:14px;box-shadow:0 2px 0 #0002;white-space:nowrap}
+.pill{background:#ffffffee;color:#0b5d8f;font-weight:800;border-radius:20px;padding:6px 10px;font-size:13px;box-shadow:0 2px 0 #0002;white-space:nowrap}
 #sp{flex:1}
 #gear{width:42px;height:42px;border:0;border-radius:50%;background:#ffffffee;font-size:21px;box-shadow:0 2px 0 #0002;transition:transform .6s cubic-bezier(.2,1.2,.4,1)}
 body.so #gear{transform:rotate(180deg)}
 .b{flex:1;min-width:0;border:0;border-radius:15px;padding:7px 2px;font-weight:700;font-size:11px;line-height:1.2;box-shadow:0 3px 0 #0003}
 .b:disabled{opacity:.45}
 .b.f{background:#cfe8fb;color:#1d5f94}.b.k{background:#ffd9d2;color:#a8402f}.b.e{background:#ffe9b0;color:#7a5200}.b.s{background:#d3f1e2;color:#1f7a57}
-#shopb,#helpb{width:42px;height:42px;border:0;border-radius:50%;background:#ffffffee;font-size:21px;box-shadow:0 2px 0 #0002}
+#shopb{width:42px;height:42px;border:0;border-radius:50%;background:#ffffffee;font-size:21px;box-shadow:0 2px 0 #0002}
 #msg{position:fixed;left:0;right:0;top:120px;text-align:center;color:#fff;font-weight:700;font-size:14px;text-shadow:0 2px 6px #0009;pointer-events:none;z-index:30;padding:0 12px}
 /* Overlay */
 .ov{position:fixed;inset:0;background:#0a2a4a99;backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:10;padding:10px;opacity:0;pointer-events:none;transition:opacity .25s}
 .ov.on{opacity:1;pointer-events:auto}
-.pn{background:#fbfdff;border-radius:24px;padding:14px;width:100%;max-width:420px;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px #0006;transform:translateY(24px) scale(.95);transition:transform .4s cubic-bezier(.2,1.2,.4,1)}
+.pn{background:rgba(251,253,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.75);border-radius:24px;padding:14px;width:100%;max-width:420px;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px #0006;transform:translateY(24px) scale(.95);transition:transform .4s cubic-bezier(.2,1.2,.4,1)}
 .ov.on .pn{transform:none}
 .ph{display:flex;align-items:center;justify-content:space-between}
 .ph h3{margin:0;font-size:19px;font-weight:800;color:#2d4a66}
@@ -129,64 +129,107 @@ p.ds{margin:0;font-size:11px;line-height:1.45;color:#6f8aa3;font-weight:500;padd
 .fs{font-size:10.5px;font-weight:600;color:#7a6bd0;background:#fff;border-radius:10px;padding:3px 8px;min-height:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sell{border:0;border-radius:14px;background:#fff;color:#c0553f;font-weight:800;font-size:11px;padding:9px 8px;line-height:1.3;box-shadow:0 2px 0 #c0553f33;flex:none}
 #cft{font-size:14px;line-height:1.5;color:#35506b;font-weight:600}
+
+.ph{gap:8px}.ph h3{flex:1}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:rgba(214,230,243,.75);padding:4px;border-radius:18px}
+.seg button{border:0;background:transparent;border-radius:14px;padding:7px 2px;font-size:10.5px;font-weight:700;color:#5b7690;display:flex;flex-direction:column;align-items:center;gap:1px;transition:background .25s,transform .25s,box-shadow .25s}
+.seg button i{font-style:normal;font-size:18px}
+.seg button.on{background:#fff;color:#2d4a66;box-shadow:0 3px 10px #0002;transform:translateY(-1px)}
+.sp{display:none;flex-direction:column;gap:12px}.sp.on{display:flex}
+#tabs{flex-wrap:wrap;overflow:visible}
+#tabs button{padding:6px 9px;font-size:11px}
+.r2:disabled{opacity:.5}
+.pink .r2{color:#a8456a}.pink .r2 em{color:#d9608a}.lav .r2{color:#5d4fb0}.lav .r2 em{color:#7a6bd0}
+#c_sword{cursor:pointer;color:#5d4fb0;box-shadow:0 0 0 2px #7a6bd0}
+.fc.wc{background:#e8e4fb;flex-wrap:wrap}
+.stars{color:#f5b400;font-size:13px;letter-spacing:1px;white-space:nowrap}
+.wc .bar em{width:54px}
+.wb{display:flex;gap:8px;width:100%}.wb button{flex:1}
+.upb{border:0;border-radius:14px;background:linear-gradient(135deg,#ffd86b,#ffb347);color:#6b4300;font-weight:800;font-size:11px;padding:9px 6px;line-height:1.3;box-shadow:0 2px 0 #c58a0044}
+.upb:disabled{opacity:.5}
+.mcv{display:flex;flex-direction:column;align-items:center;gap:3px;flex:none}
+.mth{width:96px;height:96px;border-radius:14px;background:linear-gradient(#cfeaff,#8fd0f0);cursor:pointer;box-shadow:0 2px 6px #0002}
+.mcv small{font-size:9.5px;color:#6f8aa3;font-weight:600}
+.rs{border:0;background:#fff;border-radius:10px;padding:3px 8px;font-size:10px;font-weight:700;color:#5b7690}
+.mn{font-size:15px;font-weight:800;color:#2d4a66}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="hud"><div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div id="sp"></div><button id="helpb" aria-label="Hướng dẫn">❓</button><button id="shopb" aria-label="Cửa hàng">🛒</button><button id="gear" aria-label="Cài đặt">⚙️</button></div></div>
+<div id="hud"><div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div class="pill" id="cntw" style="display:none">⚔️ 0/5 ›</div><div id="sp"></div><button id="shopb" aria-label="Cửa hàng">🛒</button><button id="gear" aria-label="Cài đặt">⚙️</button></div></div>
 <div id="msg"></div>
 
 <div class="ov" id="shop"><div class="pn">
-  <div class="ph"><h3>🛒 Cửa hàng</h3><div class="pill" id="coins2">🪙 0</div><button class="x" id="shclose" aria-label="Đóng">✕</button></div>
+  <div class="ph"><h3>🛒 Cửa hàng</h3><div class="pill" id="coins2">🪙 0</div><button class="x" id="helpb" aria-label="Hướng dẫn">❓</button><button class="x" id="shclose" aria-label="Đóng">✕</button></div>
   <div class="shg">
     <button class="shp s1" id="buy"><i class="cn" id="c_buy"></i><span class="ic">🐋</span><b>Cá voi</b><small>Lớn lên sẽ đẻ xu</small><em id="p_buy">100</em></button>
-    <button class="shp s2" id="sword"><i class="cn" id="c_sword"></i><span class="ic"><img src="sword.png" alt=""></span><b>Cá kiếm</b><small>Lao đâm quái vật rất hung hăng</small><em id="p_sword">300</em></button>
+    <button class="shp s2" id="sword"><i class="cn" id="c_sword"></i><span class="ic"><img src="sword.png" alt=""></span><b>Cá Chiến Binh</b><small>Lao đâm quái vật · nâng cấp tới Lv5 · chạm 📋 xem danh sách</small><em id="p_sword">300</em></button>
     <button class="shp s3" id="horse"><i class="cn" id="c_horse"></i><span class="ic"><img src="horse.png" alt=""></span><b>Cá ngựa</b><small>Phun thức ăn cho cá</small><em id="p_horse">250</em></button>
     <button class="shp s4" id="crab"><i class="cn" id="c_crab"></i><span class="ic"><img src="crab.png" alt=""></span><b>Cua</b><small>Nhặt xu ở đáy hồ</small><em id="p_crab">200</em></button>
     <button class="shp s5" id="up"><i class="cn" id="c_up"></i><span class="ic">🍤</span><b>Thức ăn</b><small>Thả được nhiều viên hơn</small><em id="p_up">150</em></button>
     <button class="shp s6" id="slot"><i class="cn" id="c_slot"></i><span class="ic">🏝️</span><b>+5 chỗ</b><small>Hồ rộng hơn (tối đa 50 cá)</small><em id="p_slot">300</em></button>
+    <button class="shp s2" id="wslot"><i class="cn" id="c_wslot"></i><span class="ic">⚔️</span><b>+5 chỗ Chiến Binh</b><small>Mở rộng đội hình (tối đa 50)</small><em id="p_wslot">400</em></button>
+    <button class="shp s4" id="minfob"><span class="ic">👾</span><b>Thông tin quái vật</b><small>Máu, sát thương, tỉ lệ xuất hiện</small><em>Xem ›</em></button>
   </div>
 </div></div>
 
 <div class="ov" id="set"><div class="pn">
   <div class="ph"><h3>⚙️ Cài đặt</h3><button class="x" id="sclose" aria-label="Đóng">✕</button></div>
+  <div class="seg" id="stabs">
+    <button data-s="snd" class="on"><i>🎧</i>Âm thanh</button><button data-s="dsp"><i>📱</i>Hiển thị</button><button data-s="img"><i>🖼️</i>Hình ảnh</button><button data-s="inf"><i>📚</i>Thông tin</button>
+  </div>
 
-  <section class="cd lav" style="--d:.05s"><h4><i>🎧</i>Âm thanh</h4>
-    <div class="chips" id="snd">
-      <button class="chip" data-k="off">🔇<span>Tắt</span></button>
-      <button class="chip" data-k="wave">🌊<span>Sóng biển</span><i class="eq"><u></u><u></u><u></u></i></button>
-      <button class="chip" data-k="pad">🌙<span>Hồ đêm</span><i class="eq"><u></u><u></u><u></u></i></button>
-      <button class="chip" data-k="box">🎵<span>Hộp nhạc</span><i class="eq"><u></u><u></u><u></u></i></button>
-      <button class="chip" data-k="bubble">🫧<span>Giọt nước</span><i class="eq"><u></u><u></u><u></u></i></button>
-    </div>
-    <div class="vol"><span>🔈</span><input type="range" id="vol" min="0" max="1" step=".05"><span>🔊</span></div>
-    <p class="ds">Chọn nhạc nền thư giãn (hoặc Tắt) và kéo thanh để chỉnh âm lượng. Nhạc chỉ phát sau khi bạn chạm vào màn hình lần đầu.</p>
-  </section>
+  <div class="sp on" id="sp_snd">
+    <section class="cd lav"><h4><i>🎧</i>Nhạc nền</h4>
+      <div class="chips" id="snd">
+        <button class="chip" data-k="off">🔇<span>Tắt</span></button>
+        <button class="chip" data-k="wave">🌊<span>Sóng biển</span><i class="eq"><u></u><u></u><u></u></i></button>
+        <button class="chip" data-k="pad">🌙<span>Hồ đêm</span><i class="eq"><u></u><u></u><u></u></i></button>
+        <button class="chip" data-k="box">🎵<span>Hộp nhạc</span><i class="eq"><u></u><u></u><u></u></i></button>
+        <button class="chip" data-k="bubble">🫧<span>Giọt nước</span><i class="eq"><u></u><u></u><u></u></i></button>
+      </div>
+      <div class="vol"><span>🔈</span><input type="range" id="vol" min="0" max="1" step=".05"><span>🔊</span></div>
+      <p class="ds">Chọn nhạc nền thư giãn (hoặc Tắt) và kéo thanh để chỉnh âm lượng. Nhạc chỉ phát sau khi bạn chạm vào màn hình lần đầu.</p>
+    </section>
+  </div>
 
-  <section class="cd mint" style="--d:.12s"><h4><i>📱</i>Hiển thị</h4>
-    <button class="r2" id="land"><span>🔄 Màn hình ngang (toàn màn hình)</span><b class="sw"></b></button>
-    <p class="ds">Mở rộng hồ cá ra toàn màn hình ngang. Nếu máy không tự xoay, hãy bật xoay màn hình rồi xoay ngang điện thoại.</p>
-    <button class="r2" id="inst"><span>📲 Cài game vào điện thoại</span><em>›</em></button>
-    <p class="ds">Thêm game ra màn hình chính để mở nhanh như một ứng dụng, chơi được cả khi mất mạng.</p>
-  </section>
+  <div class="sp" id="sp_dsp">
+    <section class="cd mint"><h4><i>📱</i>Màn hình &amp; ứng dụng</h4>
+      <button class="r2" id="land"><span>🔄 Màn hình ngang (toàn màn hình)</span><b class="sw"></b></button>
+      <p class="ds">Mở rộng hồ cá ra toàn màn hình ngang. Nếu máy không tự xoay, hãy bật xoay màn hình rồi xoay ngang điện thoại.</p>
+      <button class="r2" id="inst"><span>📲 Cài game vào điện thoại</span><em>›</em></button>
+      <p class="ds">Thêm game ra màn hình chính để mở nhanh như một ứng dụng, chơi được cả khi mất mạng.</p>
+    </section>
+    <section class="cd peach"><h4><i>💬</i>Trò chuyện</h4>
+      <label class="r2"><span>💬 Cho cá trò chuyện</span><input type="checkbox" id="chat"><b class="sw"></b></label>
+      <p class="ds">Bật để cá nói chuyện, kể chuyện cười và cãi nhau dễ thương bằng bong bóng chat.</p>
+    </section>
+  </div>
 
-  <section class="cd peach" style="--d:.16s"><h4><i>💬</i>Trò chuyện &amp; hướng dẫn</h4>
-    <label class="r2"><span>💬 Cho cá trò chuyện</span><input type="checkbox" id="chat"><b class="sw"></b></label>
-    <p class="ds">Bật để cá nói chuyện, kể chuyện cười và cãi nhau dễ thương bằng bong bóng chat.</p>
-    <button class="r2" id="helps"><span>📖 Hướng dẫn chơi</span><em>›</em></button>
-    <p class="ds">Xem cách chơi từng tính năng: cho ăn, xu, vuốt ve, cửa hàng, quái vật…</p>
-  </section>
+  <div class="sp" id="sp_img">
+    <section class="cd sky"><h4><i>🖼️</i>Hình ảnh<small id="gn">0/5</small></h4>
+      <div class="tabs" id="tabs">
+        <button data-t="bg">🌊 Nền hồ</button><button data-t="fish">🐋 Cá voi</button><button data-t="sword">⚔️ Chiến binh</button><button data-t="horse">🐴 Cá ngựa</button><button data-t="crab">🦀 Cua</button><button data-t="gold">🟡 Xu vàng</button><button data-t="silver">⚪ Xu bạc</button><button data-t="mgreen">🟢 Quái xanh lá</button><button data-t="mblue">🔵 Quái xanh biển</button><button data-t="mpurple">🟣 Quái tím</button><button data-t="mred">🔴 Quái đỏ</button>
+      </div>
+      <div class="gal" id="gal"></div>
+      <small id="ghint">Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
+      <label class="r2" id="flipw"><span>↔️ Ảnh cá voi đang quay mặt sang trái</span><input type="checkbox" id="flip"><b class="sw"></b></label>
+    </section>
+  </div>
 
-  <section class="cd sky" style="--d:.2s"><h4><i>🖼️</i>Hình ảnh<small id="gn">0/5</small></h4>
-    <div class="tabs" id="tabs">
-      <button data-t="bg">🌊 Nền hồ</button><button data-t="fish">🐋 Cá voi</button><button data-t="sword">🗡️ Cá kiếm</button><button data-t="horse">🐴 Cá ngựa</button><button data-t="crab">🦀 Cua</button><button data-t="gold">🟡 Xu vàng</button><button data-t="silver">⚪ Xu bạc</button>
-    </div>
-    <div class="gal" id="gal"></div>
-    <small id="ghint">Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
-    <label class="r2" id="flipw"><span>↔️ Ảnh cá voi đang quay mặt sang trái</span><input type="checkbox" id="flip"><b class="sw"></b></label>
-  </section>
-
-  <button class="m p" id="sdone">Xong</button>
+  <div class="sp" id="sp_inf">
+    <section class="cd pink"><h4><i>📋</i>Danh sách &amp; bảng thông tin</h4>
+      <button class="r2" id="flistb"><span>🐋 Danh sách cá</span><em>›</em></button>
+      <button class="r2" id="wlistb"><span>⚔️ Danh sách Cá Chiến Binh</span><em>›</em></button>
+      <button class="r2" id="minfob2"><span>👾 Thông tin quái vật</span><em>›</em></button>
+      <p class="ds">Xem tên, tuổi, chỉ số, nâng cấp hoặc bán từng chú cá; xem máu, sát thương và tỉ lệ xuất hiện của quái vật.</p>
+    </section>
+    <section class="cd lav"><h4><i>📖</i>Hướng dẫn</h4>
+      <button class="r2" id="helps"><span>📖 Hướng dẫn chơi</span><em>›</em></button>
+      <p class="ds">Xem cách chơi từng tính năng: cho ăn, xu, vuốt ve, cửa hàng, quái vật…</p>
+    </section>
+    <p class="ds" style="text-align:center">Cá Voi Nhỏ · phiên bản 6</p>
+  </div>
   <input type="file" id="file" accept="image/png,image/*" hidden>
 </div></div>
 
@@ -195,6 +238,20 @@ p.ds{margin:0;font-size:11px;line-height:1.45;color:#6f8aa3;font-weight:500;padd
   <div class="how"><div class="ill"><span>🐋</span><span class="hd">👆</span><span class="ht h1">💗</span><span class="ht h2">💗</span></div><div><b>Vuốt ve để cá hạnh phúc</b><br>Đặt ngón tay lên chú cá, trong hồ hoặc ngay ở hình cá bên dưới, rồi vuốt qua lại để thả tim 💗 và tăng chỉ số <b>Vui</b>. Vui dưới 50%: xu rơi chậm gấp đôi · về 0%: ngừng rơi xu.</div></div>
   <div id="fcards" style="display:flex;flex-direction:column;gap:10px"></div>
   <p class="ds" style="text-align:center">Sửa tên ngay trên thẻ · thanh 🍤 No càng đầy cá càng no · bán cá nhận xu theo cấp (50 / 100 / 160 🪙).</p>
+</div></div>
+
+<div class="ov" id="wlist"><div class="pn">
+  <div class="ph"><h3>⚔️ Cá Chiến Binh</h3><div class="pill" id="wlc">⚔️ 0/5</div><button class="x" id="wlclose" aria-label="Đóng">✕</button></div>
+  <div class="how" style="background:#e8e4fb;color:#4d3f9e"><div class="ill" style="background:linear-gradient(#e0d8ff,#b8a8f0)"><span>⭐</span></div><div><b>Nâng cấp &amp; hồi máu</b><br>Mỗi level tăng 20% sát thương và máu (làm tròn lên), phí nâng cấp cũng tăng 20% mỗi level. Máu về 0 là hy sinh. Chiến binh hồi máu chậm khi không có quái vật.</div></div>
+  <button class="r2" id="wslotb"><span>🏝️ Mua thêm 5 chỗ chiến binh</span><em id="wslotp">🪙 400</em></button>
+  <div id="wcards" style="display:flex;flex-direction:column;gap:10px"></div>
+  <p class="ds" style="text-align:center">Sửa tên ngay trên thẻ · bán chiến binh nhận lại 80% tổng giá trị (giá mua + các lần nâng cấp).</p>
+</div></div>
+
+<div class="ov" id="minfo"><div class="pn">
+  <div class="ph"><h3>👾 Thông tin quái vật</h3><button class="x" id="miclose" aria-label="Đóng">✕</button></div>
+  <p class="ds">Quái vật xuất hiện ngẫu nhiên theo tỉ lệ bên dưới. Chạm vào <b>hình quái vật</b> để đổi hình (PNG, có cắt ảnh).</p>
+  <div id="mcards" style="display:flex;flex-direction:column;gap:10px"></div>
 </div></div>
 
 <div class="ov" id="confirm" style="z-index:12"><div class="pn" style="max-width:320px;text-align:center"><div id="cft"></div><div class="two"><button class="m g" id="cfno">Huỷ</button><button class="m p" id="cfyes">Bán</button></div></div></div>
@@ -207,8 +264,9 @@ p.ds{margin:0;font-size:11px;line-height:1.45;color:#6f8aa3;font-weight:500;padd
   <section class="cd peach" style="--d:.15s"><h4><i>👆</i>Chạm vào cá</h4><p>Chạm nhẹ vào một chú cá, cá sẽ phản ứng ngẫu nhiên: <b>giận dữ, làm nũng, nhút nhát</b> hoặc <b>bỏ chạy</b>. Chạm vào chỗ trống mới là thả thức ăn.</p></section>
   <section class="cd lav" style="--d:.19s"><h4><i>💬</i>Cá trò chuyện</h4><p>Cá nói chuyện với nhau bằng bong bóng chat: chào hỏi, kể chuyện cười, cãi nhau dễ thương… Bạn có thể tắt trong ⚙️ Cài đặt.</p></section>
   <section class="cd sky" style="--d:.23s"><h4><i>🐋</i>Danh sách cá</h4><p>Chạm vào ô <b>🐋 số cá</b> ở góc trên để xem từng chú: tên (đổi được), tuổi, giới tính, độ no, độ vui. Bạn có thể vuốt ve ngay ở hình cá, hoặc <b>bán</b> cá (có hỏi xác nhận).</p></section>
-  <section class="cd mint" style="--d:.27s"><h4><i>🛒</i>Cửa hàng</h4><p><b>Cá kiếm</b> tự lao đâm quái vật · <b>Cá ngựa</b> phun thức ăn cho cá · <b>Cua</b> nhặt xu dưới đáy (mỗi loại tối đa 5) · <b>Thức ăn</b> thả được nhiều viên hơn · <b>+5 chỗ</b> mở rộng hồ (tối đa 50 cá).</p></section>
-  <section class="cd pink" style="--d:.31s"><h4><i>👾</i>Quái vật</h4><p>Thỉnh thoảng quái vật xuất hiện và ăn cá. Hãy <b>chạm liên tục</b> vào nó, hoặc mua cá kiếm để tự bảo vệ hồ. Diệt quái vật được thưởng 60 🪙.</p></section>
+  <section class="cd mint" style="--d:.27s"><h4><i>🛒</i>Cửa hàng</h4><p><b>Cá Chiến Binh</b> tự lao đâm quái vật · <b>Cá ngựa</b> phun thức ăn cho cá · <b>Cua</b> nhặt xu dưới đáy (mỗi loại tối đa 5) · <b>Thức ăn</b> thả được nhiều viên hơn · <b>+5 chỗ</b> mở rộng hồ (tối đa 50 cá).</p></section>
+  <section class="cd pink" style="--d:.31s"><h4><i>👾</i>Quái vật</h4><p>Có 4 loại: <b>xanh lá, xanh biển, tím, đỏ</b> (máu và sát thương khác nhau). Quái vật ăn cá và tấn công Chiến Binh. Hãy <b>chạm liên tục</b> vào nó để gây 5 sát thương mỗi lần, hoặc nhờ Chiến Binh. Diệt quái được thưởng xu. Xem chi tiết ở 👾 Thông tin quái vật.</p></section>
+  <section class="cd lav" style="--d:.33s"><h4><i>⚔️</i>Cá Chiến Binh</h4><p>Mặc định <b>5 sát thương, 50 máu</b>. Mua trong 🛒, chạm số lượng 📋 để xem danh sách: nâng cấp <b>Lv1→Lv5</b> (⭐), đổi tên, xem tuổi, bán lại 80% giá trị. Số chữ đỏ <b>-5</b> là sát thương gây ra. Mua thêm chỗ để có tối đa 50 chiến binh.</p></section>
   <section class="cd lav" style="--d:.35s"><h4><i>⚙️</i>Cài đặt</h4><p>Chọn <b>nhạc nền</b>, bật <b>màn hình ngang</b>, <b>cài game</b> vào điện thoại, và đổi hình nền, cá, cua, xu (mỗi loại lưu 5 hình gần đây).</p></section>
   <button class="m p" id="gdone">Đã hiểu!</button>
 </div></div>
@@ -241,14 +299,19 @@ function newFish(stage=0,hunger=0,m={}){const f={x:0,y:0,vx:R(-30,30),vy:0,dir:1
 function newCrab(){return{x:R(40,W-40),dir:1,vx:0,tx:R(40,W-40),ph:R(0,6)}}
 const NAMES=['Bông','Mướp','Bơ','Su Su','Nụ','Chíp','Mochi','Pudding','Bắp','Heo','Cốm','Xíu','Mít','Na','Tèo','Bé Ú','Kem','Bánh Bao','Khoai','Sữa','Cún','Gấu','Đậu','Mận','Ốc','Tép','Bin','Sóc','Nấm','Xoài'];
 S.fish.forEach(f=>fish.push(newFish(f.stage,f.hunger,f)));
-function newSword(){return{x:R(80,W-80),y:R(TOP+60,H-100),vx:R(-30,30),vy:0,hx:-1,hy:0,tx:R(80,W-80),ty:R(TOP+60,H-100),cd:0,lunge:0,did:false,ph:R(0,6)}}
+const WB={dmg:5,hp:50,buy:300,up:200},WNAMES=['Kiếm Sĩ','Thần Tốc','Sấm Sét','Bão Táp','Tia Chớp','Hắc Phong','Thiết Giáp','Lôi Đình','Hỏa Long','Băng Tâm'];
+function wStat(lv){let d=WB.dmg,h=WB.hp;for(let i=1;i<lv;i++){d=Math.ceil(d*1.2);h=Math.ceil(h*1.2)}return{d,h}}
+function wUpCost(lv){return Math.ceil(WB.up*Math.pow(1.2,lv-1)-1e-9)}
+function newSword(m={}){const lv=m.lv||1,st=wStat(lv);return{id:m.id||('w'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)),name:m.name||WNAMES[Math.floor(Math.random()*WNAMES.length)],born:m.born||Date.now(),lv,max:st.h,hp:m.hp==null?st.h:Math.max(1,Math.min(m.hp,st.h)),dmg:st.d,spent:m.spent||WB.buy,x:R(80,W-80),y:R(TOP+60,H-100),vx:R(-30,30),vy:0,hx:-1,hy:0,tx:R(80,W-80),ty:R(TOP+60,H-100),cd:0,lunge:0,did:false,hurt:0,dead:false,ph:R(0,6)}}
 function newHorse(){return{x:R(60,W-60),y:R(TOP+60,H*.6),vx:0,vy:0,face:-1,tx:R(60,W-60),ty:R(TOP+60,H*.6),spitT:R(2,4),sp:0,ph:R(0,6)}}
 for(let i=0;i<S.crabs;i++)crabs.push(newCrab());
-for(let i=0;i<S.swords;i++)swords.push(newSword());
+if(!S.warriors)S.warriors=Array.from({length:S.swords||0},()=>({}));
+S.wcap=Math.min(50,Math.max(S.wcap||5,S.warriors.length));
+for(const m of S.warriors)swords.push(newSword(m));
 for(let i=0;i<S.horses;i++)horses.push(newHorse());
 for(let i=0;i<34;i++)bubbles.push({amb:1,x:R(0,W),y:R(0,H),r:R(2,9),ph:R(0,6)});
 const spk=[];for(let i=0;i<40;i++)spk.push({x:R(0,1),y:R(0,.85),r:R(3,7),s:R(.6,1.8),p:R(0,6.3)});
-function save(){S.fish=fish.map(f=>({stage:f.stage,hunger:Math.floor(f.hunger),joy:Math.floor(f.joy),name:f.name,sex:f.sex,born:f.born,id:f.id}));try{localStorage.setItem('whale1',JSON.stringify(S))}catch(e){}}
+function save(){S.warriors=swords.map(w=>({id:w.id,name:w.name,born:w.born,lv:w.lv,hp:Math.ceil(w.hp),spent:w.spent}));S.fish=fish.map(f=>({stage:f.stage,hunger:Math.floor(f.hunger),joy:Math.floor(f.joy),name:f.name,sex:f.sex,born:f.born,id:f.id}));try{localStorage.setItem('whale1',JSON.stringify(S))}catch(e){}}
 setInterval(save,4000);
 function say(m){const e=$('msg');e.textContent=m;msgT=2.8}
 
@@ -310,7 +373,10 @@ function hud(){
   txt('coins','🪙 '+S.coins);txt('coins2','🪙 '+S.coins);txt('cnt','🐋 '+fish.length+'/'+S.cap+' ›');
   const it=(id,dis,price,cnt)=>{$(id).disabled=dis;txt('p_'+id,price);txt('c_'+id,cnt)};
   it('buy',S.coins<100||fish.length>=S.cap,fish.length>=S.cap?'Đầy chỗ':'🪙 100',fish.length+'/'+S.cap);
-  it('sword',S.coins<300||swords.length>=5,swords.length>=5?'Tối đa':'🪙 300',swords.length+'/5');
+  it('sword',S.coins<WB.buy||swords.length>=S.wcap,swords.length>=S.wcap?'Đầy chỗ':'🪙 '+WB.buy,'📋 '+swords.length+'/'+S.wcap);
+  $('sword').disabled=false;$('sword').style.opacity=(S.coins<WB.buy||swords.length>=S.wcap)?.5:1;
+  it('wslot',S.wcap>=MAXF||S.coins<wslotCost(),S.wcap>=MAXF?'Tối đa':'🪙 '+wslotCost(),S.wcap+' chỗ');
+  txt('cntw','⚔️ '+swords.length+'/'+S.wcap+' ›');$('cntw').style.display=swords.length?'':'none';
   it('horse',S.coins<250||horses.length>=5,horses.length>=5?'Tối đa':'🪙 250',horses.length+'/5');
   it('crab',S.coins<200||crabs.length>=5,crabs.length>=5?'Tối đa':'🪙 200',crabs.length+'/5');
   it('up',S.lv>=4||S.coins<150*S.lv,S.lv>=4?'Tối đa':'🪙 '+150*S.lv,'Lv'+S.lv);
@@ -321,16 +387,17 @@ $('crab').onclick=()=>{if(S.coins>=200&&crabs.length<5){S.coins-=200;S.crabs++;c
 $('up').onclick=()=>{const p=150*S.lv;if(S.lv<4&&S.coins>=p){S.coins-=p;S.lv++;say('Thức ăn nâng cấp! Thả được nhiều viên hơn')}};
 $('slot').onclick=()=>{const p=slotCost();if(S.cap<MAXF&&S.coins>=p){S.coins-=p;S.cap+=5;say('Hồ rộng thêm 5 chỗ! 🏝️ ('+S.cap+' chỗ)');save()}};
 
-$('sword').onclick=()=>{if(S.coins>=300&&swords.length<5){S.coins-=300;S.swords++;swords.push(newSword());say('Cá kiếm sẽ tự tấn công quái vật ⚔️')}};
+$('sword').onclick=()=>{if(swords.length>=S.wcap){say('Đã đầy chỗ Chiến Binh! Hãy mua thêm chỗ ⚔️');return}if(S.coins>=WB.buy){S.coins-=WB.buy;const w=newSword();swords.push(w);say('Chiến binh '+w.name+' gia nhập! ⚔️')}else say('Không đủ xu để mua Chiến Binh 🪙')};
+$('wslot').onclick=()=>{const p=wslotCost();if(S.wcap<MAXF&&S.coins>=p){S.coins-=p;S.wcap+=5;say('Thêm 5 chỗ Chiến Binh! ('+S.wcap+' chỗ)');save()}};
 $('horse').onclick=()=>{if(S.coins>=250&&horses.length<5){S.coins-=250;S.horses++;horses.push(newHorse());say('Cá ngựa sẽ phun thức ăn cho cá 🍤')}};
 $('shopb').onclick=()=>$('shop').classList.add('on');
 $('shclose').onclick=()=>$('shop').classList.remove('on');
 $('shop').addEventListener('pointerdown',e=>{if(e.target==$('shop'))$('shop').classList.remove('on')});
 
 // ================= CÀI ĐẶT =================
-function openSet(){sndUI();tabUI();$('flip').checked=S.flip;$('chat').checked=S.chat;lstate();$('set').classList.add('on');document.body.classList.add('so')}
+function openSet(){setPane(spane);sndUI();tabUI();$('flip').checked=S.flip;$('chat').checked=S.chat;lstate();$('set').classList.add('on');document.body.classList.add('so')}
 function closeSet(){$('set').classList.remove('on');document.body.classList.remove('so')}
-$('gear').onclick=openSet;$('sclose').onclick=closeSet;$('sdone').onclick=closeSet;
+$('gear').onclick=openSet;$('sclose').onclick=closeSet;
 $('set').addEventListener('pointerdown',e=>{if(e.target==$('set'))closeSet()});
 $('flip').onchange=e=>{S.flip=e.target.checked;save()};
 let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e});
@@ -352,7 +419,7 @@ addEventListener('fullscreenchange',()=>{lstate();setTimeout(resize,200)});
 addEventListener('orientationchange',()=>setTimeout(resize,300));
 
 // ---- Thư viện hình (mỗi loại lưu tối đa 5 hình gần đây)
-const KD={bg:{n:'Nền hồ',e:'🌊'},fish:{n:'Cá voi',e:'🐋',a:1,w:256,h:256},sword:{n:'Cá kiếm',e:'🗡️',a:384/229,w:384,h:229},horse:{n:'Cá ngựa',e:'🐴',a:.625,w:200,h:320},crab:{n:'Cua',e:'🦀',a:1,w:256,h:256},gold:{n:'Xu vàng',e:'🟡',a:1,w:128,h:128},silver:{n:'Xu bạc',e:'⚪',a:1,w:128,h:128}};
+const KD={bg:{n:'Nền hồ',e:'🌊'},fish:{n:'Cá voi',e:'🐋',a:1,w:256,h:256},sword:{n:'Chiến binh',e:'⚔️',a:384/229,w:384,h:229},horse:{n:'Cá ngựa',e:'🐴',a:.625,w:200,h:320},crab:{n:'Cua',e:'🦀',a:1,w:256,h:256},gold:{n:'Xu vàng',e:'🟡',a:1,w:128,h:128},silver:{n:'Xu bạc',e:'⚪',a:1,w:128,h:128},mgreen:{n:'Quái xanh lá',e:'🟢',a:1,w:256,h:256},mblue:{n:'Quái xanh biển',e:'🔵',a:1,w:256,h:256},mpurple:{n:'Quái tím',e:'🟣',a:1,w:256,h:256},mred:{n:'Quái đỏ',e:'🔴',a:1,w:256,h:256}};
 const G={};let tab='bg',pick=null,CR=null;
 for(const n in KD){const g=G[n]={k:'whale_'+n+'s',s:'whale_'+n+'sel',list:[],sel:''};try{g.list=JSON.parse(localStorage.getItem(g.k)||'[]')}catch(e){}g.sel=localStorage.getItem(g.s)||'';
   const ok=n=='bg'?'whale_bg':n=='fish'?'whale_fish':null,old=ok&&localStorage.getItem(ok);
@@ -366,19 +433,19 @@ function gal(){
   g.list.forEach(x=>h+=`<div class="tl${g.sel==x.id?' sel':''}" data-i="${x.id}"><img src="${x.d}" alt=""><button class="dx" data-del="${x.id}" aria-label="Xoá">✕</button></div>`);
   h+=g.list.length<5?'<div class="tl add" data-add="1"><span>＋</span><b>Thêm</b></div>':'<div class="tl add full" data-add="1"><span>🔒</span><b>Đủ 5</b></div>';
   $('gal').innerHTML=h;$('gn').textContent=g.list.length+'/5';
-  $('ghint').textContent=({bg:'Ảnh nền hồ, cắt theo tỉ lệ màn hình.',fish:'Hình cá voi, ảnh nên quay đầu sang PHẢI (nếu bị ngược, bật công tắc bên dưới).',sword:'Hình cá kiếm, ảnh nên quay đầu sang TRÁI.',horse:'Hình cá ngựa, ảnh nên quay đầu sang TRÁI.',crab:'Hình cua, đi ngang ở đáy hồ để nhặt xu.',gold:'Hình xu vàng (cá cấp 2 đẻ ra).',silver:'Hình xu bạc (cá cấp 1 đẻ ra).'})[n]+' Chạm để chọn · ✕ để xoá · tối đa 5 hình.';
+  $('ghint').textContent=({bg:'Ảnh nền hồ, cắt theo tỉ lệ màn hình.',fish:'Hình cá voi, ảnh nên quay đầu sang PHẢI (nếu bị ngược, bật công tắc bên dưới).',sword:'Hình Cá Chiến Binh, ảnh nên quay đầu sang TRÁI.',horse:'Hình cá ngựa, ảnh nên quay đầu sang TRÁI.',crab:'Hình cua, đi ngang ở đáy hồ để nhặt xu.',gold:'Hình xu vàng (cá cấp 2 đẻ ra).',silver:'Hình xu bạc (cá cấp 1 đẻ ra).',mgreen:'Hình Quái xanh lá (Máu 50).',mblue:'Hình Quái xanh biển (Máu 100).',mpurple:'Hình Quái tím (Máu 200).',mred:'Hình Quái đỏ (Máu 400).'})[n]+' Chạm để chọn · ✕ để xoá · tối đa 5 hình.';
 }
 function tabUI(){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t==tab));$('flipw').style.display=tab=='fish'?'':'none';gal()}
 $('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.t;tabUI()};
 $('gal').onclick=e=>{
   const n=tab,g=G[n],d=e.target.closest('[data-del]');
   if(d){g.list=g.list.filter(x=>x.id!=d.dataset.del);if(g.sel==d.dataset.del)g.sel='';gSave(n);gApply(n);gal();return}
-  if(e.target.closest('[data-add]')){if(g.list.length>=5){say('Đã đủ 5 hình, hãy xoá bớt để thêm hình mới');return}pick=n;$('file').click();return}
+  if(e.target.closest('[data-add]')){if(g.list.length>=5){say('Đã đủ 5 hình, hãy xoá bớt để thêm hình mới');return}pick=n;retTo='set';$('file').click();return}
   const tl=e.target.closest('.tl');if(tl){g.sel=tl.dataset.i;gSave(n);gApply(n);gal()}};
 
 // ---- Cắt hình
 $('file').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
-  const im=new Image();im.onload=()=>{CR={kind:pick,img:im,zoom:1,ox:0,oy:0};closeSet();$('crop').classList.add('on');
+  const im=new Image();im.onload=()=>{CR={kind:pick,img:im,zoom:1,ox:0,oy:0};closeSet();$('minfo').classList.remove('on');$('crop').classList.add('on');
     $('ctitle').textContent='✂️ Cắt hình: '+KD[pick].n;$('asp').style.display=pick=='bg'?'':'none';setupCrop()};
   im.onerror=()=>say('Không đọc được ảnh');im.src=URL.createObjectURL(f)};
 const cc=$('cc');
@@ -397,7 +464,7 @@ let drag=null;
 cc.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY};cc.setPointerCapture(e.pointerId)};
 cc.onpointermove=e=>{if(!drag)return;const sc=cc.width/cc.getBoundingClientRect().width;CR.ox+=(e.clientX-drag.x)*sc;CR.oy+=(e.clientY-drag.y)*sc;drag={x:e.clientX,y:e.clientY};redraw()};
 cc.onpointerup=cc.onpointercancel=()=>drag=null;
-function endCrop(){$('crop').classList.remove('on');CR=null;openSet()}
+function endCrop(){$('crop').classList.remove('on');CR=null;if(retTo=='minfo')openMInfo();else{tab=pick||tab;openSet()}}
 $('cx').onclick=endCrop;
 $('cs').onclick=()=>{
   const n=CR.kind,g=G[n],a=aspect();let ow,oh;
@@ -459,7 +526,7 @@ function drawSay(){
 
 // ---- Danh sách cá
 const price=f=>[50,100,160][f.stage],esc=v=>String(v).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-const TH={};let tp=null,sellId=null;
+const TH={};let tp=null,sellId=null,cfAct=null;
 function ageTxt(b){const m=Math.floor((Date.now()-b)/60000);if(m<1)return'Vừa mua';if(m<60)return m+' phút';const h=Math.floor(m/60);if(h<24)return h+' giờ '+(m%60)+' phút';return Math.floor(h/24)+' ngày '+(h%24)+' giờ'}
 function openList(){renderList();$('flist').classList.add('on')}
 function renderList(){
@@ -502,9 +569,9 @@ $('fcards').addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.classList
 $('fcards').addEventListener('click',e=>{
   const b=e.target.closest('[data-sell]');if(!b)return;const f=fish.find(o=>o.id==b.dataset.sell);if(!f)return;
   if(fish.length<=1){say('Hồ cần ít nhất 1 chú cá 🐋');return}
-  sellId=f.id;$('cft').innerHTML=`Bán <b>${esc(f.name)}</b> (${f.sex=='m'?'♂':'♀'}, cấp ${f.stage+1}) với giá <b>🪙 ${price(f)}</b>?<br><small style="color:#6f8aa3">Bạn sẽ không lấy lại được chú cá này.</small>`;$('confirm').classList.add('on')});
+  sellId=f.id;cfAct=()=>{const i=fish.findIndex(o=>o.id==sellId);if(i>=0&&fish.length>1){S.coins+=price(fish[i]);say('Đã bán '+fish[i].name+' 👋 +'+price(fish[i])+' 🪙');fish.splice(i,1);save()}renderList()};$('cft').innerHTML=`Bán <b>${esc(f.name)}</b> (${f.sex=='m'?'♂':'♀'}, cấp ${f.stage+1}) với giá <b>🪙 ${price(f)}</b>?<br><small style="color:#6f8aa3">Bạn sẽ không lấy lại được chú cá này.</small>`;$('confirm').classList.add('on')});
 $('cfno').onclick=()=>$('confirm').classList.remove('on');
-$('cfyes').onclick=()=>{const i=fish.findIndex(o=>o.id==sellId);if(i>=0&&fish.length>1){S.coins+=price(fish[i]);say('Đã bán '+fish[i].name+' 👋 +'+price(fish[i])+' 🪙');fish.splice(i,1);save()}$('confirm').classList.remove('on');renderList()};
+$('cfyes').onclick=()=>{const f=cfAct;cfAct=null;$('confirm').classList.remove('on');if(f)f()};
 $('cnt').onclick=openList;$('flclose').onclick=()=>$('flist').classList.remove('on');
 $('flist').addEventListener('pointerdown',e=>{if(e.target==$('flist'))$('flist').classList.remove('on')});
 $('confirm').addEventListener('pointerdown',e=>{if(e.target==$('confirm'))$('confirm').classList.remove('on')});
@@ -517,13 +584,122 @@ $('gclose').onclick=$('gdone').onclick=()=>$('guide').classList.remove('on');
 $('guide').addEventListener('pointerdown',e=>{if(e.target==$('guide'))$('guide').classList.remove('on')});
 $('chat').onchange=e=>{S.chat=e.target.checked;save()};
 
+// ================= QUÁI VẬT / CHIẾN BINH =================
+const MON={green:{n:'Quái xanh lá',hp:50,dmg:5,p:40,r:38,c1:'#7ed957',c2:'#3c8a1d',rw:60},blue:{n:'Quái xanh biển',hp:100,dmg:6,p:30,r:42,c1:'#5ab8f0',c2:'#1f6fa8',rw:120},purple:{n:'Quái tím',hp:200,dmg:6,p:20,r:48,c1:'#b07be0',c2:'#6a3da8',rw:240},red:{n:'Quái đỏ',hp:400,dmg:6,p:10,r:56,c1:'#ef6a5a',c2:'#a82d22',rw:480}};
+const MK=['green','blue','purple','red'],TAPD=5,dn=[];let retTo='set',spane='snd';
+function pickMon(){let r=Math.random()*100;for(const k of MK){r-=MON[k].p;if(r<0)return k}return'green'}
+function spawnAlien(k){const m=MON[k];alien={kind:k,x:R(60,W-60),y:-50,hp:m.hp,max:m.hp,dmg:m.dmg,r:m.r,hit:0,eatT:4,atkT:1};say('⚠️ '+m.n+' xuất hiện! Chạm liên tục để đánh!')}
+function killAlien(msg){const m=MON[alien.kind];S.coins+=m.rw;say(msg+'! +'+m.rw+' 🪙');alien=null;alienT=R(35,55)}
+function dmgText(x,y,v){dn.push({x,y,v,l:1})}
+function drawDn(){c.font='800 18px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineWidth=4;c.strokeStyle='rgba(255,255,255,.92)';c.lineJoin='round';c.fillStyle='#e53935';
+  for(const d of dn){c.globalAlpha=Math.min(1,d.l*2);const y=d.y-(1-d.l)*38;c.strokeText('-'+d.v,d.x,y);c.fillText('-'+d.v,d.x,y)}c.globalAlpha=1}
+function drawMon(X,k,x,y,sc,tt){
+  const m=MON[k],im=IM['m'+k],r=m.r*sc;X.save();X.translate(x,y);
+  if(im){const z=r*2.5;X.drawImage(im,-z/2,-z/2,z,z)}
+  else{
+    const w=Math.sin(tt*8)*3*sc,e=r/38;X.fillStyle=m.c1;X.strokeStyle=m.c2;X.lineWidth=Math.max(2,3*sc);X.lineJoin='round';
+    if(k=='red'){X.beginPath();X.moveTo(-r*.7,-r*.55);X.lineTo(-r*.85,-r*1.3);X.lineTo(-r*.25,-r*.9);X.closePath();X.moveTo(r*.7,-r*.55);X.lineTo(r*.85,-r*1.3);X.lineTo(r*.25,-r*.9);X.closePath();X.fill();X.stroke()}
+    if(k=='purple'){X.beginPath();X.moveTo(-r*.4,-r*.9);X.lineTo(-r*.5,-r*1.3);X.moveTo(r*.4,-r*.9);X.lineTo(r*.5,-r*1.3);X.stroke();X.beginPath();X.arc(-r*.5,-r*1.3,r*.1,0,7);X.moveTo(r*.6,-r*1.3);X.arc(r*.5,-r*1.3,r*.1,0,7);X.fill()}
+    if(k=='blue'){X.beginPath();X.moveTo(-r*.95,-r*.1);X.lineTo(-r*1.3,-r*.4);X.lineTo(-r*1.2,r*.3);X.closePath();X.moveTo(r*.95,-r*.1);X.lineTo(r*1.3,-r*.4);X.lineTo(r*1.2,r*.3);X.closePath();X.fill();X.stroke()}
+    X.beginPath();X.arc(0,0,r,0,7);X.fill();X.stroke();
+    for(let i=-1;i<=1;i++){X.beginPath();X.moveTo(i*r*.53,r*.84);X.lineTo(i*r*.53+w,r*1.36);X.stroke()}
+    X.fillStyle='#fff';X.beginPath();X.arc(-13*e,-6*e,11*e,0,7);X.moveTo(24*e,-6*e);X.arc(13*e,-6*e,11*e,0,7);X.fill();
+    X.fillStyle='#222';X.beginPath();X.arc(-11*e,-5*e,5*e,0,7);X.moveTo(20*e,-5*e);X.arc(15*e,-5*e,5*e,0,7);X.fill();
+    if(k=='purple'){X.fillStyle='#fff';X.beginPath();X.arc(0,-r*.5,6*e,0,7);X.fill();X.fillStyle='#222';X.beginPath();X.arc(e,-r*.5,3*e,0,7);X.fill()}
+    X.strokeStyle='#222';X.lineWidth=Math.max(1.5,2*sc);X.beginPath();X.moveTo(-10*e,16*e);X.lineTo(-4*e,12*e);X.lineTo(4*e,16*e);X.lineTo(10*e,12*e);X.stroke();
+    if(k=='red'){X.beginPath();X.moveTo(-22*e,-18*e);X.lineTo(-5*e,-12*e);X.moveTo(22*e,-18*e);X.lineTo(5*e,-12*e);X.stroke()}
+  }
+  X.restore();
+}
+function drawAlien(){
+  const a=alien;drawMon(c,a.kind,a.x+(a.hit>0?R(-4,4):0),a.y,1,t);
+  const w=Math.max(60,a.r*1.7),y=a.y-a.r-24;c.fillStyle='#0007';c.fillRect(a.x-w/2,y,w,8);c.fillStyle='#ff4d4d';c.fillRect(a.x-w/2,y,w*Math.max(0,a.hp/a.max),8);
+  c.font='800 10px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#fff';c.strokeStyle='#0008';c.lineWidth=3;
+  const tx=Math.ceil(a.hp)+'/'+a.max;c.strokeText(tx,a.x,y-8);c.fillText(tx,a.x,y-8);
+}
+
+// ---- Cá Chiến Binh: danh sách, nâng cấp, bán
+const wslotCost=()=>400+200*((S.wcap-5)/5);
+function wUp(w){if(w.lv>=5)return;const cost=wUpCost(w.lv);if(S.coins<cost){say('Không đủ xu để nâng cấp 🪙');return}
+  S.coins-=cost;w.spent+=cost;const old=w.max;w.lv++;const st=wStat(w.lv);w.max=st.h;w.dmg=st.d;w.hp+=w.max-old;say(w.name+' lên Lv '+w.lv+'! ⭐');fx.push({x:w.x,y:w.y-30,l:.8,m:.8,e:'⭐'})}
+function openW(){renderW();$('wlist').classList.add('on')}
+function renderW(){
+  let h='';
+  for(const w of swords)h+=`<div class="fc wc" data-id="${w.id}"><canvas class="fth" width="96" height="72" data-id="${w.id}"></canvas><div class="fi"><div class="fr"><input class="nm" maxlength="14" value="${esc(w.name)}" aria-label="Tên chiến binh"><span class="stars"></span></div><div class="fa">🎂 Tuổi: <b class="ag"></b></div><div class="fa">⚔️ Sát thương: <b class="dm"></b> <span class="nx"></span></div><div class="bar"><label>❤️ Máu</label><span class="bg"><i class="b1"></i></span><em class="v1"></em></div></div><div class="wb"><button class="upb" data-up="${w.id}"></button><button class="sell" data-wsell="${w.id}"></button></div></div>`;
+  $('wcards').innerHTML=h||'<p class="ds" style="text-align:center;padding:14px">Chưa có chiến binh nào. Hãy mua ở 🛒 Cửa hàng!</p>';updW(true);
+}
+function updW(skip){
+  if(!$('wlist').classList.contains('on'))return;
+  const cards=[...$('wcards').querySelectorAll('.wc')];
+  if(!skip&&(cards.length!==swords.length||cards.some(x=>!swords.find(w=>w.id==x.dataset.id)))){const a=document.activeElement;if(!(a&&a.classList&&a.classList.contains('nm')))renderW();return}
+  $('wlc').textContent='⚔️ '+swords.length+'/'+S.wcap;$('wslotp').textContent=S.wcap>=MAXF?'Tối đa':'🪙 '+wslotCost();$('wslotb').disabled=S.wcap>=MAXF||S.coins<wslotCost();
+  for(const x of cards){const w=swords.find(o=>o.id==x.dataset.id),q=k=>x.querySelector(k);if(!w)continue;
+    const nxt=w.lv<5?wStat(w.lv+1):null,pct=Math.max(0,Math.min(100,w.hp/w.max*100));
+    q('.stars').textContent='★'.repeat(w.lv)+'☆'.repeat(5-w.lv);q('.ag').textContent=ageTxt(w.born);q('.dm').textContent=w.dmg;
+    q('.nx').textContent=nxt?'→ Lv'+(w.lv+1)+': ⚔️'+nxt.d+' ❤️'+nxt.h:'(Lv tối đa)';
+    q('.b1').style.width=pct+'%';q('.b1').style.background=pct<35?'#ef7a6a':'#5fc79a';q('.v1').textContent=Math.ceil(w.hp)+'/'+w.max;
+    const u=q('.upb');if(w.lv>=5){u.innerHTML='⭐ Level<br>tối đa';u.disabled=true}else{const cst=wUpCost(w.lv);u.innerHTML='⬆️ Nâng cấp<br>🪙 '+cst;u.disabled=S.coins<cst}
+    q('.sell').innerHTML='💰 Bán<br>🪙 '+Math.round(w.spent*.8);
+  }
+}
+setInterval(updW,500);
+function drawWThumbs(){
+  if(!$('wlist').classList.contains('on'))return;const im=img('sword');if(!im||!im.naturalWidth)return;
+  for(const cvs of document.querySelectorAll('#wcards .fth')){
+    const w=swords.find(o=>o.id==cvs.dataset.id);if(!w)continue;const x=cvs.getContext('2d'),cw=cvs.width,ch=cvs.height;x.clearRect(0,0,cw,ch);
+    const ww=76,hh=ww*im.naturalHeight/im.naturalWidth,ph=Math.cos(t*.9+w.ph);
+    x.save();x.translate(cw/2+Math.sin(t*.9+w.ph)*6,ch/2+Math.sin(t*2+w.ph)*3);if(ph>=0)x.scale(-1,1);x.drawImage(im,-ww/2,-hh/2,ww,hh);x.restore();
+  }
+}
+setInterval(drawWThumbs,66);
+$('wcards').addEventListener('click',e=>{
+  const u=e.target.closest('[data-up]');if(u){const w=swords.find(o=>o.id==u.dataset.up);if(w)wUp(w);updW(true);return}
+  const b=e.target.closest('[data-wsell]');if(!b)return;const w=swords.find(o=>o.id==b.dataset.wsell);if(!w)return;
+  const v=Math.round(w.spent*.8),id=w.id;
+  cfAct=()=>{const i=swords.findIndex(o=>o.id==id);if(i>=0){S.coins+=v;say('Đã bán '+swords[i].name+' 👋 +'+v+' 🪙');swords.splice(i,1);save()}renderW()};
+  $('cft').innerHTML=`Bán <b>${esc(w.name)}</b> (Lv ${w.lv}) và nhận lại <b>🪙 ${v}</b> (80% tổng giá trị)?<br><small style="color:#6f8aa3">Bạn sẽ không lấy lại được chiến binh này.</small>`;$('confirm').classList.add('on')});
+$('wcards').addEventListener('change',e=>{const i=e.target.closest('.nm');if(!i)return;const w=swords.find(o=>o.id==i.closest('.wc').dataset.id);if(!w)return;const v=i.value.trim().slice(0,14);if(v)w.name=v;else i.value=w.name;save()});
+$('wcards').addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.classList.contains('nm'))e.target.blur()});
+$('wslotb').onclick=()=>$('wslot').onclick();
+$('cntw').onclick=openW;$('c_sword').onclick=e=>{e.stopPropagation();openW()};
+$('wlclose').onclick=()=>$('wlist').classList.remove('on');
+$('wlist').addEventListener('pointerdown',e=>{if(e.target==$('wlist'))$('wlist').classList.remove('on')});
+
+// ---- Bảng thông tin quái vật
+function openMInfo(){renderM();$('minfo').classList.add('on')}
+function renderM(){
+  const bg={green:'#e4f6ee',blue:'#e2f0fb',purple:'#efeafd',red:'#ffe4e0'};let h='';
+  for(const k of MK){const m=MON[k],cust=G['m'+k].sel;
+    h+=`<div class="fc mc" style="background:${bg[k]}"><div class="mcv"><canvas class="mth" data-k="${k}" width="96" height="96"></canvas><small>✏️ Chạm để đổi hình</small>${cust?`<button class="rs" data-reset="${k}">↺ Hình gốc</button>`:''}</div><div class="fi"><b class="mn">${m.n}</b><div class="fa">❤️ Máu: <b>${m.hp}</b></div><div class="fa">⚔️ Sát thương: <b>${m.dmg}</b></div><div class="bar"><label>🎲 Xuất hiện</label><span class="bg"><i style="width:${m.p}%;background:${m.c2}"></i></span><em>${m.p}%</em></div><div class="fa">🪙 Thưởng khi diệt: <b>${m.rw}</b></div></div></div>`}
+  $('mcards').innerHTML=h;
+}
+function drawMThumbs(){
+  if(!$('minfo').classList.contains('on'))return;
+  for(const cvs of document.querySelectorAll('#mcards .mth')){const k=cvs.dataset.k,m=MON[k],x=cvs.getContext('2d');x.clearRect(0,0,cvs.width,cvs.height);drawMon(x,k,48,46+Math.sin(t*2)*2,Math.min(1,30/m.r),t)}
+}
+setInterval(drawMThumbs,66);
+function changeMon(k){const n='m'+k,g=G[n];
+  if(g.list.length>=5){say('Đã đủ 5 hình, hãy xoá bớt trong ⚙️ → Hình ảnh');$('minfo').classList.remove('on');tab=n;spane='img';openSet();return}
+  pick=n;retTo='minfo';$('file').click()}
+$('mcards').addEventListener('click',e=>{
+  const r=e.target.closest('[data-reset]');if(r){const n='m'+r.dataset.reset;G[n].sel='';gSave(n);gApply(n);renderM();return}
+  const th=e.target.closest('.mth');if(th)changeMon(th.dataset.k)});
+$('miclose').onclick=()=>$('minfo').classList.remove('on');
+$('minfo').addEventListener('pointerdown',e=>{if(e.target==$('minfo'))$('minfo').classList.remove('on')});
+$('minfob').onclick=openMInfo;
+
+// ---- Cài đặt: các tab
+function setPane(p){spane=p;document.querySelectorAll('#stabs button').forEach(b=>b.classList.toggle('on',b.dataset.s==p));document.querySelectorAll('.sp').forEach(d=>d.classList.toggle('on',d.id=='sp_'+p))}
+$('stabs').onclick=e=>{const b=e.target.closest('button');if(b)setPane(b.dataset.s)};
+$('flistb').onclick=()=>{closeSet();openList()};$('wlistb').onclick=()=>{closeSet();openW()};$('minfob2').onclick=()=>{closeSet();openMInfo()};
+
 // ================= CHẠM MÀN HÌNH =================
 let ptr=null;
 function fishAt(x,y,m=1.25){let b=null,bd=1e9;for(const f of fish){const d=Math.hypot(f.x-x,f.y-y);if(d<sz(f)*m&&d<bd){bd=d;b=f}}return b}
 cv.addEventListener('pointerdown',e=>{
   const x=e.clientX,y=e.clientY;
   for(const k of coins){if(!k.dead&&Math.hypot(k.x-x,k.y-y)<34){S.coins+=k.v;k.dead=true;ting();return}}
-  if(alien&&Math.hypot(alien.x-x,alien.y-y)<55){alien.hit=.2;if(--alien.hp<=0){S.coins+=60;say('Diệt quái! +60 🪙');alien=null;alienT=R(35,55)}return}
+  if(alien&&Math.hypot(alien.x-x,alien.y-y)<alien.r+18){alien.hit=.2;alien.hp-=TAPD;dmgText(x,y-12,TAPD);if(alien.hp<=0)killAlien('Bạn đã diệt '+MON[alien.kind].n);return}
   ptr={x,y,moved:0,pet:false};
 });
 cv.addEventListener('pointermove',e=>{
@@ -580,26 +756,31 @@ function update(dt){
   }
   coins=coins.filter(k=>!k.dead);
   alienT-=dt;
-  if(!alien&&alienT<=0&&fish.length){alien={x:R(60,W-60),y:-40,hp:6+S.lv*2,max:6+S.lv*2,hit:0,eatT:2.5};say('⚠️ Quái vật xuất hiện! Chạm liên tục!')}
+  if(!alien&&alienT<=0&&fish.length)spawnAlien(pickMon());
   if(alien){
-    alien.hit-=dt;let n=null,b=1e9;for(const f of fish){const d=Math.hypot(f.x-alien.x,f.y-alien.y);if(d<b){b=d;n=f}}
-    if(n){const d=b||1;alien.x=cl(alien.x+(n.x-alien.x)/d*55*dt,40,W-40);alien.y=Math.min(H-40,alien.y+(n.y-alien.y)/d*55*dt);
-      if(b<50){alien.eatT-=dt;if(alien.eatT<=0){n.dead=true;alien.eatT=3.5;say('Cá bị ăn mất! 😱')}}}
+    const a=alien;a.hit-=dt;a.atkT-=dt;
+    let n=null,b=1e9,isW=false;
+    for(const w of swords){const d=Math.hypot(w.x-a.x,w.y-a.y);if(d<b){b=d;n=w;isW=true}}
+    let bf=1e9,nf=null;for(const f of fish){const d=Math.hypot(f.x-a.x,f.y-a.y);if(d<bf){bf=d;nf=f}}
+    if(!isW||bf<b*.6){n=nf;b=bf;isW=false}
+    if(n){const d=b||1,sp=a.kind=='red'?48:55;a.x=cl(a.x+(n.x-a.x)/d*sp*dt,40,W-40);a.y=Math.min(H-40,a.y+(n.y-a.y)/d*sp*dt);
+      if(isW){if(b<a.r+48&&a.atkT<=0){a.atkT=1.2;n.hp-=a.dmg;n.hurt=.3;dmgText(n.x,n.y-26,a.dmg);if(n.hp<=0){n.dead=true;say('⚔️ '+n.name+' đã hy sinh 😢')}}}
+      else if(b<a.r+14){a.eatT-=dt;if(a.eatT<=0){n.dead=true;a.eatT=4.5;say('Cá bị ăn mất! 😱')}}}
   }
-  // cá kiếm: lao đâm quái vật
+  // chiến binh: lao đâm quái vật
   for(const w of swords){
-    w.cd-=dt;
+    w.cd-=dt;w.hurt-=dt;
     if(alien){
-      const dx=alien.x-w.x,dy=alien.y-w.y,d=Math.hypot(dx,dy)||1;
+      const a=alien,dx=a.x-w.x,dy=a.y-w.y,d=Math.hypot(dx,dy)||1;
       if(w.lunge>0){w.lunge-=dt;
-        if(!w.did&&d<64){w.did=true;alien.hp-=2;alien.hit=.3;alien.eatT=Math.max(alien.eatT,1.5);fx.push({x:alien.x,y:alien.y,l:.5,e:'💥'});
-          if(alien.hp<=0){S.coins+=60;say('Cá kiếm hạ quái vật! +60 🪙');alien=null;alienT=R(35,55)}}
+        if(!w.did&&d<a.r+30){w.did=true;a.hp-=w.dmg;a.hit=.3;dmgText(a.x+R(-14,14),a.y-a.r*.6,w.dmg);fx.push({x:a.x,y:a.y,l:.5,e:'💥'});
+          if(a.hp<=0)killAlien(w.name+' đã hạ '+MON[a.kind].n)}
       }else{
         w.vx+=(dx/d*270-w.vx)*dt*3;w.vy+=(dy/d*270-w.vy)*dt*3;
-        if(d<160&&w.cd<=0){w.lunge=.3;w.cd=1;w.did=false;w.vx=dx/d*580;w.vy=dy/d*580;fx.push({x:w.x,y:w.y-34,l:.6,e:'💢'})}
+        if(d<a.r+130&&w.cd<=0){w.lunge=.3;w.cd=1;w.did=false;w.vx=dx/d*580;w.vy=dy/d*580;fx.push({x:w.x,y:w.y-34,l:.6,e:'💢'})}
       }
     }else{
-      w.lunge=0;
+      w.lunge=0;w.hp=Math.min(w.max,w.hp+dt*.8);
       if(Math.hypot(w.tx-w.x,w.ty-w.y)<30||Math.random()<dt*.08){w.tx=R(60,W-60);w.ty=R(TOP+50,H-70)}
       const dx=w.tx-w.x,dy=w.ty-w.y,d=Math.hypot(dx,dy)||1;w.vx+=(dx/d*75-w.vx)*dt*1.5;w.vy+=(dy/d*75-w.vy)*dt*1.5;
     }
@@ -607,6 +788,7 @@ function update(dt){
     const nx=cl(w.x,50,W-50),ny=cl(w.y,TOP+35,H-55);if(nx!=w.x)w.vx*=-.4;if(ny!=w.y)w.vy*=-.4;w.x=nx;w.y=ny;
     const sp=Math.hypot(w.vx,w.vy);if(sp>15){const k=Math.min(1,dt*10);w.hx+=(w.vx/sp-w.hx)*k;w.hy+=(w.vy/sp-w.hy)*k}
   }
+  swords=swords.filter(w=>!w.dead);
   // cá ngựa: phun thức ăn
   for(const h of horses){
     if(Math.hypot(h.tx-h.x,h.ty-h.y)<15||Math.random()<dt*.08){h.tx=R(60,W-60);h.ty=R(TOP+50,H*.65)}
@@ -620,6 +802,7 @@ function update(dt){
         for(let i=0;i<3;i++)bubbles.push({x:mx,y:my,r:R(1.5,3),ph:R(0,6)});fx.push({x:mx+h.face*14,y:my-6,l:.4,e:'💦'})}}
   }
   for(let i=fx.length-1;i>=0;i--){fx[i].l-=dt;if(fx[i].l<=0)fx.splice(i,1)}
+  for(let i=dn.length-1;i>=0;i--){dn[i].l-=dt*1.1;if(dn[i].l<=0)dn.splice(i,1)}
   for(let i=bubbles.length-1;i>=0;i--){const b=bubbles[i];b.y-=(14+b.r*5)*dt;b.x+=Math.sin(t*1.3+b.ph)*10*dt;
     if(b.y<-10){if(b.amb){b.y=H+10;b.x=R(0,W);b.r=R(2,9)}else bubbles.splice(i,1)}}
   hud();
@@ -670,8 +853,10 @@ function glitter(){
 function drawCrab(cr){const im=img('crab');if(!im||!im.naturalWidth)return;const r=im.naturalHeight/im.naturalWidth;let w=64,h=w*r;if(h>72){h=72;w=h/r}
   const bob=Math.abs(Math.sin(t*10+cr.ph))*(Math.abs(cr.vx)>10?4:0);c.save();c.translate(cr.x,H-8-bob);c.scale(cr.dir,1);c.drawImage(im,-w/2,-h,w,h);c.restore()}
 function drawSword(w){const im=img('sword');if(!im||!im.naturalWidth)return;const ww=120,hh=ww*im.naturalHeight/im.naturalWidth,a=Math.atan2(w.hy,w.hx);
-  c.save();c.translate(w.x,w.y);if(Math.cos(a)>=0){c.rotate(a);c.scale(-1,1)}else c.rotate(a-Math.PI);
-  if(w.lunge<=0)c.rotate(Math.sin(t*5+w.ph)*.04);c.drawImage(im,-ww/2,-hh/2,ww,hh);c.restore()}
+  c.save();c.translate(w.x+(w.hurt>0?R(-3,3):0),w.y);if(Math.cos(a)>=0){c.rotate(a);c.scale(-1,1)}else c.rotate(a-Math.PI);
+  if(w.lunge<=0)c.rotate(Math.sin(t*5+w.ph)*.04);if(w.hurt>0)c.globalAlpha=.7;c.drawImage(im,-ww/2,-hh/2,ww,hh);c.restore();
+  const bw=44,by=w.y-hh/2-14;c.fillStyle='#0006';c.fillRect(w.x-bw/2,by,bw,5);c.fillStyle=w.hp/w.max<.35?'#ef5350':'#5fc79a';c.fillRect(w.x-bw/2,by,bw*Math.max(0,w.hp/w.max),5);
+  c.font='800 10px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#f5b400';c.fillText('★'.repeat(w.lv),w.x,by-7)}
 function drawHorse(h){const im=img('horse');if(!im||!im.naturalWidth)return;const hh=96,ww=hh*im.naturalWidth/im.naturalHeight,k=1+(h.sp>0?.1*h.sp/.3:0);
   c.save();c.translate(h.x,h.y+Math.sin(t*2+h.ph)*3);c.rotate(Math.sin(t*1.5+h.ph)*.07);c.scale(-h.face*k,k);c.drawImage(im,-ww/2,-hh/2,ww,hh);c.restore()}
 function drawCoin(k){
@@ -699,12 +884,8 @@ function draw(){
   for(const f of fish)whale(f);for(const h of horses)drawHorse(h);for(const w of swords)drawSword(w);for(const f of fish)drawMood(f);
   for(const k of coins)drawCoin(k);
   glitter();drawFx();drawSay();
-  if(alien){const a=alien,w=Math.sin(t*8)*3;c.save();c.translate(a.x,a.y);if(a.hit>0)c.translate(R(-4,4),0);
-    c.fillStyle='#7ed957';c.strokeStyle='#3c8a1d';c.lineWidth=3;c.beginPath();c.arc(0,0,38,0,7);c.fill();c.stroke();
-    for(let i=-1;i<=1;i++){c.beginPath();c.moveTo(i*20,32);c.lineTo(i*20+w,52);c.stroke()}
-    c.fillStyle='#fff';c.beginPath();c.arc(-13,-6,11,0,7);c.arc(13,-6,11,0,7);c.fill();c.fillStyle='#222';c.beginPath();c.arc(-11,-5,5,0,7);c.arc(15,-5,5,0,7);c.fill();
-    c.strokeStyle='#222';c.beginPath();c.moveTo(-10,16);c.lineTo(-4,12);c.lineTo(4,16);c.lineTo(10,12);c.stroke();
-    c.fillStyle='#0006';c.fillRect(-30,-56,60,7);c.fillStyle='#ff4d4d';c.fillRect(-30,-56,60*Math.max(0,a.hp/a.max),7);c.restore()}
+  if(alien)drawAlien();
+  drawDn();
 }
 let last=performance.now();
 function loop(n){const dt=Math.min(.05,(n-last)/1000);last=n;update(dt);draw();requestAnimationFrame(loop)}
