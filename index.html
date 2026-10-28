@@ -681,6 +681,60 @@ function drawCoin(k){
   else{c.fillStyle=k.gold?'#ffc400':'#d6dde6';c.strokeStyle=k.gold?'#a87800':'#8895a5';c.lineWidth=2.5;c.beginPath();c.arc(0,0,16,0,7);c.fill();c.stroke();c.fillStyle=c.strokeStyle;c.font='bold 16px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('$',0,1)}
   c.restore();
 }
+// ============================================
+// HIỆU ỨNG QUẢ CẦU NĂNG LƯỢNG QUANH CÁ VOI
+// Độc lập với hệ thống nuôi cá hiện có; có thể mở rộng sau này.
+// ============================================
+const ORBIT_CONFIG = {
+  enabled: true,
+  count: 5,
+  speed: 0.85,
+  radiusX: 1.65,
+  radiusY: 1.05,
+  glow: 12,
+  colors: ['#59E7FF', '#A78BFA', '#FFE680', '#FF91D5', '#8CFFB5']
+};
+
+function drawOrbitOrbs(f, front) {
+  if (!ORBIT_CONFIG.enabled || !f) return;
+
+  const size = sz(f);
+  const phase = Number.isFinite(f.ph) ? f.ph : 0;
+  const rx = size * ORBIT_CONFIG.radiusX;
+  const ry = size * ORBIT_CONFIG.radiusY;
+
+  for (let i = 0; i < ORBIT_CONFIG.count; i++) {
+    const direction = i % 2 === 0 ? 1 : -1;
+    const offset = i * Math.PI * 2 / ORBIT_CONFIG.count;
+    const angle = t * ORBIT_CONFIG.speed * direction + phase + offset;
+    const isFront = Math.sin(angle) > 0;
+    if (isFront !== front) continue;
+
+    const x = f.x + Math.cos(angle) * rx;
+    const y = f.y + Math.sin(angle) * ry;
+    const pulse = 1 + Math.sin(t * 3 + i * 1.7 + phase) * 0.12;
+    const radius = Math.max(2, size * 0.085 * pulse);
+    const color = ORBIT_CONFIG.colors[i % ORBIT_CONFIG.colors.length];
+
+    c.save();
+    c.globalAlpha = front ? 1 : 0.72;
+    c.shadowBlur = ORBIT_CONFIG.glow;
+    c.shadowColor = color;
+    c.fillStyle = color;
+    c.beginPath();
+    c.arc(x, y, radius, 0, Math.PI * 2);
+    c.fill();
+
+    // Lõi sáng trắng và điểm phản chiếu nhỏ.
+    c.shadowBlur = 4;
+    c.fillStyle = '#FFFFFF';
+    c.beginPath();
+    c.arc(x - radius * 0.22, y - radius * 0.22, radius * 0.38, 0, Math.PI * 2);
+    c.fill();
+    c.restore();
+  }
+}
+
 function drawFx(){c.textAlign='center';c.textBaseline='middle';c.font='22px sans-serif';for(const f of fx){c.globalAlpha=Math.min(1,f.l*2.5);c.fillText(f.e,f.x,f.y-((f.m||.6)-f.l)*45)}c.globalAlpha=1}
 function draw(){
   if(IM.bg){const s=Math.max(W/IM.bg.width,H/IM.bg.height),w=IM.bg.width*s,h=IM.bg.height*s;c.drawImage(IM.bg,(W-w)/2,(H-h)/2,w,h)}
@@ -696,7 +750,8 @@ function draw(){
   c.globalAlpha=1;
   for(const f of food){c.fillStyle=f.age>3?'#8a6b3a':'#ff8a4c';c.beginPath();c.arc(f.x,f.y,7,0,7);c.fill();c.fillStyle='#fff6';c.beginPath();c.arc(f.x-2,f.y-2,2.5,0,7);c.fill()}
   for(const cr of crabs)drawCrab(cr);
-  for(const f of fish)whale(f);for(const h of horses)drawHorse(h);for(const w of swords)drawSword(w);for(const f of fish)drawMood(f);
+  for(const f of fish){drawOrbitOrbs(f,false);whale(f);drawOrbitOrbs(f,true)}
+  for(const h of horses)drawHorse(h);for(const w of swords)drawSword(w);for(const f of fish)drawMood(f);
   for(const k of coins)drawCoin(k);
   glitter();drawFx();drawSay();
   if(alien){const a=alien,w=Math.sin(t*8)*3;c.save();c.translate(a.x,a.y);if(a.hit>0)c.translate(R(-4,4),0);
