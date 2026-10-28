@@ -1,5 +1,5 @@
-const CACHE = 'whale-v6';
-const FILES = ['./', './index.html', './manifest.json', './crab.png', './sword.png', './horse.png', './icon-192.png', './icon-512.png'];
+const CACHE = 'whale-v8';
+const FILES = ['./', './index.html', './manifest.json', './css/style.css', './js/core.js', './js/fx-layers.js', './js/audio.js', './js/shop.js', './js/settings.js', './js/gallery.js', './js/chat.js', './js/fish-list.js', './js/guide.js', './js/combat.js', './js/warriors-ui.js', './js/supports-ui.js', './js/monsters-ui.js', './js/settings-tabs.js', './js/input.js', './js/update.js', './js/render.js', './js/main.js', './crab.png', './sword.png', './horse.png', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
   self.skipWaiting();
