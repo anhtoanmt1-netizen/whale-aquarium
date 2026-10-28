@@ -681,90 +681,6 @@ function drawCoin(k){
   else{c.fillStyle=k.gold?'#ffc400':'#d6dde6';c.strokeStyle=k.gold?'#a87800':'#8895a5';c.lineWidth=2.5;c.beginPath();c.arc(0,0,16,0,7);c.fill();c.stroke();c.fillStyle=c.strokeStyle;c.font='bold 16px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('$',0,1)}
   c.restore();
 }
-// ============================================
-// HIỆU ỨNG 5 TIA SÁNG QUỸ ĐẠO QUANH CÁ VOI
-// Hiệu ứng trang trí độc lập, dễ tinh chỉnh và mở rộng về sau.
-// ============================================
-const ORBIT_CONFIG = {
-  enabled: true,
-  count: 5,
-  speed: 0.85,
-  radiusX: 1.65,
-  radiusY: 1.05,
-  glow: 14,
-  trailLength: 0.82,
-  colors: ['#59E7FF', '#A78BFA', '#FFE680', '#FF91D5', '#8CFFB5']
-};
-
-function drawOrbitOrbs(f, front) {
-  if (!ORBIT_CONFIG.enabled || !f) return;
-
-  const size = sz(f);
-  const phase = Number.isFinite(f.ph) ? f.ph : 0;
-  const rx = size * ORBIT_CONFIG.radiusX;
-  const ry = size * ORBIT_CONFIG.radiusY;
-
-  for (let i = 0; i < ORBIT_CONFIG.count; i++) {
-    const direction = i % 2 === 0 ? 1 : -1;
-    const offset = i * Math.PI * 2 / ORBIT_CONFIG.count;
-    const angle = t * ORBIT_CONFIG.speed * direction + phase + offset;
-    const isFront = Math.sin(angle) > 0;
-    if (isFront !== front) continue;
-
-    const x = f.x + Math.cos(angle) * rx;
-    const y = f.y + Math.sin(angle) * ry;
-    const pulse = 1 + Math.sin(t * 3 + i * 1.7 + phase) * 0.12;
-    const headRadius = Math.max(1.8, size * 0.055 * pulse);
-    const color = ORBIT_CONFIG.colors[i % ORBIT_CONFIG.colors.length];
-
-    // Hướng tiếp tuyến quỹ đạo: phần đuôi nằm phía sau đầu tia sáng.
-    let tangentX = -Math.sin(angle) * rx * direction;
-    let tangentY = Math.cos(angle) * ry * direction;
-    const tangentLength = Math.hypot(tangentX, tangentY) || 1;
-    tangentX /= tangentLength;
-    tangentY /= tangentLength;
-
-    const trailLength = size * ORBIT_CONFIG.trailLength * (0.88 + 0.12 * pulse);
-    const tailX = x - tangentX * trailLength;
-    const tailY = y - tangentY * trailLength;
-
-    c.save();
-    c.globalAlpha = front ? 1 : 0.68;
-    c.lineCap = 'round';
-    c.lineWidth = Math.max(1.5, size * 0.075 * pulse);
-    c.shadowBlur = ORBIT_CONFIG.glow;
-    c.shadowColor = color;
-
-    // Đuôi sao băng mờ dần về phía sau.
-    const trail = c.createLinearGradient(tailX, tailY, x, y);
-    trail.addColorStop(0, 'rgba(255,255,255,0)');
-    trail.addColorStop(0.45, color);
-    trail.addColorStop(1, '#FFFFFF');
-    c.strokeStyle = trail;
-    c.beginPath();
-    c.moveTo(tailX, tailY);
-    c.lineTo(x, y);
-    c.stroke();
-
-    // Đầu tia sáng trắng, có quầng phát sáng màu.
-    c.fillStyle = '#FFFFFF';
-    c.shadowBlur = ORBIT_CONFIG.glow + 4;
-    c.beginPath();
-    c.arc(x, y, headRadius, 0, Math.PI * 2);
-    c.fill();
-
-    // Tia lóe nhỏ giúp hiệu ứng giống sao băng hơn.
-    c.globalAlpha = (front ? 0.75 : 0.42) * (0.75 + 0.25 * pulse);
-    c.strokeStyle = color;
-    c.lineWidth = Math.max(1, headRadius * 0.45);
-    c.beginPath();
-    c.moveTo(x - tangentX * headRadius * 1.8, y - tangentY * headRadius * 1.8);
-    c.lineTo(x + tangentX * headRadius * 0.8, y + tangentY * headRadius * 0.8);
-    c.stroke();
-    c.restore();
-  }
-}
-
 function drawFx(){c.textAlign='center';c.textBaseline='middle';c.font='22px sans-serif';for(const f of fx){c.globalAlpha=Math.min(1,f.l*2.5);c.fillText(f.e,f.x,f.y-((f.m||.6)-f.l)*45)}c.globalAlpha=1}
 function draw(){
   if(IM.bg){const s=Math.max(W/IM.bg.width,H/IM.bg.height),w=IM.bg.width*s,h=IM.bg.height*s;c.drawImage(IM.bg,(W-w)/2,(H-h)/2,w,h)}
@@ -780,8 +696,7 @@ function draw(){
   c.globalAlpha=1;
   for(const f of food){c.fillStyle=f.age>3?'#8a6b3a':'#ff8a4c';c.beginPath();c.arc(f.x,f.y,7,0,7);c.fill();c.fillStyle='#fff6';c.beginPath();c.arc(f.x-2,f.y-2,2.5,0,7);c.fill()}
   for(const cr of crabs)drawCrab(cr);
-  for(const f of fish){drawOrbitOrbs(f,false);whale(f);drawOrbitOrbs(f,true)}
-  for(const h of horses)drawHorse(h);for(const w of swords)drawSword(w);for(const f of fish)drawMood(f);
+  for(const f of fish)whale(f);for(const h of horses)drawHorse(h);for(const w of swords)drawSword(w);for(const f of fish)drawMood(f);
   for(const k of coins)drawCoin(k);
   glitter();drawFx();drawSay();
   if(alien){const a=alien,w=Math.sin(t*8)*3;c.save();c.translate(a.x,a.y);if(a.hit>0)c.translate(R(-4,4),0);
