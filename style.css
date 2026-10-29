@@ -2,7 +2,7 @@
 html,body{margin:0;height:100%;overflow:hidden;background:#0b5d8f;font-family:'Montserrat',system-ui,sans-serif;touch-action:none;color:#35506b}
 button{font-family:inherit;cursor:pointer;transition:transform .15s,filter .2s,box-shadow .2s}
 button:active{transform:scale(.95);filter:brightness(.96)}
-canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
+canvas#c{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;display:block}
 /* HUD */
 #hud{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 6px) calc(env(safe-area-inset-right,0px) + 8px) 6px calc(env(safe-area-inset-left,0px) + 8px);display:flex;flex-direction:column;gap:6px;z-index:2}
 .row{display:flex;gap:6px;align-items:center}
@@ -16,7 +16,7 @@ body.so #gear{transform:rotate(180deg)}
 #shopb{width:42px;height:42px;border:0;border-radius:50%;background:#ffffffee;font-size:21px;box-shadow:0 2px 0 #0002}
 #msg{position:fixed;left:0;right:0;top:120px;text-align:center;color:#fff;font-weight:700;font-size:14px;text-shadow:0 2px 6px #0009;pointer-events:none;z-index:30;padding:0 12px}
 /* Overlay */
-.ov{position:fixed;inset:0;background:#0a2a4a99;display:flex;align-items:center;justify-content:center;z-index:10;padding:10px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s,visibility 0s .25s}
+.ov{position:fixed;top:0;left:0;right:0;bottom:0;background:#0a2a4a99;display:flex;align-items:center;justify-content:center;z-index:10;padding:10px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s,visibility 0s .25s}
 .ov.on{opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s}
 .ov:not(.on) *{animation:none!important}
 .pn{background:rgba(251,253,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.75);border-radius:24px;padding:14px;width:100%;max-width:420px;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px #0006;transform:translateY(24px) scale(.95);transition:transform .4s cubic-bezier(.2,1.2,.4,1)}
@@ -138,7 +138,7 @@ p.ds{margin:0;font-size:11px;line-height:1.45;color:#6f8aa3;font-weight:500;padd
 .mn{font-size:15px;font-weight:800;color:#2d4a66}
 
 /* ===== Lớp nền / hiệu ứng chạy bằng CSS (GPU) ===== */
-#bgL,#rays,#bubs,#spk{position:fixed;inset:0;pointer-events:none}
+#bgL,#rays,#bubs,#spk{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none}
 #bgL{z-index:0;background:linear-gradient(#3aa8e0,#0b4f80);background-size:cover;background-position:center}
 #bgL::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='34'%3E%3Cpath d='M0 34V18Q15 8 30 18T60 18T90 18T120 18V34Z' fill='%23e8cf8a'/%3E%3C/svg%3E") repeat-x bottom/120px 34px}
 body.cbg #bgL::after{display:none}
@@ -146,9 +146,20 @@ body.cbg #bgL::after{display:none}
 .ray{position:absolute;top:-5%;height:100%;background:linear-gradient(rgba(255,255,225,.26),rgba(255,255,225,0) 90%);transform:skewX(-14deg);transform-origin:top;will-change:transform,opacity;animation:ray 9s ease-in-out infinite alternate}
 @keyframes ray{from{transform:skewX(-14deg) translateX(-24px);opacity:.5}to{transform:skewX(-14deg) translateX(30px);opacity:1}}
 #spk{z-index:1;overflow:hidden}
-.spk{position:absolute;background:#fffbe0;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0;will-change:opacity,transform;animation:tw 3s ease-in-out infinite}
+.spk{position:absolute;background:#fffbe0;-webkit-clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0;will-change:opacity,transform;animation:tw 3s ease-in-out infinite}
 @keyframes tw{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:.9;transform:scale(1)}}
 #bubs{z-index:0;overflow:hidden}
 .bub{position:absolute;bottom:-24px;border-radius:50%;background:rgba(255,255,255,.1);border:1.2px solid rgba(255,255,255,.5);will-change:transform,opacity;animation:rise linear infinite}
 .bub::after{content:"";position:absolute;left:22%;top:20%;width:24%;height:24%;border-radius:50%;background:rgba(255,255,255,.75)}
 @keyframes rise{0%{transform:translate(0,0);opacity:0}8%{opacity:1}25%{transform:translate(10px,-28vh)}50%{transform:translate(-6px,-56vh)}75%{transform:translate(10px,-84vh)}92%{opacity:1}100%{transform:translate(0,-112vh);opacity:0}}
+
+#fpsb{position:fixed;left:8px;bottom:calc(env(safe-area-inset-bottom,0px) + 6px);z-index:3;display:none;background:rgba(0,0,0,.65);color:#fff;font:700 10px Montserrat,system-ui,sans-serif;padding:3px 8px;border-radius:10px;pointer-events:none}
+#hud .row{flex-wrap:wrap}
+.fc.sc{background:#e4f6ee;flex-wrap:wrap}.sc .bar em{width:54px}
+.sk{font-size:10.5px;font-weight:700;color:#1f7a50;background:#fff;border-radius:10px;padding:4px 8px;line-height:1.4}
+
+@supports not (aspect-ratio:1){.tl{height:72px}}
+#errbar{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:9999;display:none;background:#fff3f0;border:2px solid #e57368;color:#8a2c20;border-radius:14px;padding:10px 12px;font:600 12px/1.5 Montserrat,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.35);max-height:70vh;overflow:auto}
+#errbar button{border:0;border-radius:10px;background:#e57368;color:#fff;font:700 12px Montserrat,system-ui,sans-serif;padding:7px 10px;margin:6px 6px 0 0}
+#errbar button.g{background:#8a2c20}
+#errbar small{display:block;opacity:.8;word-break:break-all}

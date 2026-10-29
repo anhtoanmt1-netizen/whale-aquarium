@@ -1,7 +1,17 @@
-// ---- Vòng lặp chính: giới hạn khung hình theo chế độ hiệu năng (30 hoặc 60 fps)
-let last=performance.now();
-function loop(n){requestAnimationFrame(loop);const el=n-last;if(el<1000/PF.fps-3)return;last=n;update(Math.min(.06,el/1000));draw()}
+// ---- Vòng lặp chính: giữ đúng số khung hình mỗi giây theo chế độ hiệu năng (30 / 45 / 60 FPS)
+let last=performance.now(),lastDraw=last,acc=0,fpsN=0,fpsT=last,slowN=0,slowWarned=false,errN=0;
+function loop(n){requestAnimationFrame(loop);
+  acc+=Math.min(n-last,100);last=n;const iv=1000/PF.fps;if(acc<iv-2)return;acc=(acc-iv>iv)?0:acc-iv;
+  const dt=Math.min(.06,(n-lastDraw)/1000);lastDraw=n;
+  try{update(dt);draw()}catch(err){if(++errN<=3&&window.__bar)__bar('Lỗi khi chạy game: '+err.message,String(err.stack||'').split('\n').slice(0,3).join(' | '));console.error(err)}
+  fpsN++;if(n-fpsT>=1000){const fp=Math.round(fpsN*1000/(n-fpsT));if(S.showfps)$('fpsb').textContent='FPS '+fp+' / '+PF.fps+' · '+PN[S.perf]+' · ×'+DPR;
+    if(fp<PF.fps*.6&&S.perf!=='eco'){if(++slowN>=4&&!slowWarned){slowWarned=true;say('Máy đang hơi nặng ('+fp+' FPS). Thử chế độ 🔋 Tiết kiệm trong ⚙️ → Hiển thị')}}else slowN=0;
+    fpsN=0;fpsT=n}}
 requestAnimationFrame(loop);
+$('fpsb').style.display=S.showfps?'block':'none';
 say('Chạm màn hình để thả thức ăn 🍤 · vuốt ve cá để thả tim 💗');
 if(!localStorage.getItem('whale_guided')){setTimeout(()=>{openGuide();try{localStorage.setItem('whale_guided','1')}catch(e){}},900)}
-if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+window.__booted=true;
+if('serviceWorker' in navigator)addEventListener('load',()=>{const had=!!navigator.serviceWorker.controller;let rl=false;
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=true;location.reload()}})});

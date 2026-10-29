@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b5d8f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cá Voi Nhỏ">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<title>Cá Voi Nhỏ</title>
+
+</head>
+<body>
+<div id="errbar"></div>
+<script>
+/* Bộ bắt lỗi: nếu thiếu file hoặc game lỗi sẽ hiện thông báo rõ ràng thay vì màn hình đứng im */
+(function(){var shown=0,done=false;
+ function bar(t,det){var e=document.getElementById('errbar');if(!e||done)return;done=true;e.style.display='block';e.innerHTML='';
+  var b=document.createElement('b');b.textContent='⚠️ '+t;e.appendChild(b);
+  if(det){var s=document.createElement('small');s.textContent=det;e.appendChild(s)}
+  function btn(txt,cls,fn){var x=document.createElement('button');x.textContent=txt;if(cls)x.className=cls;x.onclick=fn;e.appendChild(x)}
+  btn('🔄 Tải lại sạch','',window.__clean);btn('🧹 Xoá dữ liệu lưu','g',function(){if(confirm('Xoá toàn bộ dữ liệu game đã lưu (xu, cá, hình ảnh)?')){try{localStorage.clear()}catch(_){}window.__clean()}});btn('Ẩn','g',function(){e.style.display='none'})}
+ window.__bar=bar;
+ window.__clean=function(){var p=[];try{if(navigator.serviceWorker)p.push(navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))}))}catch(_){}
+  try{if(window.caches)p.push(caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k)}))}))}catch(_){}
+  Promise.all(p).catch(function(){}).then(function(){location.reload()})};
+ window.addEventListener('error',function(ev){var t=ev.target;
+  if(t&&t!==window&&(t.src||t.href)){if(String(t.src||t.href).indexOf(location.origin)!==0)return;shown++;bar('Không tải được file: '+String(t.src||t.href).split('/').slice(-2).join('/'),'Hãy kiểm tra file đã được tải lên đúng thư mục và đúng tên.');return}
+  if(shown++<1)bar('Lỗi: '+ev.message,(window.__where?__where(ev.lineno):String(ev.filename||'').split('/').pop())+' dòng '+ev.lineno)},true);
+ window.addEventListener('unhandledrejection',function(ev){if(shown++<1)bar('Lỗi bất đồng bộ: '+((ev.reason&&ev.reason.message)||ev.reason))});
+ setTimeout(function(){if(!window.__booted&&shown===0)bar('Game chưa khởi động được','Có thể thiếu file hoặc file bị cắt khi sao chép. Thử "Tải lại sạch".')},5000);
+})();
+</script>
+<div id="bgL"></div><div id="rays"></div><div id="bubs"></div>
+<canvas id="c"></canvas>
+<div id="spk"></div>
+<div id="hud"><div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div class="pill" id="cntw" style="display:none">⚔️ 0 ›</div><div class="pill" id="cnts" style="display:none">🌟 0 ›</div><div id="sp"></div><button id="shopb" aria-label="Cửa hàng">🛒</button><button id="gear" aria-label="Cài đặt">⚙️</button></div></div>
+<div id="fpsb"></div>
+<div id="msg"></div>
+
+<div class="ov" id="shop"><div class="pn">
+  <div class="ph"><h3>🛒 Cửa hàng</h3><div class="pill" id="coins2">🪙 0</div><button class="x" id="helpb" aria-label="Hướng dẫn">❓</button><button class="x" id="shclose" aria-label="Đóng">✕</button></div>
+  <div class="shg">
+    <button class="shp s1" id="buy"><i class="cn" id="c_buy"></i><span class="ic">🐋</span><b>Cá voi</b><small>Lớn lên sẽ đẻ xu</small><em id="p_buy">100</em></button>
+    <button class="shp s2" id="sword"><i class="cn" id="c_sword"></i><span class="ic"><img src="sword.png" alt=""></span><b>Cá Chiến Binh</b><small>Lao đâm quái vật · nâng cấp tới Lv5 · chạm 📋 xem danh sách</small><em id="p_sword">300</em></button>
+    <button class="shp s3" id="horse"><i class="cn" id="c_horse"></i><span class="ic"><img src="horse.png" alt=""></span><b>Cá Support</b><small>Phun thức ăn · Lv4-5 hồi máu · chạm 📋 xem danh sách</small><em id="p_horse">250</em></button>
+    <button class="shp s3" id="sslot"><i class="cn" id="c_sslot"></i><span class="ic">🌟</span><b>+5 chỗ Cá Support</b><small>Mở rộng đội Support (tối đa 50)</small><em id="p_sslot">300</em></button>
+    <button class="shp s4" id="crab"><i class="cn" id="c_crab"></i><span class="ic"><img src="crab.png" alt=""></span><b>Cua</b><small>Nhặt xu ở đáy hồ</small><em id="p_crab">200</em></button>
+    <button class="shp s5" id="up"><i class="cn" id="c_up"></i><span class="ic">🍤</span><b>Thức ăn</b><small>Thả được nhiều viên hơn</small><em id="p_up">150</em></button>
+    <button class="shp s6" id="slot"><i class="cn" id="c_slot"></i><span class="ic">🏝️</span><b>+5 chỗ</b><small>Hồ rộng hơn (tối đa 50 cá)</small><em id="p_slot">300</em></button>
+    <button class="shp s2" id="wslot"><i class="cn" id="c_wslot"></i><span class="ic">⚔️</span><b>+5 chỗ Chiến Binh</b><small>Mở rộng đội hình (tối đa 50)</small><em id="p_wslot">400</em></button>
+    <button class="shp s4" id="minfob"><span class="ic">👾</span><b>Thông tin quái vật</b><small>Máu, sát thương, tỉ lệ xuất hiện</small><em>Xem ›</em></button>
+  </div>
+</div></div>
+
+<div class="ov" id="set"><div class="pn">
+  <div class="ph"><h3>⚙️ Cài đặt</h3><button class="x" id="sclose" aria-label="Đóng">✕</button></div>
+  <div class="seg" id="stabs">
+    <button data-s="snd" class="on"><i>🎧</i>Âm thanh</button><button data-s="dsp"><i>📱</i>Hiển thị</button><button data-s="img"><i>🖼️</i>Hình ảnh</button><button data-s="inf"><i>📚</i>Thông tin</button>
+  </div>
+
+  <div class="sp on" id="sp_snd">
+    <section class="cd lav"><h4><i>🎧</i>Nhạc nền</h4>
+      <div class="chips" id="snd">
+        <button class="chip" data-k="off">🔇<span>Tắt</span></button>
+        <button class="chip" data-k="wave">🌊<span>Sóng biển</span><i class="eq"><u></u><u></u><u></u></i></button>
+        <button class="chip" data-k="pad">🌙<span>Hồ đêm</span><i class="eq"><u></u><u></u><u></u></i></button>
+        <button class="chip" data-k="box">🎵<span>Hộp nhạc</span><i class="eq"><u></u><u></u><u></u></i></button>
+        <button class="chip" data-k="bubble">🫧<span>Giọt nước</span><i class="eq"><u></u><u></u><u></u></i></button>
+      </div>
+      <div class="vol"><span>🔈</span><input type="range" id="vol" min="0" max="1" step=".05"><span>🔊</span></div>
+      <p class="ds">Chọn nhạc nền thư giãn (hoặc Tắt) và kéo thanh để chỉnh âm lượng. Nhạc chỉ phát sau khi bạn chạm vào màn hình lần đầu.</p>
+    </section>
+  </div>
+
+  <div class="sp" id="sp_dsp">
+    <section class="cd mint"><h4><i>📱</i>Màn hình &amp; ứng dụng</h4>
+      <button class="r2" id="land"><span>🔄 Màn hình ngang (toàn màn hình)</span><b class="sw"></b></button>
+      <p class="ds">Mở rộng hồ cá ra toàn màn hình ngang. Nếu máy không tự xoay, hãy bật xoay màn hình rồi xoay ngang điện thoại.</p>
+      <button class="r2" id="inst"><span>📲 Cài game vào điện thoại</span><em>›</em></button>
+      <p class="ds">Thêm game ra màn hình chính để mở nhanh như một ứng dụng, chơi được cả khi mất mạng.</p>
+    </section>
+    <section class="cd yel"><h4><i>⚡</i>Hiệu năng &amp; pin</h4>
+      <div class="chips" id="perf">
+        <button class="chip" data-p="eco">🔋<span>Tiết kiệm</span></button>
+        <button class="chip" data-p="bal">⚖️<span>Cân bằng</span></button>
+        <button class="chip" data-p="high">🚀<span>Mượt 60</span></button>
+      </div>
+      <p class="ds"><b>Tiết kiệm</b>: 30 FPS, độ nét thấp, ít hiệu ứng, máy mát nhất (nên chọn khi nuôi nhiều cá). <b>Cân bằng</b>: 45 FPS, hiệu ứng vừa. <b>Mượt</b>: 60 FPS, đẹp nhất nhưng nóng nhất. Bật “Hiện FPS” để xem tốc độ thật của máy.</p>
+      <label class="r2" style="color:#8a6b00"><span>📈 Hiện FPS (tốc độ khung hình)</span><input type="checkbox" id="showfps"><b class="sw"></b></label>
+    </section>
+    <section class="cd peach"><h4><i>💬</i>Trò chuyện</h4>
+      <label class="r2"><span>💬 Cho cá trò chuyện</span><input type="checkbox" id="chat"><b class="sw"></b></label>
+      <p class="ds">Bật để cá nói chuyện, kể chuyện cười và cãi nhau dễ thương bằng bong bóng chat.</p>
+    </section>
+  </div>
+
+  <div class="sp" id="sp_img">
+    <section class="cd sky"><h4><i>🖼️</i>Hình ảnh<small id="gn">0/5</small></h4>
+      <div class="tabs" id="tabs">
+        <button data-t="bg">🌊 Nền hồ</button><button data-t="fish">🐋 Cá voi</button><button data-t="sword">⚔️ Chiến binh</button><button data-t="horse">🌟 Cá Support</button><button data-t="crab">🦀 Cua</button><button data-t="gold">🟡 Xu vàng</button><button data-t="silver">⚪ Xu bạc</button><button data-t="mgreen">🟢 Quái xanh lá</button><button data-t="mblue">🔵 Quái xanh biển</button><button data-t="mpurple">🟣 Quái tím</button><button data-t="mred">🔴 Quái đỏ</button>
+      </div>
+      <div class="gal" id="gal"></div>
+      <small id="ghint">Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
+      <label class="r2" id="flipw"><span>↔️ Ảnh cá voi đang quay mặt sang trái</span><input type="checkbox" id="flip"><b class="sw"></b></label>
+    </section>
+  </div>
+
+  <div class="sp" id="sp_inf">
+    <section class="cd pink"><h4><i>📋</i>Danh sách &amp; bảng thông tin</h4>
+      <button class="r2" id="flistb"><span>🐋 Danh sách cá</span><em>›</em></button>
+      <button class="r2" id="wlistb"><span>⚔️ Danh sách Cá Chiến Binh</span><em>›</em></button>
+      <button class="r2" id="slistb"><span>🌟 Danh sách Cá Support</span><em>›</em></button>
+      <button class="r2" id="minfob2"><span>👾 Thông tin quái vật</span><em>›</em></button>
+      <p class="ds">Xem tên, tuổi, chỉ số, nâng cấp hoặc bán từng chú cá; xem máu, sát thương và tỉ lệ xuất hiện của quái vật.</p>
+    </section>
+    <section class="cd lav"><h4><i>📖</i>Hướng dẫn</h4>
+      <button class="r2" id="helps"><span>📖 Hướng dẫn chơi</span><em>›</em></button>
+      <p class="ds">Xem cách chơi từng tính năng: cho ăn, xu, vuốt ve, cửa hàng, quái vật…</p>
+    </section>
+    <p class="ds" style="text-align:center">Cá Voi Nhỏ · phiên bản 9</p>
+  </div>
+  <input type="file" id="file" accept="image/png,image/*" hidden>
+</div></div>
+
+<div class="ov" id="flist"><div class="pn">
+  <div class="ph"><h3>🐋 Danh sách cá</h3><div class="pill" id="flc">🐋 0/10</div><button class="x" id="flclose" aria-label="Đóng">✕</button></div>
+  <div class="how"><div class="ill"><span>🐋</span><span class="hd">👆</span><span class="ht h1">💗</span><span class="ht h2">💗</span></div><div><b>Vuốt ve để cá hạnh phúc</b><br>Đặt ngón tay lên chú cá, trong hồ hoặc ngay ở hình cá bên dưới, rồi vuốt qua lại để thả tim 💗 và tăng chỉ số <b>Vui</b>. Vui dưới 50%: xu rơi chậm gấp đôi · về 0%: ngừng rơi xu.</div></div>
+  <div id="fcards" style="display:flex;flex-direction:column;gap:10px"></div>
+  <p class="ds" style="text-align:center">Sửa tên ngay trên thẻ · thanh 🍤 No càng đầy cá càng no · bán cá nhận xu theo cấp (50 / 100 / 160 🪙).</p>
+</div></div>
+
+<div class="ov" id="wlist"><div class="pn">
+  <div class="ph"><h3>⚔️ Cá Chiến Binh</h3><div class="pill" id="wlc">⚔️ 0/5</div><button class="x" id="wlclose" aria-label="Đóng">✕</button></div>
+  <div class="how" style="background:#e8e4fb;color:#4d3f9e"><div class="ill" style="background:linear-gradient(#e0d8ff,#b8a8f0)"><span>⭐</span></div><div><b>Nâng cấp &amp; hồi máu</b><br>Mỗi level tăng 20% sát thương và máu (làm tròn lên), phí nâng cấp cũng tăng 20% mỗi level. Máu về 0 là hy sinh. Chiến binh hồi máu chậm khi không có quái vật.</div></div>
+  <button class="r2" id="wslotb"><span>🏝️ Mua thêm 5 chỗ chiến binh</span><em id="wslotp">🪙 400</em></button>
+  <div id="wcards" style="display:flex;flex-direction:column;gap:10px"></div>
+  <p class="ds" style="text-align:center">Sửa tên ngay trên thẻ · bán chiến binh nhận lại 80% tổng giá trị (giá mua + các lần nâng cấp).</p>
+</div></div>
+
+<div class="ov" id="slist"><div class="pn">
+  <div class="ph"><h3>🌟 Cá Support</h3><div class="pill" id="slc">🌟 0/5</div><button class="x" id="slclose" aria-label="Đóng">✕</button></div>
+  <div class="how" style="background:#e4f6ee;color:#1f6b4a"><div class="ill" style="background:linear-gradient(#d6f5e6,#9fdfc0)"><span>💚</span></div><div><b>Kỹ năng theo level</b><br>Lv1-3: phun 1, 2, 3 viên thức ăn. Lv4: 3 viên + hồi 2 máu/giây cho cá bị thương. Lv5: hồi 5 máu/giây cho Chiến Binh. Máu về 0 là hy sinh.</div></div>
+  <button class="r2" id="sslotb"><span>🏝️ Mua thêm 5 chỗ Cá Support</span><em id="sslotp">🪙 300</em></button>
+  <div id="scards" style="display:flex;flex-direction:column;gap:10px"></div>
+  <p class="ds" style="text-align:center">Sửa tên ngay trên thẻ · bán Cá Support nhận lại 80% tổng giá trị (giá mua + các lần nâng cấp).</p>
+</div></div>
+
+<div class="ov" id="minfo"><div class="pn">
+  <div class="ph"><h3>👾 Thông tin quái vật</h3><button class="x" id="miclose" aria-label="Đóng">✕</button></div>
+  <p class="ds">Quái vật xuất hiện ngẫu nhiên theo tỉ lệ bên dưới. Chạm vào <b>hình quái vật</b> để đổi hình (PNG, có cắt ảnh).</p>
+  <div id="mcards" style="display:flex;flex-direction:column;gap:10px"></div>
+</div></div>
+
+<div class="ov" id="confirm" style="z-index:12"><div class="pn" style="max-width:320px;text-align:center"><div id="cft"></div><div class="two"><button class="m g" id="cfno">Huỷ</button><button class="m p" id="cfyes">Bán</button></div></div></div>
+
+<div class="ov" id="guide"><div class="pn">
+  <div class="ph"><h3>📖 Hướng dẫn chơi</h3><button class="x" id="gclose" aria-label="Đóng">✕</button></div>
+  <section class="cd sky" style="--d:.03s"><h4><i>🍤</i>Cho cá ăn</h4><p>Chạm vào chỗ trống trong hồ để <b>thả thức ăn</b>. Cá đói sẽ bơi tới ăn. Ăn 4 viên thì cá lớn lên (tối đa 3 cấp). Cá bị đói quá lâu sẽ chết, cá đổi màu xanh nhạt là đang đói.</p></section>
+  <section class="cd yel" style="--d:.07s"><h4><i>🪙</i>Xu</h4><p>Cá cấp 1 đẻ <b>xu bạc (15 🪙)</b>, cá cấp 2 đẻ <b>xu vàng (40 🪙)</b>. Chạm vào xu đang rơi để nhặt. Xu nằm dưới đáy khoảng 10 giây sẽ biến mất. Dùng xu để mua đồ trong 🛒.</p></section>
+  <section class="cd pink" style="--d:.11s"><h4><i>💗</i>Hạnh phúc &amp; vuốt ve</h4><p>Đặt ngón tay lên cá rồi <b>vuốt qua lại</b> để thả tim và tăng hạnh phúc. Hạnh phúc dưới 50%: xu rơi chậm gấp đôi. Về 0%: cá ngừng đẻ xu. Cho ăn cũng làm cá vui hơn một chút.</p></section>
+  <section class="cd peach" style="--d:.15s"><h4><i>👆</i>Chạm vào cá</h4><p>Chạm nhẹ vào một chú cá, cá sẽ phản ứng ngẫu nhiên: <b>giận dữ, làm nũng, nhút nhát</b> hoặc <b>bỏ chạy</b>. Chạm vào chỗ trống mới là thả thức ăn.</p></section>
+  <section class="cd lav" style="--d:.19s"><h4><i>💬</i>Cá trò chuyện</h4><p>Cá nói chuyện với nhau bằng bong bóng chat: chào hỏi, kể chuyện cười, cãi nhau dễ thương… Bạn có thể tắt trong ⚙️ Cài đặt.</p></section>
+  <section class="cd sky" style="--d:.23s"><h4><i>🐋</i>Danh sách cá</h4><p>Chạm vào ô <b>🐋 số cá</b> ở góc trên để xem từng chú: tên (đổi được), tuổi, giới tính, độ no, độ vui. Bạn có thể vuốt ve ngay ở hình cá, hoặc <b>bán</b> cá (có hỏi xác nhận).</p></section>
+  <section class="cd mint" style="--d:.27s"><h4><i>🛒</i>Cửa hàng</h4><p><b>Cá Chiến Binh</b> tự lao đâm quái vật · <b>Cá Support</b> phun thức ăn và hồi máu · <b>Cua</b> nhặt xu dưới đáy (mỗi loại tối đa 5) · <b>Thức ăn</b> thả được nhiều viên hơn · <b>+5 chỗ</b> mở rộng hồ (tối đa 50 cá).</p></section>
+  <section class="cd pink" style="--d:.31s"><h4><i>👾</i>Quái vật</h4><p>Có 4 loại: <b>xanh lá, xanh biển, tím, đỏ</b> (máu và sát thương khác nhau). Quái vật ăn cá và tấn công Chiến Binh, Cá Support. Hãy <b>chạm liên tục</b> vào nó để gây 5 sát thương mỗi lần, hoặc nhờ Chiến Binh. Diệt quái được thưởng xu. Xem chi tiết ở 👾 Thông tin quái vật.</p></section>
+  <section class="cd lav" style="--d:.33s"><h4><i>⚔️</i>Cá Chiến Binh</h4><p>Mặc định <b>5 sát thương, 50 máu</b>. Mua trong 🛒, chạm số lượng 📋 để xem danh sách: nâng cấp <b>Lv1→Lv5</b> (⭐), đổi tên, xem tuổi, bán lại 80% giá trị. Số chữ đỏ <b>-5</b> là sát thương gây ra. Mua thêm chỗ để có tối đa 50 chiến binh.</p></section>
+  <section class="cd mint" style="--d:.34s"><h4><i>🌟</i>Cá Support</h4><p>Mặc định <b>50 máu</b>. Lv1-3 phun <b>1, 2, 3 viên</b> thức ăn cho cá đói. Lv4 phun 3 viên và <b>hồi 2 máu/giây</b> cho Chiến Binh &amp; Cá Support bị thương. Lv5 hồi <b>5 máu/giây</b> cho Chiến Binh. Số chữ xanh lá <b>+5</b> là máu được hồi. Chạm 📋 để nâng cấp, đổi tên, bán lại 80%.</p></section>
+  <section class="cd lav" style="--d:.35s"><h4><i>⚙️</i>Cài đặt</h4><p>Chọn <b>nhạc nền</b>, bật <b>màn hình ngang</b>, <b>cài game</b> vào điện thoại, chọn chế độ <b>⚡ Hiệu năng</b> (Tiết kiệm giúp máy mát, pin lâu), và đổi hình nền, cá, chiến binh, quái vật, cua, xu (mỗi loại lưu 5 hình gần đây).</p></section>
+  <button class="m p" id="gdone">Đã hiểu!</button>
+</div></div>
+
+<div class="ov" id="crop"><div class="pn">
+  <div class="ph"><h3 id="ctitle">Cắt hình</h3></div>
+  <select id="asp"><option value="screen">Tỉ lệ theo màn hình hiện tại</option><option value="16:9">Ngang 16:9</option><option value="9:16">Dọc 9:16</option></select>
+  <canvas id="cc"></canvas>
+  <input type="range" id="zm" min="0.3" max="4" step="0.05" value="1" style="--ac:#3f8cc6">
+  <small style="text-align:center;color:#6f8aa3">Kéo ảnh để di chuyển · thanh trượt để phóng to / thu nhỏ</small>
+  <div class="two"><button class="m g" id="cx">Huỷ</button><button class="m p" id="cs">Lưu</button></div>
+</div></div>
+
+<script src="js/core.js"></script>
+<script src="js/fx-layers.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/fish-list.js"></script>
+<script src="js/guide.js"></script>
+<script src="js/combat.js"></script>
+<script src="js/warriors-ui.js"></script>
+<script src="js/supports-ui.js"></script>
+<script src="js/monsters-ui.js"></script>
+<script src="js/settings-tabs.js"></script>
+<script src="js/input.js"></script>
+<script src="js/update.js"></script>
+<script src="js/render.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
