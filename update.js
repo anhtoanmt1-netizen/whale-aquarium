@@ -45,7 +45,6 @@ function update(dt){
     const a=alien;a.hit-=dt;a.atkT-=dt;
     let n=null,b=1e9,isW=false;
     for(const w of swords){const d=Math.hypot(w.x-a.x,w.y-a.y);if(d<b){b=d;n=w;isW=true}}
-    for(const o of horses){const d=Math.hypot(o.x-a.x,o.y-a.y);if(d<b){b=d;n=o;isW=true}}
     let bf=1e9,nf=null;for(const f of fish){const d=Math.hypot(f.x-a.x,f.y-a.y);if(d<bf){bf=d;nf=f}}
     if(!isW||bf<b*.6){n=nf;b=bf;isW=false}
     if(n){const d=b||1,sp=a.kind=='red'?48:55;a.x=cl(a.x+(n.x-a.x)/d*sp*dt,40,W-40);a.y=Math.min(H-40,a.y+(n.y-a.y)/d*sp*dt);
@@ -74,36 +73,18 @@ function update(dt){
     const sp=Math.hypot(w.vx,w.vy);if(sp>15){const k=Math.min(1,dt*10);w.hx+=(w.vx/sp-w.hx)*k;w.hy+=(w.vy/sp-w.hy)*k}
   }
   swords=swords.filter(w=>!w.dead);
-  // Cá Support: phun thức ăn + hồi máu
+  // cá ngựa: phun thức ăn
   for(const h of horses){
-    h.hurt-=dt;const sk=SK[h.lv];
-    let tg=null,td=1e9,rate=0;
-    if(sk.hw||sk.hs){
-      if(sk.hw)for(const w of swords)if(w.hp<w.max-.01){const d=Math.hypot(w.x-h.x,w.y-h.y);if(d<td){td=d;tg=w;rate=sk.hw}}
-      if(!tg&&sk.hs)for(const o of horses)if(o!==h&&o.hp<o.max-.01){const d=Math.hypot(o.x-h.x,o.y-h.y);if(d<td){td=d;tg=o;rate=sk.hs}}
-      if(!tg&&sk.hs&&h.hp<h.max-.01){tg=h;td=0;rate=sk.hs}
-    }
-    const chase=tg&&tg!==h;
-    if(chase){h.tx=cl(tg.x,45,W-45);h.ty=cl(tg.y-40,TOP+50,H-90)}
-    else if(Math.hypot(h.tx-h.x,h.ty-h.y)<15||Math.random()<dt*.08){h.tx=R(60,W-60);h.ty=R(TOP+50,H*.65)}
-    const dx=h.tx-h.x,dy=h.ty-h.y,d=Math.hypot(dx,dy)||1,spd=chase?95:28,k2=chase?2:1;h.vx+=(dx/d*spd-h.vx)*dt*k2;h.vy+=(dy/d*spd-h.vy)*dt*k2;
+    if(Math.hypot(h.tx-h.x,h.ty-h.y)<15||Math.random()<dt*.08){h.tx=R(60,W-60);h.ty=R(TOP+50,H*.65)}
+    const dx=h.tx-h.x,dy=h.ty-h.y,d=Math.hypot(dx,dy)||1;h.vx+=(dx/d*28-h.vx)*dt;h.vy+=(dy/d*28-h.vy)*dt;
     h.x=cl(h.x+h.vx*dt,45,W-45);h.y=cl(h.y+h.vy*dt,TOP+50,H-90);if(Math.abs(h.vx)>6)h.face=h.vx>0?1:-1;
-    h.beam=null;
-    if(sk.hw||sk.hs){   // hồi máu cho mọi đồng đội bị thương trong bán kính 175px
-      if(sk.hw)for(const w of swords)if(w.hp<w.max-.01&&Math.hypot(w.x-h.x,w.y-h.y)<175){const hv=Math.min(sk.hw*dt,w.max-w.hp);w.hp+=hv;w.hAcc=(w.hAcc||0)+hv;h.beam=h.beam||w}
-      if(sk.hs)for(const o of horses)if(o.hp<o.max-.01&&Math.hypot(o.x-h.x,o.y-h.y)<175){const hv=Math.min(sk.hs*dt,o.max-o.hp);o.hp+=hv;o.hAcc=(o.hAcc||0)+hv;if(o!==h)h.beam=h.beam||o}
-    }
-    if(!alien)h.hp=Math.min(h.max,h.hp+dt*.8);
     h.sp-=dt;h.spitT-=dt;
     if(h.spitT<=0){h.spitT=R(3.5,6);
-      if(food.length<24&&fish.some(f=>f.hunger>30)){
+      if(food.length<16&&fish.some(f=>f.hunger>30)){
         const im=img('horse'),hh=96,ww=im&&im.naturalWidth?hh*im.naturalWidth/im.naturalHeight:62,mx=h.x+h.face*ww*.46,my=h.y-hh*.13;
-        for(let q=0;q<sk.n;q++)food.push({x:mx,y:my,vx:h.face*(70+q*26)+R(-8,8),vy:-55-q*14,age:0});h.sp=.3;
+        food.push({x:mx,y:my,vx:h.face*75,vy:-55,age:0});h.sp=.3;
         for(let i=0;i<3;i++)bubbles.push({x:mx,y:my,r:R(1.5,3),ph:R(0,6)});fx.push({x:mx+h.face*14,y:my-6,l:.4,e:'💦'})}}
   }
-  horses=horses.filter(h=>!h.dead);
-  // số máu hồi (chữ xanh lá): gộp mỗi giây một lần trên từng đồng đội
-  for(const arr of[swords,horses])for(const a of arr){if(a.hAcc>0){a.hT=(a.hT||0)+dt;if(Math.random()<dt*1.5)fx.push({x:a.x+R(-16,16),y:a.y-8,l:.7,m:.7,e:'💚'});if(a.hT>=1||a.hp>=a.max-.01){const amt=Math.round(a.hAcc);if(amt>=1)dmgText(a.x+R(-10,10),a.y-34,amt,true);a.hAcc=0;a.hT=0}}}
   for(let i=fx.length-1;i>=0;i--){fx[i].l-=dt;if(fx[i].l<=0)fx.splice(i,1)}
   for(let i=dn.length-1;i>=0;i--){dn[i].l-=dt*1.1;if(dn[i].l<=0)dn.splice(i,1)}
   for(let i=bubbles.length-1;i>=0;i--){const b=bubbles[i];b.y-=(14+b.r*5)*dt;b.x+=Math.sin(t*1.3+b.ph)*10*dt;

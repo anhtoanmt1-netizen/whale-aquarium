@@ -1,5 +1,5 @@
 const cv=document.getElementById('c'),c=cv.getContext('2d',{desynchronized:true}),$=id=>document.getElementById(id);
-const PERFS={eco:{fps:30,dpr:1,spk:6,bub:8,fb:10,ray:3},bal:{fps:45,dpr:1.5,spk:18,bub:18,fb:24,ray:5},high:{fps:60,dpr:2,spk:30,bub:26,fb:40,ray:5}};
+const PERFS={eco:{fps:30,dpr:1.25,spk:10,bub:14,fb:16},bal:{fps:30,dpr:2,spk:24,bub:22,fb:30},high:{fps:60,dpr:2,spk:24,bub:22,fb:40}};
 let PF=PERFS.eco,SQ=1;const SPR={},EM={},CSP={},BUB={};
 let W,H,DPR,TOP=110;
 function resize(){const nd=Math.min(devicePixelRatio||1,PF.dpr);if(nd!==DPR){DPR=nd;SQ=Math.min(DPR,1.5);for(const o of[SPR,EM,CSP,BUB])for(const k in o)delete o[k]}W=innerWidth;H=innerHeight;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);c.setTransform(DPR,0,0,DPR,0,0);TOP=$('hud').offsetHeight+6}
@@ -22,19 +22,12 @@ const WB={dmg:5,hp:50,buy:300,up:200},WNAMES=['Kiếm Sĩ','Thần Tốc','Sấm
 function wStat(lv){let d=WB.dmg,h=WB.hp;for(let i=1;i<lv;i++){d=Math.ceil(d*1.2);h=Math.ceil(h*1.2)}return{d,h}}
 function wUpCost(lv){return Math.ceil(WB.up*Math.pow(1.2,lv-1)-1e-9)}
 function newSword(m={}){const lv=m.lv||1,st=wStat(lv);return{id:m.id||('w'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)),name:m.name||WNAMES[Math.floor(Math.random()*WNAMES.length)],born:m.born||Date.now(),lv,max:st.h,hp:m.hp==null?st.h:Math.max(1,Math.min(m.hp,st.h)),dmg:st.d,spent:m.spent||WB.buy,x:R(80,W-80),y:R(TOP+60,H-100),vx:R(-30,30),vy:0,hx:-1,hy:0,tx:R(80,W-80),ty:R(TOP+60,H-100),cd:0,lunge:0,did:false,hurt:0,dead:false,ph:R(0,6)}}
-const SB={hp:50,buy:250,up:150},SNAMES=['Hải Mã','Sen','Mận','Gió','Suối','Sao','Mây','Nắng','Trăng','Sương'];
-const SK=[null,{n:1,hs:0,hw:0},{n:2,hs:0,hw:0},{n:3,hs:0,hw:0},{n:3,hs:2,hw:2},{n:3,hs:2,hw:5}];
-const SKT=[null,'🍤 Phun 1 viên thức ăn','🍤 Phun 2 viên thức ăn','🍤 Phun 3 viên thức ăn','🍤 3 viên + 💚 hồi 2 máu/giây cho Chiến Binh & Support bị thương','🍤 3 viên + 💚 hồi 2 máu/giây cho Support, 5 máu/giây cho Chiến Binh bị thương'];
-function sUpCost(lv){return Math.ceil(SB.up*Math.pow(1.2,lv-1)-1e-9)}
-function newHorse(m={}){return{id:m.id||('s'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)),name:m.name||SNAMES[Math.floor(Math.random()*SNAMES.length)],born:m.born||Date.now(),lv:m.lv||1,max:SB.hp,hp:m.hp==null?SB.hp:Math.max(1,Math.min(m.hp,SB.hp)),spent:m.spent||SB.buy,
-  x:R(60,W-60),y:R(TOP+60,H*.6),vx:0,vy:0,face:-1,tx:R(60,W-60),ty:R(TOP+60,H*.6),spitT:R(2,4),sp:0,ph:R(0,6),hurt:0,dead:false,heal:0,healT:0,beam:null}}
+function newHorse(){return{x:R(60,W-60),y:R(TOP+60,H*.6),vx:0,vy:0,face:-1,tx:R(60,W-60),ty:R(TOP+60,H*.6),spitT:R(2,4),sp:0,ph:R(0,6)}}
 for(let i=0;i<S.crabs;i++)crabs.push(newCrab());
 if(!S.warriors)S.warriors=Array.from({length:S.swords||0},()=>({}));
 S.wcap=Math.min(50,Math.max(S.wcap||5,S.warriors.length));
 for(const m of S.warriors)swords.push(newSword(m));
-if(!S.supports)S.supports=Array.from({length:S.horses||0},()=>({}));
-S.scap=Math.min(50,Math.max(S.scap||5,S.supports.length));
-for(const m of S.supports)horses.push(newHorse(m));
-function save(){S.supports=horses.map(h=>({id:h.id,name:h.name,born:h.born,lv:h.lv,hp:Math.ceil(h.hp),spent:h.spent}));S.warriors=swords.map(w=>({id:w.id,name:w.name,born:w.born,lv:w.lv,hp:Math.ceil(w.hp),spent:w.spent}));S.fish=fish.map(f=>({stage:f.stage,hunger:Math.floor(f.hunger),joy:Math.floor(f.joy),name:f.name,sex:f.sex,born:f.born,id:f.id}));try{localStorage.setItem('whale1',JSON.stringify(S))}catch(e){}}
+for(let i=0;i<S.horses;i++)horses.push(newHorse());
+function save(){S.warriors=swords.map(w=>({id:w.id,name:w.name,born:w.born,lv:w.lv,hp:Math.ceil(w.hp),spent:w.spent}));S.fish=fish.map(f=>({stage:f.stage,hunger:Math.floor(f.hunger),joy:Math.floor(f.joy),name:f.name,sex:f.sex,born:f.born,id:f.id}));try{localStorage.setItem('whale1',JSON.stringify(S))}catch(e){}}
 setInterval(save,4000);
 function say(m){const e=$('msg');e.textContent=m;msgT=2.8}

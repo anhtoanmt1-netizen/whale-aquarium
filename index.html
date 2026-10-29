@@ -21,8 +21,7 @@
 <div id="bgL"></div><div id="rays"></div><div id="bubs"></div>
 <canvas id="c"></canvas>
 <div id="spk"></div>
-<div id="hud"><div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div class="pill" id="cntw" style="display:none">⚔️ 0 ›</div><div class="pill" id="cnts" style="display:none">🌟 0 ›</div><div id="sp"></div><button id="shopb" aria-label="Cửa hàng">🛒</button><button id="gear" aria-label="Cài đặt">⚙️</button></div></div>
-<div id="fpsb"></div>
+<div id="hud"><div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div class="pill" id="cntw" style="display:none">⚔️ 0/5 ›</div><div id="sp"></div><button id="shopb" aria-label="Cửa hàng">🛒</button><button id="gear" aria-label="Cài đặt">⚙️</button></div></div>
 <div id="msg"></div>
 
 <div class="ov" id="shop"><div class="pn">
@@ -30,8 +29,7 @@
   <div class="shg">
     <button class="shp s1" id="buy"><i class="cn" id="c_buy"></i><span class="ic">🐋</span><b>Cá voi</b><small>Lớn lên sẽ đẻ xu</small><em id="p_buy">100</em></button>
     <button class="shp s2" id="sword"><i class="cn" id="c_sword"></i><span class="ic"><img src="sword.png" alt=""></span><b>Cá Chiến Binh</b><small>Lao đâm quái vật · nâng cấp tới Lv5 · chạm 📋 xem danh sách</small><em id="p_sword">300</em></button>
-    <button class="shp s3" id="horse"><i class="cn" id="c_horse"></i><span class="ic"><img src="horse.png" alt=""></span><b>Cá Support</b><small>Phun thức ăn · Lv4-5 hồi máu · chạm 📋 xem danh sách</small><em id="p_horse">250</em></button>
-    <button class="shp s3" id="sslot"><i class="cn" id="c_sslot"></i><span class="ic">🌟</span><b>+5 chỗ Cá Support</b><small>Mở rộng đội Support (tối đa 50)</small><em id="p_sslot">300</em></button>
+    <button class="shp s3" id="horse"><i class="cn" id="c_horse"></i><span class="ic"><img src="horse.png" alt=""></span><b>Cá ngựa</b><small>Phun thức ăn cho cá</small><em id="p_horse">250</em></button>
     <button class="shp s4" id="crab"><i class="cn" id="c_crab"></i><span class="ic"><img src="crab.png" alt=""></span><b>Cua</b><small>Nhặt xu ở đáy hồ</small><em id="p_crab">200</em></button>
     <button class="shp s5" id="up"><i class="cn" id="c_up"></i><span class="ic">🍤</span><b>Thức ăn</b><small>Thả được nhiều viên hơn</small><em id="p_up">150</em></button>
     <button class="shp s6" id="slot"><i class="cn" id="c_slot"></i><span class="ic">🏝️</span><b>+5 chỗ</b><small>Hồ rộng hơn (tối đa 50 cá)</small><em id="p_slot">300</em></button>
@@ -73,8 +71,7 @@
         <button class="chip" data-p="bal">⚖️<span>Cân bằng</span></button>
         <button class="chip" data-p="high">🚀<span>Mượt 60</span></button>
       </div>
-      <p class="ds"><b>Tiết kiệm</b>: 30 FPS, độ nét thấp, ít hiệu ứng, máy mát nhất (nên chọn khi nuôi nhiều cá). <b>Cân bằng</b>: 45 FPS, hiệu ứng vừa. <b>Mượt</b>: 60 FPS, đẹp nhất nhưng nóng nhất. Bật “Hiện FPS” để xem tốc độ thật của máy.</p>
-      <label class="r2" style="color:#8a6b00"><span>📈 Hiện FPS (tốc độ khung hình)</span><input type="checkbox" id="showfps"><b class="sw"></b></label>
+      <p class="ds">Tiết kiệm: 30 khung hình/giây, ít hiệu ứng hơn, máy mát và pin lâu (nên chọn khi nuôi nhiều cá). Cân bằng: 30 khung hình, đủ hiệu ứng. Mượt: 60 khung hình, đẹp nhất nhưng máy nóng hơn.</p>
     </section>
     <section class="cd peach"><h4><i>💬</i>Trò chuyện</h4>
       <label class="r2"><span>💬 Cho cá trò chuyện</span><input type="checkbox" id="chat"><b class="sw"></b></label>
@@ -85,7 +82,7 @@
   <div class="sp" id="sp_img">
     <section class="cd sky"><h4><i>🖼️</i>Hình ảnh<small id="gn">0/5</small></h4>
       <div class="tabs" id="tabs">
-        <button data-t="bg">🌊 Nền hồ</button><button data-t="fish">🐋 Cá voi</button><button data-t="sword">⚔️ Chiến binh</button><button data-t="horse">🌟 Cá Support</button><button data-t="crab">🦀 Cua</button><button data-t="gold">🟡 Xu vàng</button><button data-t="silver">⚪ Xu bạc</button><button data-t="mgreen">🟢 Quái xanh lá</button><button data-t="mblue">🔵 Quái xanh biển</button><button data-t="mpurple">🟣 Quái tím</button><button data-t="mred">🔴 Quái đỏ</button>
+        <button data-t="bg">🌊 Nền hồ</button><button data-t="fish">🐋 Cá voi</button><button data-t="sword">⚔️ Chiến binh</button><button data-t="horse">🐴 Cá ngựa</button><button data-t="crab">🦀 Cua</button><button data-t="gold">🟡 Xu vàng</button><button data-t="silver">⚪ Xu bạc</button><button data-t="mgreen">🟢 Quái xanh lá</button><button data-t="mblue">🔵 Quái xanh biển</button><button data-t="mpurple">🟣 Quái tím</button><button data-t="mred">🔴 Quái đỏ</button>
       </div>
       <div class="gal" id="gal"></div>
       <small id="ghint">Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
@@ -97,7 +94,6 @@
     <section class="cd pink"><h4><i>📋</i>Danh sách &amp; bảng thông tin</h4>
       <button class="r2" id="flistb"><span>🐋 Danh sách cá</span><em>›</em></button>
       <button class="r2" id="wlistb"><span>⚔️ Danh sách Cá Chiến Binh</span><em>›</em></button>
-      <button class="r2" id="slistb"><span>🌟 Danh sách Cá Support</span><em>›</em></button>
       <button class="r2" id="minfob2"><span>👾 Thông tin quái vật</span><em>›</em></button>
       <p class="ds">Xem tên, tuổi, chỉ số, nâng cấp hoặc bán từng chú cá; xem máu, sát thương và tỉ lệ xuất hiện của quái vật.</p>
     </section>
@@ -105,7 +101,7 @@
       <button class="r2" id="helps"><span>📖 Hướng dẫn chơi</span><em>›</em></button>
       <p class="ds">Xem cách chơi từng tính năng: cho ăn, xu, vuốt ve, cửa hàng, quái vật…</p>
     </section>
-    <p class="ds" style="text-align:center">Cá Voi Nhỏ · phiên bản 8</p>
+    <p class="ds" style="text-align:center">Cá Voi Nhỏ · phiên bản 7</p>
   </div>
   <input type="file" id="file" accept="image/png,image/*" hidden>
 </div></div>
@@ -125,14 +121,6 @@
   <p class="ds" style="text-align:center">Sửa tên ngay trên thẻ · bán chiến binh nhận lại 80% tổng giá trị (giá mua + các lần nâng cấp).</p>
 </div></div>
 
-<div class="ov" id="slist"><div class="pn">
-  <div class="ph"><h3>🌟 Cá Support</h3><div class="pill" id="slc">🌟 0/5</div><button class="x" id="slclose" aria-label="Đóng">✕</button></div>
-  <div class="how" style="background:#e4f6ee;color:#1f6b4a"><div class="ill" style="background:linear-gradient(#d6f5e6,#9fdfc0)"><span>💚</span></div><div><b>Kỹ năng theo level</b><br>Lv1-3: phun 1, 2, 3 viên thức ăn. Lv4: 3 viên + hồi 2 máu/giây cho cá bị thương. Lv5: hồi 5 máu/giây cho Chiến Binh. Máu về 0 là hy sinh.</div></div>
-  <button class="r2" id="sslotb"><span>🏝️ Mua thêm 5 chỗ Cá Support</span><em id="sslotp">🪙 300</em></button>
-  <div id="scards" style="display:flex;flex-direction:column;gap:10px"></div>
-  <p class="ds" style="text-align:center">Sửa tên ngay trên thẻ · bán Cá Support nhận lại 80% tổng giá trị (giá mua + các lần nâng cấp).</p>
-</div></div>
-
 <div class="ov" id="minfo"><div class="pn">
   <div class="ph"><h3>👾 Thông tin quái vật</h3><button class="x" id="miclose" aria-label="Đóng">✕</button></div>
   <p class="ds">Quái vật xuất hiện ngẫu nhiên theo tỉ lệ bên dưới. Chạm vào <b>hình quái vật</b> để đổi hình (PNG, có cắt ảnh).</p>
@@ -149,10 +137,9 @@
   <section class="cd peach" style="--d:.15s"><h4><i>👆</i>Chạm vào cá</h4><p>Chạm nhẹ vào một chú cá, cá sẽ phản ứng ngẫu nhiên: <b>giận dữ, làm nũng, nhút nhát</b> hoặc <b>bỏ chạy</b>. Chạm vào chỗ trống mới là thả thức ăn.</p></section>
   <section class="cd lav" style="--d:.19s"><h4><i>💬</i>Cá trò chuyện</h4><p>Cá nói chuyện với nhau bằng bong bóng chat: chào hỏi, kể chuyện cười, cãi nhau dễ thương… Bạn có thể tắt trong ⚙️ Cài đặt.</p></section>
   <section class="cd sky" style="--d:.23s"><h4><i>🐋</i>Danh sách cá</h4><p>Chạm vào ô <b>🐋 số cá</b> ở góc trên để xem từng chú: tên (đổi được), tuổi, giới tính, độ no, độ vui. Bạn có thể vuốt ve ngay ở hình cá, hoặc <b>bán</b> cá (có hỏi xác nhận).</p></section>
-  <section class="cd mint" style="--d:.27s"><h4><i>🛒</i>Cửa hàng</h4><p><b>Cá Chiến Binh</b> tự lao đâm quái vật · <b>Cá Support</b> phun thức ăn và hồi máu · <b>Cua</b> nhặt xu dưới đáy (mỗi loại tối đa 5) · <b>Thức ăn</b> thả được nhiều viên hơn · <b>+5 chỗ</b> mở rộng hồ (tối đa 50 cá).</p></section>
-  <section class="cd pink" style="--d:.31s"><h4><i>👾</i>Quái vật</h4><p>Có 4 loại: <b>xanh lá, xanh biển, tím, đỏ</b> (máu và sát thương khác nhau). Quái vật ăn cá và tấn công Chiến Binh, Cá Support. Hãy <b>chạm liên tục</b> vào nó để gây 5 sát thương mỗi lần, hoặc nhờ Chiến Binh. Diệt quái được thưởng xu. Xem chi tiết ở 👾 Thông tin quái vật.</p></section>
+  <section class="cd mint" style="--d:.27s"><h4><i>🛒</i>Cửa hàng</h4><p><b>Cá Chiến Binh</b> tự lao đâm quái vật · <b>Cá ngựa</b> phun thức ăn cho cá · <b>Cua</b> nhặt xu dưới đáy (mỗi loại tối đa 5) · <b>Thức ăn</b> thả được nhiều viên hơn · <b>+5 chỗ</b> mở rộng hồ (tối đa 50 cá).</p></section>
+  <section class="cd pink" style="--d:.31s"><h4><i>👾</i>Quái vật</h4><p>Có 4 loại: <b>xanh lá, xanh biển, tím, đỏ</b> (máu và sát thương khác nhau). Quái vật ăn cá và tấn công Chiến Binh. Hãy <b>chạm liên tục</b> vào nó để gây 5 sát thương mỗi lần, hoặc nhờ Chiến Binh. Diệt quái được thưởng xu. Xem chi tiết ở 👾 Thông tin quái vật.</p></section>
   <section class="cd lav" style="--d:.33s"><h4><i>⚔️</i>Cá Chiến Binh</h4><p>Mặc định <b>5 sát thương, 50 máu</b>. Mua trong 🛒, chạm số lượng 📋 để xem danh sách: nâng cấp <b>Lv1→Lv5</b> (⭐), đổi tên, xem tuổi, bán lại 80% giá trị. Số chữ đỏ <b>-5</b> là sát thương gây ra. Mua thêm chỗ để có tối đa 50 chiến binh.</p></section>
-  <section class="cd mint" style="--d:.34s"><h4><i>🌟</i>Cá Support</h4><p>Mặc định <b>50 máu</b>. Lv1-3 phun <b>1, 2, 3 viên</b> thức ăn cho cá đói. Lv4 phun 3 viên và <b>hồi 2 máu/giây</b> cho Chiến Binh &amp; Cá Support bị thương. Lv5 hồi <b>5 máu/giây</b> cho Chiến Binh. Số chữ xanh lá <b>+5</b> là máu được hồi. Chạm 📋 để nâng cấp, đổi tên, bán lại 80%.</p></section>
   <section class="cd lav" style="--d:.35s"><h4><i>⚙️</i>Cài đặt</h4><p>Chọn <b>nhạc nền</b>, bật <b>màn hình ngang</b>, <b>cài game</b> vào điện thoại, chọn chế độ <b>⚡ Hiệu năng</b> (Tiết kiệm giúp máy mát, pin lâu), và đổi hình nền, cá, chiến binh, quái vật, cua, xu (mỗi loại lưu 5 hình gần đây).</p></section>
   <button class="m p" id="gdone">Đã hiểu!</button>
 </div></div>
@@ -177,7 +164,6 @@
 <script src="js/guide.js"></script>
 <script src="js/combat.js"></script>
 <script src="js/warriors-ui.js"></script>
-<script src="js/supports-ui.js"></script>
 <script src="js/monsters-ui.js"></script>
 <script src="js/settings-tabs.js"></script>
 <script src="js/input.js"></script>

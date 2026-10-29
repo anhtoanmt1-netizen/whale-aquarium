@@ -152,8 +152,3 @@ body.cbg #bgL::after{display:none}
 .bub{position:absolute;bottom:-24px;border-radius:50%;background:rgba(255,255,255,.1);border:1.2px solid rgba(255,255,255,.5);will-change:transform,opacity;animation:rise linear infinite}
 .bub::after{content:"";position:absolute;left:22%;top:20%;width:24%;height:24%;border-radius:50%;background:rgba(255,255,255,.75)}
 @keyframes rise{0%{transform:translate(0,0);opacity:0}8%{opacity:1}25%{transform:translate(10px,-28vh)}50%{transform:translate(-6px,-56vh)}75%{transform:translate(10px,-84vh)}92%{opacity:1}100%{transform:translate(0,-112vh);opacity:0}}
-
-#fpsb{position:fixed;left:8px;bottom:calc(env(safe-area-inset-bottom,0px) + 6px);z-index:3;display:none;background:rgba(0,0,0,.65);color:#fff;font:700 10px Montserrat,system-ui,sans-serif;padding:3px 8px;border-radius:10px;pointer-events:none}
-#hud .row{flex-wrap:wrap}
-.fc.sc{background:#e4f6ee;flex-wrap:wrap}.sc .bar em{width:54px}
-.sk{font-size:10.5px;font-weight:700;color:#1f7a50;background:#fff;border-radius:10px;padding:4px 8px;line-height:1.4}

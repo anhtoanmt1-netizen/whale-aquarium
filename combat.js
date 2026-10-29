@@ -4,9 +4,9 @@ const MK=['green','blue','purple','red'],TAPD=5,dn=[];let retTo='set',spane='snd
 function pickMon(){let r=Math.random()*100;for(const k of MK){r-=MON[k].p;if(r<0)return k}return'green'}
 function spawnAlien(k){const m=MON[k];alien={kind:k,x:R(60,W-60),y:-50,hp:m.hp,max:m.hp,dmg:m.dmg,r:m.r,hit:0,eatT:4,atkT:1};say('⚠️ '+m.n+' xuất hiện! Chạm liên tục để đánh!')}
 function killAlien(msg){const m=MON[alien.kind];S.coins+=m.rw;say(msg+'! +'+m.rw+' 🪙');alien=null;alienT=R(35,55)}
-function dmgText(x,y,v,heal){dn.push({x,y,v,l:1,h:!!heal})}
-function drawDn(){c.font='800 18px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineWidth=4;c.strokeStyle='rgba(255,255,255,.92)';c.lineJoin='round';
-  for(const d of dn){c.globalAlpha=Math.min(1,d.l*2);const y=d.y-(1-d.l)*38,tx=(d.h?'+':'-')+d.v;c.fillStyle=d.h?'#2e9e5b':'#e53935';c.strokeText(tx,d.x,y);c.fillText(tx,d.x,y)}c.globalAlpha=1}
+function dmgText(x,y,v){dn.push({x,y,v,l:1})}
+function drawDn(){c.font='800 18px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineWidth=4;c.strokeStyle='rgba(255,255,255,.92)';c.lineJoin='round';c.fillStyle='#e53935';
+  for(const d of dn){c.globalAlpha=Math.min(1,d.l*2);const y=d.y-(1-d.l)*38;c.strokeText('-'+d.v,d.x,y);c.fillText('-'+d.v,d.x,y)}c.globalAlpha=1}
 function drawMon(X,k,x,y,sc,tt){
   const m=MON[k],im=IM['m'+k],r=m.r*sc;X.save();X.translate(x,y);
   if(im){const z=r*2.5;X.drawImage(im,-z/2,-z/2,z,z)}

@@ -33,10 +33,7 @@ function drawSword(w){const im=img('sword');if(!im||!im.naturalWidth)return;cons
   const bw=44,by=w.y-hh/2-14;c.fillStyle='#0006';c.fillRect(w.x-bw/2,by,bw,5);c.fillStyle=w.hp/w.max<.35?'#ef5350':'#5fc79a';c.fillRect(w.x-bw/2,by,bw*Math.max(0,w.hp/w.max),5);
   c.font='800 10px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#f5b400';c.fillText('★'.repeat(w.lv),w.x,by-7)}
 function drawHorse(h){const im=img('horse');if(!im||!im.naturalWidth)return;const hh=96,ww=hh*im.naturalWidth/im.naturalHeight,k=1+(h.sp>0?.1*h.sp/.3:0);
-  if(h.beam&&!h.beam.dead){c.strokeStyle='rgba(60,200,120,.6)';c.lineWidth=3;c.beginPath();c.moveTo(h.x,h.y);c.lineTo(h.beam.x,h.beam.y);c.stroke()}
-  c.save();c.translate(h.x+(h.hurt>0?R(-3,3):0),h.y+Math.sin(t*2+h.ph)*3);c.rotate(Math.sin(t*1.5+h.ph)*.07);c.scale(-h.face*k,k);if(h.hurt>0)c.globalAlpha=.7;c.drawImage(im,-ww/2,-hh/2,ww,hh);c.restore();
-  const bw=44,by=h.y-hh/2-12;c.fillStyle='#0006';c.fillRect(h.x-bw/2,by,bw,5);c.fillStyle=h.hp/h.max<.35?'#ef5350':'#5fc79a';c.fillRect(h.x-bw/2,by,bw*Math.max(0,h.hp/h.max),5);
-  c.font='800 10px Montserrat,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#f5b400';c.fillText('★'.repeat(h.lv),h.x,by-7)}
+  c.save();c.translate(h.x,h.y+Math.sin(t*2+h.ph)*3);c.rotate(Math.sin(t*1.5+h.ph)*.07);c.scale(-h.face*k,k);c.drawImage(im,-ww/2,-hh/2,ww,hh);c.restore()}
 
 // ---- Bộ nhớ đệm hình (sprite): vẽ cá/xu/emoji/bóng 1 lần, sau đó chỉ drawImage → nhẹ máy
 const FR=12;
