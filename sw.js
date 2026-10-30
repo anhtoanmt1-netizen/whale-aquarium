@@ -1,5 +1,5 @@
-const CACHE = 'whale-v9';
-const FILES = ['./', './index.html', './manifest.json', './crab.png', './sword.png', './horse.png', './icon-192.png', './icon-512.png'];
+const CACHE = 'whale-v10';
+const FILES = ['./', './index.html', './manifest.json', './crab.png', './fish-sheet.png', './fish-icon.png', './sword.png', './horse.png', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   // một file lỗi không làm hỏng cả service worker
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(FILES.map(f => c.add(new Request(f, {cache: 'reload'})).catch(() => {})))));

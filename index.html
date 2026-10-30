@@ -207,14 +207,14 @@ body.cbg #bgL::after{display:none}
 <div id="bgL"></div><div id="rays"></div><div id="bubs"></div>
 <canvas id="c"></canvas>
 <div id="spk"></div>
-<div id="hud"><div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐋 0/10</div><div class="pill" id="cntw" style="display:none">⚔️ 0 ›</div><div class="pill" id="cnts" style="display:none">🌟 0 ›</div><div id="sp"></div><button id="shopb" aria-label="Cửa hàng">🛒</button><button id="gear" aria-label="Cài đặt">⚙️</button></div></div>
+<div id="hud"><div class="row"><div class="pill" id="coins">🪙 0</div><div class="pill" id="cnt">🐠 0/10</div><div class="pill" id="cntw" style="display:none">⚔️ 0 ›</div><div class="pill" id="cnts" style="display:none">🌟 0 ›</div><div id="sp"></div><button id="shopb" aria-label="Cửa hàng">🛒</button><button id="gear" aria-label="Cài đặt">⚙️</button></div></div>
 <div id="fpsb"></div>
 <div id="msg"></div>
 
 <div class="ov" id="shop"><div class="pn">
   <div class="ph"><h3>🛒 Cửa hàng</h3><div class="pill" id="coins2">🪙 0</div><button class="x" id="helpb" aria-label="Hướng dẫn">❓</button><button class="x" id="shclose" aria-label="Đóng">✕</button></div>
   <div class="shg">
-    <button class="shp s1" id="buy"><i class="cn" id="c_buy"></i><span class="ic">🐋</span><b>Cá voi</b><small>Lớn lên sẽ đẻ xu</small><em id="p_buy">100</em></button>
+    <button class="shp s1" id="buy"><i class="cn" id="c_buy"></i><span class="ic"><img src="fish-icon.png" alt=""></span><b>Cá voi</b><small>Lớn lên sẽ đẻ xu</small><em id="p_buy">100</em></button>
     <button class="shp s2" id="sword"><i class="cn" id="c_sword"></i><span class="ic"><img src="sword.png" alt=""></span><b>Cá Chiến Binh</b><small>Lao đâm quái vật · nâng cấp tới Lv5 · chạm 📋 xem danh sách</small><em id="p_sword">300</em></button>
     <button class="shp s3" id="horse"><i class="cn" id="c_horse"></i><span class="ic"><img src="horse.png" alt=""></span><b>Cá Support</b><small>Phun thức ăn · Lv4-5 hồi máu · chạm 📋 xem danh sách</small><em id="p_horse">250</em></button>
     <button class="shp s3" id="sslot"><i class="cn" id="c_sslot"></i><span class="ic">🌟</span><b>+5 chỗ Cá Support</b><small>Mở rộng đội Support (tối đa 50)</small><em id="p_sslot">300</em></button>
@@ -271,7 +271,7 @@ body.cbg #bgL::after{display:none}
   <div class="sp" id="sp_img">
     <section class="cd sky"><h4><i>🖼️</i>Hình ảnh<small id="gn">0/5</small></h4>
       <div class="tabs" id="tabs">
-        <button data-t="bg">🌊 Nền hồ</button><button data-t="fish">🐋 Cá voi</button><button data-t="sword">⚔️ Chiến binh</button><button data-t="horse">🌟 Cá Support</button><button data-t="crab">🦀 Cua</button><button data-t="gold">🟡 Xu vàng</button><button data-t="silver">⚪ Xu bạc</button><button data-t="mgreen">🟢 Quái xanh lá</button><button data-t="mblue">🔵 Quái xanh biển</button><button data-t="mpurple">🟣 Quái tím</button><button data-t="mred">🔴 Quái đỏ</button>
+        <button data-t="bg">🌊 Nền hồ</button><button data-t="fish">🐠 Cá voi</button><button data-t="sword">⚔️ Chiến binh</button><button data-t="horse">🌟 Cá Support</button><button data-t="crab">🦀 Cua</button><button data-t="gold">🟡 Xu vàng</button><button data-t="silver">⚪ Xu bạc</button><button data-t="mgreen">🟢 Quái xanh lá</button><button data-t="mblue">🔵 Quái xanh biển</button><button data-t="mpurple">🟣 Quái tím</button><button data-t="mred">🔴 Quái đỏ</button>
       </div>
       <div class="gal" id="gal"></div>
       <small id="ghint">Chạm để chọn · ✕ để xoá · tối đa 5 hình</small>
@@ -281,7 +281,7 @@ body.cbg #bgL::after{display:none}
 
   <div class="sp" id="sp_inf">
     <section class="cd pink"><h4><i>📋</i>Danh sách &amp; bảng thông tin</h4>
-      <button class="r2" id="flistb"><span>🐋 Danh sách cá</span><em>›</em></button>
+      <button class="r2" id="flistb"><span>🐠 Danh sách cá</span><em>›</em></button>
       <button class="r2" id="wlistb"><span>⚔️ Danh sách Cá Chiến Binh</span><em>›</em></button>
       <button class="r2" id="slistb"><span>🌟 Danh sách Cá Support</span><em>›</em></button>
       <button class="r2" id="minfob2"><span>👾 Thông tin quái vật</span><em>›</em></button>
@@ -291,14 +291,14 @@ body.cbg #bgL::after{display:none}
       <button class="r2" id="helps"><span>📖 Hướng dẫn chơi</span><em>›</em></button>
       <p class="ds">Xem cách chơi từng tính năng: cho ăn, xu, vuốt ve, cửa hàng, quái vật…</p>
     </section>
-    <p class="ds" style="text-align:center">Cá Voi Nhỏ · phiên bản 9</p>
+    <p class="ds" style="text-align:center">Cá Voi Nhỏ · phiên bản 10</p>
   </div>
   <input type="file" id="file" accept="image/png,image/*" hidden>
 </div></div>
 
 <div class="ov" id="flist"><div class="pn">
-  <div class="ph"><h3>🐋 Danh sách cá</h3><div class="pill" id="flc">🐋 0/10</div><button class="x" id="flclose" aria-label="Đóng">✕</button></div>
-  <div class="how"><div class="ill"><span>🐋</span><span class="hd">👆</span><span class="ht h1">💗</span><span class="ht h2">💗</span></div><div><b>Vuốt ve để cá hạnh phúc</b><br>Đặt ngón tay lên chú cá, trong hồ hoặc ngay ở hình cá bên dưới, rồi vuốt qua lại để thả tim 💗 và tăng chỉ số <b>Vui</b>. Vui dưới 50%: xu rơi chậm gấp đôi · về 0%: ngừng rơi xu.</div></div>
+  <div class="ph"><h3>🐠 Danh sách cá</h3><div class="pill" id="flc">🐠 0/10</div><button class="x" id="flclose" aria-label="Đóng">✕</button></div>
+  <div class="how"><div class="ill"><span>🐠</span><span class="hd">👆</span><span class="ht h1">💗</span><span class="ht h2">💗</span></div><div><b>Vuốt ve để cá hạnh phúc</b><br>Đặt ngón tay lên chú cá, trong hồ hoặc ngay ở hình cá bên dưới, rồi vuốt qua lại để thả tim 💗 và tăng chỉ số <b>Vui</b>. Vui dưới 50%: xu rơi chậm gấp đôi · về 0%: ngừng rơi xu.</div></div>
   <div id="fcards" style="display:flex;flex-direction:column;gap:10px"></div>
   <p class="ds" style="text-align:center">Sửa tên ngay trên thẻ · thanh 🍤 No càng đầy cá càng no · bán cá nhận xu theo cấp (50 / 100 / 160 🪙).</p>
 </div></div>
@@ -334,7 +334,7 @@ body.cbg #bgL::after{display:none}
   <section class="cd pink" style="--d:.11s"><h4><i>💗</i>Hạnh phúc &amp; vuốt ve</h4><p>Đặt ngón tay lên cá rồi <b>vuốt qua lại</b> để thả tim và tăng hạnh phúc. Hạnh phúc dưới 50%: xu rơi chậm gấp đôi. Về 0%: cá ngừng đẻ xu. Cho ăn cũng làm cá vui hơn một chút.</p></section>
   <section class="cd peach" style="--d:.15s"><h4><i>👆</i>Chạm vào cá</h4><p>Chạm nhẹ vào một chú cá, cá sẽ phản ứng ngẫu nhiên: <b>giận dữ, làm nũng, nhút nhát</b> hoặc <b>bỏ chạy</b>. Chạm vào chỗ trống mới là thả thức ăn.</p></section>
   <section class="cd lav" style="--d:.19s"><h4><i>💬</i>Cá trò chuyện</h4><p>Cá nói chuyện với nhau bằng bong bóng chat: chào hỏi, kể chuyện cười, cãi nhau dễ thương… Bạn có thể tắt trong ⚙️ Cài đặt.</p></section>
-  <section class="cd sky" style="--d:.23s"><h4><i>🐋</i>Danh sách cá</h4><p>Chạm vào ô <b>🐋 số cá</b> ở góc trên để xem từng chú: tên (đổi được), tuổi, giới tính, độ no, độ vui. Bạn có thể vuốt ve ngay ở hình cá, hoặc <b>bán</b> cá (có hỏi xác nhận).</p></section>
+  <section class="cd sky" style="--d:.23s"><h4><i>🐠</i>Danh sách cá</h4><p>Chạm vào ô <b>🐠 số cá</b> ở góc trên để xem từng chú: tên (đổi được), tuổi, giới tính, độ no, độ vui. Bạn có thể vuốt ve ngay ở hình cá, hoặc <b>bán</b> cá (có hỏi xác nhận).</p></section>
   <section class="cd mint" style="--d:.27s"><h4><i>🛒</i>Cửa hàng</h4><p><b>Cá Chiến Binh</b> tự lao đâm quái vật · <b>Cá Support</b> phun thức ăn và hồi máu · <b>Cua</b> nhặt xu dưới đáy (mỗi loại tối đa 5) · <b>Thức ăn</b> thả được nhiều viên hơn · <b>+5 chỗ</b> mở rộng hồ (tối đa 50 cá).</p></section>
   <section class="cd pink" style="--d:.31s"><h4><i>👾</i>Quái vật</h4><p>Có 4 loại: <b>xanh lá, xanh biển, tím, đỏ</b> (máu và sát thương khác nhau). Quái vật ăn cá và tấn công Chiến Binh, Cá Support. Hãy <b>chạm liên tục</b> vào nó để gây 5 sát thương mỗi lần, hoặc nhờ Chiến Binh. Diệt quái được thưởng xu. Xem chi tiết ở 👾 Thông tin quái vật.</p></section>
   <section class="cd lav" style="--d:.33s"><h4><i>⚔️</i>Cá Chiến Binh</h4><p>Mặc định <b>5 sát thương, 50 máu</b>. Mua trong 🛒, chạm số lượng 📋 để xem danh sách: nâng cấp <b>Lv1→Lv5</b> (⭐), đổi tên, xem tuổi, bán lại 80% giá trị. Số chữ đỏ <b>-5</b> là sát thương gây ra. Mua thêm chỗ để có tối đa 50 chiến binh.</p></section>
@@ -367,8 +367,8 @@ function sanitizeSave(){
 const cv=document.getElementById('c'),c=cv.getContext('2d'),$=id=>document.getElementById(id);
 const PERFS={eco:{fps:30,dpr:1,spk:6,bub:8,fb:10,ray:3},bal:{fps:45,dpr:1.5,spk:18,bub:18,fb:24,ray:5},high:{fps:60,dpr:2,spk:30,bub:26,fb:40,ray:5}};
 let PF=PERFS.eco,SQ=1;const SPR={},EM={},CSP={},BUB={};
-let W,H,DPR,TOP=110;
-function resize(){const nd=Math.min(devicePixelRatio||1,PF.dpr);if(nd!==DPR){DPR=nd;SQ=Math.min(DPR,1.5);for(const o of[SPR,EM,CSP,BUB])for(const k in o)delete o[k]}W=innerWidth;H=innerHeight;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);c.setTransform(DPR,0,0,DPR,0,0);TOP=$('hud').offsetHeight+6}
+let W,H,DPR,TOP=110,FS=1;
+function resize(){const nd=Math.min(devicePixelRatio||1,PF.dpr);if(nd!==DPR){DPR=nd;SQ=Math.min(DPR,1.5);for(const o of[SPR,EM,CSP,BUB])for(const k in o)delete o[k]}W=innerWidth;H=innerHeight;FS=Math.max(.85,Math.min(1.4,Math.min(W,H)/380));cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);c.setTransform(DPR,0,0,DPR,0,0);TOP=$('hud').offsetHeight+6}
 addEventListener('resize',resize);resize();
 const R=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>a>b?(a+b)/2:Math.max(a,Math.min(b,v));
 const MAXF=50;
@@ -378,7 +378,7 @@ S.crabs=S.crabs||0;S.swords=S.swords||0;S.horses=S.horses||0;S.chat=S.chat!==fal
 let fish=[],food=[],coins=[],bubbles=[],crabs=[],swords=[],horses=[],fx=[],alien=null,alienT=40,t=0,msgT=0,msgTop=-1,hudT=0;
 const IM={},DEF={},img=n=>IM[n]||DEF[n];for(const n of['crab','sword','horse']){DEF[n]=new Image();DEF[n].src=n+'.png'}
 
-const sz=f=>26+f.stage*9;
+const sz=f=>(26+f.stage*9)*FS;   // FS: hệ số theo kích thước màn hình (0.85 → 1.4)
 function bnd(f){const s=sz(f);return{x0:s*1.5,x1:W-s*1.5,y0:TOP+s*1.3,y1:H-s-12}}
 function newFish(stage=0,hunger=0,m={}){const f={x:0,y:0,vx:R(-30,30),vy:0,dir:1,stage,hunger,eaten:0,coinT:R(4,8),spout:0,ph:R(0,6),id:m.id||('f'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)),name:m.name||NAMES[Math.floor(Math.random()*NAMES.length)],sex:m.sex||(Math.random()<.5?'m':'f'),born:m.born||Date.now(),joy:m.joy==null?R(65,90):m.joy,say:null,rep:null,rx:null,freeze:0,petAcc:0};const b=bnd(f);f.x=R(b.x0,b.x1);f.y=R(b.y0,b.y1);f.tx=R(b.x0,b.x1);f.ty=R(b.y0,b.y1);f.x=cl(f.x,b.x0,b.x1);f.y=cl(f.y,b.y0,b.y1);return f}
 function newCrab(){return{x:R(40,W-40),dir:1,vx:0,tx:R(40,W-40),ph:R(0,6)}}
@@ -477,7 +477,7 @@ const slotCost=()=>300+150*((S.cap-10)/5);
 function hud(){
   const th=$('hud').offsetHeight+6;if(th!==TOP)TOP=th;
   const txt=(id,v)=>{const e=$(id);if(e.textContent!==v)e.textContent=v};
-  txt('coins','🪙 '+S.coins);txt('coins2','🪙 '+S.coins);txt('cnt','🐋 '+fish.length+'/'+S.cap+' ›');
+  txt('coins','🪙 '+S.coins);txt('coins2','🪙 '+S.coins);txt('cnt','🐠 '+fish.length+'/'+S.cap+' ›');
   const it=(id,dis,price,cnt)=>{$(id).disabled=dis;txt('p_'+id,price);txt('c_'+id,cnt)};
   it('buy',S.coins<100||fish.length>=S.cap,fish.length>=S.cap?'Đầy chỗ':'🪙 100',fish.length+'/'+S.cap);
   it('sword',S.coins<WB.buy||swords.length>=S.wcap,swords.length>=S.wcap?'Đầy chỗ':'🪙 '+WB.buy,'📋 '+swords.length+'/'+S.wcap);
@@ -492,7 +492,7 @@ function hud(){
   it('up',S.lv>=4||S.coins<150*S.lv,S.lv>=4?'Tối đa':'🪙 '+150*S.lv,'Lv'+S.lv);
   it('slot',S.cap>=MAXF||S.coins<slotCost(),S.cap>=MAXF?'Tối đa':'🪙 '+slotCost(),S.cap+' chỗ');
 }
-$('buy').onclick=()=>{if(fish.length>=S.cap){say('Hồ đã đầy! Hãy mua thêm chỗ 🏝️');return}if(S.coins>=100){S.coins-=100;const nf=newFish();fish.push(nf);say('Chào mừng '+nf.name+(nf.sex=='m'?' ♂':' ♀')+'! 🐋')}};
+$('buy').onclick=()=>{if(fish.length>=S.cap){say('Hồ đã đầy! Hãy mua thêm chỗ 🏝️');return}if(S.coins>=100){S.coins-=100;const nf=newFish();fish.push(nf);say('Chào mừng '+nf.name+(nf.sex=='m'?' ♂':' ♀')+'! 🐠')}};
 $('crab').onclick=()=>{if(S.coins>=200&&crabs.length<5){S.coins-=200;S.crabs++;crabs.push(newCrab());say('Cua sẽ nhặt xu ở đáy hồ 🦀')}};
 $('up').onclick=()=>{const p=150*S.lv;if(S.lv<4&&S.coins>=p){S.coins-=p;S.lv++;say('Thức ăn nâng cấp! Thả được nhiều viên hơn')}};
 $('slot').onclick=()=>{const p=slotCost();if(S.cap<MAXF&&S.coins>=p){S.coins-=p;S.cap+=5;say('Hồ rộng thêm 5 chỗ! 🏝️ ('+S.cap+' chỗ)');save()}};
@@ -534,7 +534,7 @@ addEventListener('orientationchange',()=>setTimeout(resize,300));
 <script>
 /* ===== js/gallery.js ===== */
 // ---- Thư viện hình (mỗi loại lưu tối đa 5 hình gần đây)
-const KD={bg:{n:'Nền hồ',e:'🌊'},fish:{n:'Cá voi',e:'🐋',a:1,w:256,h:256},sword:{n:'Chiến binh',e:'⚔️',a:384/229,w:384,h:229},horse:{n:'Cá Support',e:'🌟',a:.625,w:200,h:320},crab:{n:'Cua',e:'🦀',a:1,w:256,h:256},gold:{n:'Xu vàng',e:'🟡',a:1,w:128,h:128},silver:{n:'Xu bạc',e:'⚪',a:1,w:128,h:128},mgreen:{n:'Quái xanh lá',e:'🟢',a:1,w:256,h:256},mblue:{n:'Quái xanh biển',e:'🔵',a:1,w:256,h:256},mpurple:{n:'Quái tím',e:'🟣',a:1,w:256,h:256},mred:{n:'Quái đỏ',e:'🔴',a:1,w:256,h:256}};
+const KD={bg:{n:'Nền hồ',e:'🌊'},fish:{n:'Cá voi',e:'🐠',a:1,w:256,h:256},sword:{n:'Chiến binh',e:'⚔️',a:384/229,w:384,h:229},horse:{n:'Cá Support',e:'🌟',a:.625,w:200,h:320},crab:{n:'Cua',e:'🦀',a:1,w:256,h:256},gold:{n:'Xu vàng',e:'🟡',a:1,w:128,h:128},silver:{n:'Xu bạc',e:'⚪',a:1,w:128,h:128},mgreen:{n:'Quái xanh lá',e:'🟢',a:1,w:256,h:256},mblue:{n:'Quái xanh biển',e:'🔵',a:1,w:256,h:256},mpurple:{n:'Quái tím',e:'🟣',a:1,w:256,h:256},mred:{n:'Quái đỏ',e:'🔴',a:1,w:256,h:256}};
 const G={};let tab='bg',pick=null,CR=null;
 for(const n in KD){const g=G[n]={k:'whale_'+n+'s',s:'whale_'+n+'sel',list:[],sel:''};try{g.list=JSON.parse(localStorage.getItem(g.k)||'[]')}catch(e){}g.sel=localStorage.getItem(g.s)||'';
   const ok=n=='bg'?'whale_bg':n=='fish'?'whale_fish':null,old=ok&&localStorage.getItem(ok);
@@ -543,8 +543,8 @@ for(const n in KD){const g=G[n]={k:'whale_'+n+'s',s:'whale_'+n+'sel',list:[],sel
 function gSave(n){const g=G[n];try{localStorage.setItem(g.k,JSON.stringify(g.list));localStorage.setItem(g.s,g.sel);return true}catch(e){return false}}
 function gApply(n){const g=G[n],it=g.list.find(x=>x.id==g.sel);if(n=='bg'){setBg(it?it.d:null);return}if(!it){delete IM[n];return}const i=new Image();i.onload=()=>{IM[n]=i};i.src=it.d}
 function gal(){
-  const n=tab,g=G[n],hasDef=['sword','horse','crab'].includes(n);
-  let h=`<div class="tl def${hasDef?' di':''}${g.sel?'':' sel'}" data-i="">${hasDef?`<img src="${n}.png" alt="">`:`<span>${KD[n].e}</span>`}<b>Gốc</b></div>`;
+  const n=tab,g=G[n],hasDef=['fish','sword','horse','crab'].includes(n);
+  let h=`<div class="tl def${hasDef?' di':''}${g.sel?'':' sel'}" data-i="">${hasDef?`<img src="${n=='fish'?'fish-icon':n}.png" alt="">`:`<span>${KD[n].e}</span>`}<b>Gốc</b></div>`;
   g.list.forEach(x=>h+=`<div class="tl${g.sel==x.id?' sel':''}" data-i="${x.id}"><img src="${x.d}" alt=""><button class="dx" data-del="${x.id}" aria-label="Xoá">✕</button></div>`);
   h+=g.list.length<5?'<div class="tl add" data-add="1"><span>＋</span><b>Thêm</b></div>':'<div class="tl add full" data-add="1"><span>🔒</span><b>Đủ 5</b></div>';
   $('gal').innerHTML=h;$('gn').textContent=g.list.length+'/5';
@@ -657,7 +657,7 @@ function updCards(skip){
   if(!$('flist').classList.contains('on'))return;
   const cards=[...$('fcards').children];
   if(!skip&&(cards.length!==fish.length||cards.some(x=>!fish.find(f=>f.id==x.dataset.id)))){const a=document.activeElement;if(!(a&&a.classList&&a.classList.contains('nm')))renderList();return}
-  $('flc').textContent='🐋 '+fish.length+'/'+S.cap;
+  $('flc').textContent='🐠 '+fish.length+'/'+S.cap;
   for(const x of cards){const f=fish.find(o=>o.id==x.dataset.id),q=k=>x.querySelector(k);
     const full=Math.max(0,Math.min(100,100-f.hunger/1.1)),joy=Math.round(f.joy);
     q('.ag').textContent=ageTxt(f.born);q('.lv').textContent=f.stage+1;
@@ -675,7 +675,7 @@ function drawThumbs(){
     x.clearRect(0,0,w,h);
     const g={stage:f.stage,hunger:f.hunger,dir:Math.cos(t*.8+f.ph)>=0?1:-1,ph:f.ph,spout:0,joy:f.joy};
     const cx=w/2+Math.sin(t*.8+f.ph)*8,cy=h/2+4+Math.sin(t*2+f.ph)*3,kk=Math.min(1,26/sz(f));
-    if(IM.fish)whale(g,x,cx,cy,kk);else{const sp=whaleSpr(f.stage,f.hunger>70?'h':'n',wagFr(f.ph,t),false);x.save();x.translate(cx,cy);x.scale(g.dir*kk,kk);x.drawImage(sp.cv,-sp.ox,-sp.oy,sp.w,sp.h);x.restore()}
+    if(IM.fish)whale(g,x,cx,cy,kk);else if(CF.state==='ready')cfThumb(x,f,cx,cy);else{const sp=whaleSpr(f.stage,f.hunger>70?'h':'n',wagFr(f.ph,t),false);x.save();x.translate(cx,cy);x.scale(g.dir*kk,kk);x.drawImage(sp.cv,-sp.ox,-sp.oy,sp.w,sp.h);x.restore()}
     const hs=TH[f.id];if(hs){x.font='16px sans-serif';x.textAlign='center';for(let i=hs.length-1;i>=0;i--){const o=hs[i];o.l-=.066;if(o.l<=0){hs.splice(i,1);continue}x.globalAlpha=Math.min(1,o.l*2.5);x.fillText('💗',o.x,o.y-(.9-o.l)*40)}x.globalAlpha=1}
   }
 }
@@ -688,7 +688,7 @@ $('fcards').addEventListener('change',e=>{const i=e.target.closest('.nm');if(!i)
 $('fcards').addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.classList.contains('nm'))e.target.blur()});
 $('fcards').addEventListener('click',e=>{
   const b=e.target.closest('[data-sell]');if(!b)return;const f=fish.find(o=>o.id==b.dataset.sell);if(!f)return;
-  if(fish.length<=1){say('Hồ cần ít nhất 1 chú cá 🐋');return}
+  if(fish.length<=1){say('Hồ cần ít nhất 1 chú cá 🐠');return}
   sellId=f.id;cfAct=()=>{const i=fish.findIndex(o=>o.id==sellId);if(i>=0&&fish.length>1){S.coins+=price(fish[i]);say('Đã bán '+fish[i].name+' 👋 +'+price(fish[i])+' 🪙');fish.splice(i,1);save()}renderList()};$('cft').innerHTML=`Bán <b>${esc(f.name)}</b> (${f.sex=='m'?'♂':'♀'}, cấp ${f.stage+1}) với giá <b>🪙 ${price(f)}</b>?<br><small style="color:#6f8aa3">Bạn sẽ không lấy lại được chú cá này.</small>`;$('confirm').classList.add('on')});
 $('cfno').onclick=()=>$('confirm').classList.remove('on');
 $('cfyes').onclick=()=>{const f=cfAct;cfAct=null;$('confirm').classList.remove('on');if(f)f()};
@@ -934,7 +934,7 @@ function update(dt){
   }
   fish=fish.filter(f=>!f.dead);
   chat(dt);
-  if(!fish.length){fish.push(newFish());say('Tặng bạn một chú cá mới 🐋')}
+  if(!fish.length){fish.push(newFish());say('Tặng bạn một chú cá mới 🐠')}
   for(const k of coins){k.x=cl(k.x,16,W-16);if(!k.rest){k.vy+=(52-k.vy)*Math.min(1,dt*1.6);k.y+=k.vy*dt;k.x+=Math.sin(t*2+k.ph)*16*dt;if(k.y>=H-26){k.y=H-26;k.rest=1;k.age=0}}else k.age+=dt;if(k.age>10)k.dead=true}
   for(const cr of crabs){
     let tg=null,b=1e9;for(const k of coins){const d=Math.abs(k.x-cr.x)+(k.y<H-100?200:0);if(!k.dead&&d<b){b=d;tg=k}}
@@ -1079,6 +1079,7 @@ function coinSpr(g){const k=g?'g':'s';if(CSP[k])return CSP[k];const pr=SQ,cv2=do
 
 function drawFish(f){
   if(IM.fish){whale(f);return}
+  if(CF.state==='loading')return;if(CF.state==='ready'){cfGame(f);return}   // cá hề; nếu thiếu fish-sheet.png thì quay về hình cũ
   const rxk=f.rx&&f.rx.k,st=rxk=='angry'?'a':f.hunger>70?'h':'n',bl=Math.sin(t*.9+f.ph*3)>.97,sp=whaleSpr(f.stage,st,wagFr(f.ph,t),bl),sh=rxk=='shy'?.85:1;
   c.save();c.translate(f.x+(rxk=='angry'?Math.sin(t*50)*2.5:0),f.y);if(rxk=='love')c.rotate(Math.sin(t*14)*.22);c.scale(f.dir*sh,sh);c.drawImage(sp.cv,-sp.ox,-sp.oy,sp.w,sp.h);
   if(f.spout>0){const s=sz(f);c.strokeStyle='#bfe6ff';c.lineWidth=3;c.lineJoin='round';c.beginPath();c.moveTo(s*.1,-s*.9);c.lineTo(s*.1,-s*1.4);c.moveTo(s*.1,-s*1.4);c.quadraticCurveTo(s*-.1,-s*1.6,s*-.2,-s*1.35);c.moveTo(s*.1,-s*1.4);c.quadraticCurveTo(s*.3,-s*1.6,s*.4,-s*1.35);c.stroke()}
@@ -1104,6 +1105,89 @@ function draw(){
 }
 </script>
 <script>
+/* ===== js/fish-meta.js ===== */
+// Thông số bảng hình cá hề (tự sinh từ công cụ dựng atlas)
+const CF_META={cw:276,ch:275,len:238.5};
+</script>
+<script>
+/* ===== js/fish-sprite.js ===== */
+// ===== Cá hề (nhân vật chính): hoạt hình từ bảng hình (atlas) =====
+// Bảng hình (12 cột): hàng 0 = đứng bơi (12 khung), hàng 1 = bơi ngang (12 khung),
+//   hàng 2 = bơi lên (cột 0-5) + bơi xuống (cột 6-11), hàng 3 = nhìn phải / trái / lên / xuống.
+// 12 khung = 6 khung gốc + 6 khung trung gian nội suy từ chính các khung gốc (cùng nét vẽ, cùng hình dáng).
+const CF={state:'loading',img:null,tint:{}};
+(function(){const i=new Image();i.onload=()=>{CF.img=i;CF.state='ready'};i.onerror=()=>{CF.state='failed'};i.src='fish-sheet.png'})();
+const cfSS=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
+// Bản tô màu (đói = xanh nhợt, giận = đỏ) tạo 1 lần khi cần
+function cfAtlas(k){
+  if(k=='n')return CF.img;let c2=CF.tint[k];if(c2)return c2;
+  c2=document.createElement('canvas');c2.width=CF.img.width;c2.height=CF.img.height;const x=c2.getContext('2d');x.drawImage(CF.img,0,0);
+  x.globalCompositeOperation='source-atop';x.fillStyle=k=='h'?'rgba(110,190,130,.42)':'rgba(235,70,80,.36)';x.fillRect(0,0,c2.width,c2.height);
+  return CF.tint[k]=c2}
+// Cập nhật trạng thái hoạt hình mượt (lọc theo thời gian, không nhảy khung)
+function cfStep(s,dt,vx,vy,dir,look,size){
+  if(s._ds===undefined){s._ds=dir;s._wv=0;s._sw=0;s._ph=(s.ph||0)/6.283;s._pi=0;s._lk=0;s._sc=size;s._vd=1;s._fl=0}
+  const e=k=>1-Math.exp(-dt*k),sp=Math.hypot(vx,vy);
+  s._ds+=(dir-s._ds)*e(8);                                              // quay đầu: lật mềm, không đổi hướng đột ngột
+  const ratio=Math.abs(vy)/(Math.abs(vx)+6);
+  s._wv+=((sp>24?cfSS(1.9,3.0,ratio):0)-s._wv)*e(12);                  // bơi dọc → chuyển sang khung nhìn từ trên
+  if(Math.abs(vy)>8)s._vd=vy<0?-1:1;
+  s._sw+=(Math.min(1,sp/70)-s._sw)*e(5);                               // mức độ bơi (0 đứng → 1 lao nhanh)
+  s._ph=(s._ph+dt*(1.1+s._sw*5.8))%1000;                                // nhịp vẫy đuôi tăng theo tốc độ
+  s._pi+=((sp>10?Math.max(-.7,Math.min(.7,Math.atan2(vy,Math.abs(vx)+14))):0)-s._pi)*e(6);   // ngóc lên / chúi xuống
+  s._lk+=(look-s._lk)*e(6);
+  if(!s._vm&&s._wv>.6)s._vm=true;else if(s._vm&&s._wv<.35)s._vm=false;      // chế độ bơi dọc (nhìn từ trên), có độ trễ chống nhấp nháy
+  if(!s._sm&&s._sw>.5)s._sm=true;else if(s._sm&&s._sw<.22)s._sm=false;      // chế độ bơi (thay vì đứng bơi)
+  const md=(s._lk>.5||Math.abs(s._ds)<.34)?2:s._vm?1:0;                      // 0 = nhìn ngang, 1 = nhìn từ trên (bơi dọc), 2 = quay mặt 3/4
+  if(s._md!==undefined&&md!==s._md)s._tp=1;s._md=md;s._tp=Math.max(0,(s._tp||0)-dt*8);
+  s._sc+=(size-s._sc)*e(4);                                             // lớn lên từ từ khi lên cấp
+}
+// Vẽ một khung (hàng r, cột c) tại gốc toạ độ hiện tại
+function cfCell(X,A,r,c,k,alpha,sx){
+  const cw=CF_META.cw,ch=CF_META.ch;X.globalAlpha=alpha;
+  if(sx!==1){X.save();X.scale(sx,1)}
+  X.drawImage(A,c*cw,r*ch,cw,ch,-cw*k/2,-ch*k/2,cw*k,ch*k);
+  if(sx!==1)X.restore();
+}
+function cfSet(X,A,row,off,n,ph,k,alpha,sx,blend){
+  const p=(ph%1)*n,i0=Math.floor(p)%n,f=p-Math.floor(p);
+  cfCell(X,A,row,off+i0,k,alpha,sx);
+  if(blend&&f>.04)cfCell(X,A,row,off+(i0+1)%n,k,alpha*f,sx);           // khung kế tiếp gần như trùng → trộn không bị bóng mờ
+}
+function cfRender(X,s,x,y,size,tint,rx){
+  if(CF.state!=='ready')return;
+  const A=cfAtlas(tint),k=s._sc*2.85/CF_META.len,L=s._sc*2.85,rk=rx&&rx.k;
+  const cyc=1.1+s._sw*5.8,blend=cyc<2.6,ph=s._ph,tt=ph*Math.PI*2;
+  const bob=Math.sin(tt)*(.012+.018*s._sw)*L+(rk=='angry'?Math.sin(t*50)*2.5:0);
+  X.save();X.translate(x+(rk=='angry'?Math.sin(t*50)*2.5:0),y+bob);
+  if(rk=='love')X.rotate(Math.sin(t*14)*.22);
+  const sh=(rk=='shy'?.85:1)*(1+Math.sin(tt)*.012*(1-s._sw));X.scale(sh,sh);
+  const sx=Math.sign(s._ds||1)*Math.pow(Math.abs(s._ds),.75);
+  // Mỗi lần chỉ vẽ MỘT kiểu khung (không chồng mờ) → hình luôn đặc, sắc nét; đổi kiểu có nhịp co nhẹ cho tự nhiên
+  const pulse=1-.08*Math.sin(Math.PI*(1-(s._tp||0)));X.scale(pulse,pulse);
+  if(s._md===2){cfCell(X,A,3,s._ds>=0?0:1,k,1,1)}                             // khi quay đầu / nói chuyện / làm nũng / ngại: quay mặt về phía người chơi
+  else if(s._md===1){X.rotate(Math.sin(tt)*.05*s._sw);cfSet(X,A,2,s._vd<0?0:6,6,ph,k,1,1,false)}
+  else{X.rotate(s._pi*Math.sign(s._ds||1)*Math.abs(s._ds)+Math.sin(tt)*.035*s._sw);cfSet(X,A,s._sm?1:0,0,12,ph,k,1,sx,blend)}
+  X.globalAlpha=1;
+  X.restore();X.globalAlpha=1;
+}
+// Cá trong hồ
+function cfGame(f){
+  const dt=f._lt===undefined?0:Math.min(.1,t-f._lt);f._lt=t;
+  const sp=Math.hypot(f.vx,f.vy),rk=f.rx&&f.rx.k,size=sz(f);
+  const look=(f.say||rk=='love'||rk=='shy')&&sp<14?1:0;
+  cfStep(f,dt,f.vx,f.vy,f.dir,look,size);
+  cfRender(c,f,f.x,f.y,size,rk=='angry'?'a':f.hunger>70?'h':'n',f.rx);
+}
+// Hình cá hề nhỏ trong danh sách cá
+const CF_TH={};
+function cfThumb(X,f,cx,cy){
+  let s=CF_TH[f.id];if(!s){s=CF_TH[f.id]={ph:f.ph,_lt:t}}
+  const dt=Math.min(.1,t-s._lt);s._lt=t;const vx=Math.cos(t*.8+f.ph)*34,vy=Math.cos(t*1.6+f.ph)*6;
+  cfStep(s,dt,vx,vy,vx>=0?1:-1,0,24);cfRender(X,s,cx,cy,24,f.hunger>70?'h':'n',null);
+}
+</script>
+<script>
 /* ===== js/main.js ===== */
 // ---- Vòng lặp chính: giữ đúng số khung hình mỗi giây theo chế độ hiệu năng (30 / 45 / 60 FPS)
 let last=performance.now(),lastDraw=last,acc=0,fpsN=0,fpsT=last,slowN=0,slowWarned=false,errN=0;
@@ -1123,6 +1207,6 @@ if('serviceWorker' in navigator)addEventListener('load',()=>{const had=!!navigat
   navigator.serviceWorker.register('sw.js').catch(()=>{});
   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=true;location.reload()}})});
 </script>
-<script>window.__where=function(l){var r="";[[355,"js/core.js"],[408,"js/fx-layers.js"],[420,"js/audio.js"],[473,"js/shop.js"],[508,"js/settings.js"],[534,"js/gallery.js"],[594,"js/chat.js"],[644,"js/fish-list.js"],[700,"js/guide.js"],[709,"js/combat.js"],[745,"js/warriors-ui.js"],[794,"js/supports-ui.js"],[844,"js/monsters-ui.js"],[869,"js/settings-tabs.js"],[881,"js/input.js"],[904,"js/update.js"],[1019,"js/render.js"],[1106,"js/main.js"]].forEach(function(x){if(l>=x[0])r=x[1]});return r}</script>
+<script>window.__where=function(l){var r="";[[355,"js/core.js"],[408,"js/fx-layers.js"],[420,"js/audio.js"],[473,"js/shop.js"],[508,"js/settings.js"],[534,"js/gallery.js"],[594,"js/chat.js"],[644,"js/fish-list.js"],[700,"js/guide.js"],[709,"js/combat.js"],[745,"js/warriors-ui.js"],[794,"js/supports-ui.js"],[844,"js/monsters-ui.js"],[869,"js/settings-tabs.js"],[881,"js/input.js"],[904,"js/update.js"],[1019,"js/render.js"],[1107,"js/fish-meta.js"],[1112,"js/fish-sprite.js"],[1190,"js/main.js"]].forEach(function(x){if(l>=x[0])r=x[1]});return r}</script>
 </body>
 </html>
