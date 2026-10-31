@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thư viện biểu tượng kỹ năng - Pixel Dino Survivor</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.4 system-ui,"Segoe UI",Roboto,Arial,sans-serif;background:#0d1226;color:#e8ecff}
+header{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:.6em 1em;align-items:center;padding:.7em 1em;background:#141c38;border-bottom:2px solid #d9a640}
+h1{margin:0;font-size:1.1em;color:#ffe08a;letter-spacing:.04em}
+select,button,input{font:inherit;color:inherit}
+select,input[type=text]{background:#0a1124;border:1px solid #3a4466;border-radius:.4em;padding:.35em .6em}
+label{display:flex;align-items:center;gap:.35em;cursor:pointer}
+button{cursor:pointer;background:linear-gradient(#ffd75e,#e08a2d);color:#4a2406;border:0;border-radius:.4em;padding:.4em .8em;font-weight:700}
+main{display:grid;grid-template-columns:1fr 300px;gap:1em;padding:1em;align-items:start}
+@media(max-width:800px){main{grid-template-columns:1fr}}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:.5em}
+.ic{position:relative;padding:0;border:2px solid #2a3355;border-radius:.5em;background:#0a1124;aspect-ratio:1;overflow:hidden}
+.ic img{display:block;width:100%;height:100%}
+.round .ic{border-radius:50%}.round .ic img{border-radius:50%}
+.ic:hover{border-color:#8f9be0}.ic.sel{border-color:#ffd23a;box-shadow:0 0 .8em #ffd23a88}
+.ic .tag{position:absolute;left:2px;bottom:2px;font-size:10px;padding:0 .3em;border-radius:.3em;background:#000a;color:#ffb0a0}
+.side{position:sticky;top:4.2em;display:flex;flex-direction:column;gap:.6em;padding:.8em;background:#141c38;border:2px solid #2a3355;border-radius:.6em}
+.pv{position:relative;width:200px;aspect-ratio:400/553;margin:0 auto}
+.pv>*{position:absolute}
+.pv .art{left:17.5%;top:10.4%;width:60.6%;height:43.8%;border-radius:50%;background:center/cover}
+.pv .fr{inset:0;width:100%;height:100%}
+.pv .nm{left:19.9%;right:23.3%;top:49%;height:8.6%;display:flex;align-items:center;justify-content:center;font:800 11px system-ui;color:#3a1f08}
+code{display:block;word-break:break-all;padding:.4em .5em;background:#0a1124;border-radius:.4em;color:#9fe39a;font-size:12px}
+small{opacity:.7}
+.used{margin:.3em 0 0;font-size:12px;color:#c9b88a}
+</style>
+</head>
+<body>
+<header>
+  <h1>THƯ VIỆN BIỂU TƯỢNG KỸ NĂNG</h1>
+  <select id="pack"></select>
+  <label><input type="checkbox" id="hi"> Chỉ ảnh nét (nguồn ≥ 64px)</label>
+  <span id="cnt"></span>
+</header>
+<main>
+  <div id="grid"></div>
+  <aside class="side">
+    <div class="pv"><div class="art" id="pa"></div><img class="fr" id="pf" alt=""><div class="nm" id="pn">Tên thẻ</div></div>
+    <select id="frame"></select>
+    <input type="text" id="name" placeholder="Tên thẻ thử" value="Tên thẻ">
+    <div><small>Mã ảnh</small><code id="cid">Chọn một ảnh</code></div>
+    <div><small>Dán vào thẻ trong js/cards.js</small><code id="csn"></code></div>
+    <div><small>Đường dẫn</small><code id="cpath"></code></div>
+    <button id="copy">Sao chép đoạn mã</button>
+    <p class="used" id="usedNote"></p>
+  </aside>
+</main>
+<script>
+// Cần mở qua http (ví dụ: python3 -m http.server) vì trang đọc index.json bằng fetch.
+const ROOT='../assets/skill_library/', FR=['fire','bronze','silver','lotus','jade','shadow','steel','blood'];
+let IDX,sel=null;
+const $=i=>document.getElementById(i);
+fetch(ROOT+'index.json').then(r=>r.json()).then(j=>{IDX=j;init()}).catch(()=>{$('grid').textContent='Không đọc được index.json. Hãy mở trang này qua http (python3 -m http.server).'});
+function init(){
+  $('pack').innerHTML='<option value="">Tất cả các gói ('+IDX.icons.length+')</option>'+Object.entries(IDX.packs).map(([k,p])=>`<option value="${k}">${p.name} (${p.count})</option>`).join('');
+  $('frame').innerHTML=FR.map(f=>`<option>${f}</option>`).join('');
+  ['pack','hi','frame'].forEach(i=>$(i).addEventListener('change',()=>{i==='frame'?prev():draw()}));
+  $('name').addEventListener('input',prev);
+  $('copy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($('csn').textContent);$('copy').textContent='Đã sao chép';setTimeout(()=>$('copy').textContent='Sao chép đoạn mã',1200)};
+  draw();
+}
+function draw(){
+  const p=$('pack').value,hi=$('hi').checked;
+  const list=IDX.icons.filter(i=>(!p||i.pack===p)&&(!hi||!i.low));
+  $('cnt').textContent=list.length+' ảnh';
+  $('grid').className=p&&IDX.packs[p].round?'round':'';
+  $('grid').innerHTML=list.map(i=>`<button class="ic${sel&&sel.id===i.id?' sel':''}" data-id="${i.id}" title="${i.id}${i.low?' (nguồn nhỏ '+i.src_px+'px)':''}"><img loading="lazy" src="${ROOT+i.file}" alt="${i.id}">${i.low?'<span class="tag">'+i.src_px+'px</span>':''}</button>`).join('');
+  $('grid').querySelectorAll('.ic').forEach(b=>b.onclick=()=>pick(b.dataset.id));
+}
+function pick(id){
+  sel=IDX.icons.find(i=>i.id===id);
+  document.querySelectorAll('.ic').forEach(b=>b.classList.toggle('sel',b.dataset.id===id));
+  const ref=sel.file.replace(/\.png$/,'');
+  $('cid').textContent=sel.id;
+  $('csn').textContent="art: '"+ref+"'";
+  $('cpath').textContent='assets/skill_library/'+sel.file;
+  $('usedNote').textContent=sel.low?'Cảnh báo: ảnh gốc chỉ '+sel.src_px+'px, phóng lên 192px nên hơi mềm.':'';
+  prev();
+}
+function prev(){
+  if(!sel)return;
+  $('pa').style.backgroundImage=`url(${ROOT+sel.file})`;
+  $('pf').src='../assets/cards/frame_'+$('frame').value+'.png';
+  $('pn').textContent=$('name').value;
+}
+</script>
+</body>
+</html>
