@@ -1107,7 +1107,11 @@ function draw(){
 <script>
 /* ===== js/fish-meta.js ===== */
 // Thông số bảng hình cá hề (tự sinh từ công cụ dựng atlas)
-const CF_META={cw:276,ch:275,len:238.5};
+const CF_META={cw:276,ch:275,len:238.5,
+  // khung nền cứng cho từng hướng bơi + vùng đuôi được uốn (toạ độ so với tâm ô, đơn vị điểm ảnh của atlas)
+  side:{row:1,col:2,xs:-50,xe:-134},
+  up:{row:2,col:3,ys:35,ye:126},
+  down:{row:2,col:9,ys:-30,ye:-131}};
 </script>
 <script>
 /* ===== js/fish-sprite.js ===== */
@@ -1133,8 +1137,8 @@ function cfStep(s,dt,vx,vy,dir,look,size){
   s._wv+=((sp>24?cfSS(1.9,3.0,ratio):0)-s._wv)*e(12);                  // bơi dọc → chuyển sang khung nhìn từ trên
   if(Math.abs(vy)>8)s._vd=vy<0?-1:1;
   s._sw+=(Math.min(1,sp/70)-s._sw)*e(5);                               // mức độ bơi (0 đứng → 1 lao nhanh)
-  s._ph=(s._ph+dt*(1.1+s._sw*5.8))%1000;                                // nhịp vẫy đuôi tăng theo tốc độ
-  s._pi+=((sp>10?Math.max(-.7,Math.min(.7,Math.atan2(vy,Math.abs(vx)+14))):0)-s._pi)*e(6);   // ngóc lên / chúi xuống
+  s._ph=(s._ph+dt*(.45+s._sw*1.0))%1000;                                // nhịp vẫy đuôi chậm: ~0.45 Hz khi đứng, ~1.1 Hz khi bơi thường, ~1.45 Hz khi lao tới mồi
+  s._pi+=((sp>10?Math.max(-.5,Math.min(.5,Math.atan2(vy,Math.abs(vx)+14))):0)-s._pi)*e(4);   // ngóc lên / chúi xuống
   s._lk+=(look-s._lk)*e(6);
   if(!s._vm&&s._wv>.6)s._vm=true;else if(s._vm&&s._wv<.35)s._vm=false;      // chế độ bơi dọc (nhìn từ trên), có độ trễ chống nhấp nháy
   if(!s._sm&&s._sw>.5)s._sm=true;else if(s._sm&&s._sw<.22)s._sm=false;      // chế độ bơi (thay vì đứng bơi)
@@ -1149,26 +1153,37 @@ function cfCell(X,A,r,c,k,alpha,sx){
   X.drawImage(A,c*cw,r*ch,cw,ch,-cw*k/2,-ch*k/2,cw*k,ch*k);
   if(sx!==1)X.restore();
 }
-function cfSet(X,A,row,off,n,ph,k,alpha,sx,blend){
-  const p=(ph%1)*n,i0=Math.floor(p)%n,f=p-Math.floor(p);
-  cfCell(X,A,row,off+i0,k,alpha,sx);
-  if(blend&&f>.04)cfCell(X,A,row,off+(i0+1)%n,k,alpha*f,sx);           // khung kế tiếp gần như trùng → trộn không bị bóng mờ
+// Thân + đầu giữ NGUYÊN khung nền (không lắc); chỉ phần đuôi được chia lát và uốn theo sóng lan từ gốc đuôi ra mút đuôi
+const cfBendAmp=(u,amp,tt)=>amp*Math.pow(u,1.6)*Math.sin(tt-2.2*u);
+function cfBendSide(X,A,tt,amp,N){            // cá bơi ngang: đuôi ở bên trái ô
+  const cw=CF_META.cw,ch=CF_META.ch,b=CF_META.side,x0=b.col*cw,y0=b.row*ch,hx=cw/2,xs=b.xs,Lb=xs-b.xe;
+  X.globalAlpha=1;X.drawImage(A,x0+hx+xs,y0,hx-xs,ch,xs,-ch/2,hx-xs,ch);
+  for(let i=0;i<N;i++){
+    const xa=xs-i*Lb/N,xb=xs-(i+1)*Lb/N,ya=cfBendAmp(i/N,amp,tt),yb=cfBendAmp((i+1)/N,amp,tt),sl=(yb-ya)/(xb-xa);
+    X.save();X.transform(1,sl,0,1,0,ya-sl*xa);X.drawImage(A,x0+hx+xb,y0,xa-xb+.9,ch,xb,-ch/2,xa-xb+.9,ch);X.restore();
+  }
+}
+function cfBendV(X,A,tt,amp,N,up){            // cá bơi dọc (nhìn từ trên): đuôi ở dưới (lên) hoặc ở trên (xuống)
+  const cw=CF_META.cw,ch=CF_META.ch,b=up?CF_META.up:CF_META.down,x0=b.col*cw,y0=b.row*ch,hx=cw/2,hy=ch/2,ys=b.ys,Lb=Math.abs(b.ye-b.ys),dir=up?1:-1;
+  if(up)X.drawImage(A,x0,y0,cw,hy+ys,-hx,-hy,cw,hy+ys);else X.drawImage(A,x0,y0+hy+ys,cw,hy-ys,-hx,ys,cw,hy-ys);
+  for(let i=0;i<N;i++){
+    const ya=ys+dir*i*Lb/N,yb=ys+dir*(i+1)*Lb/N,da=cfBendAmp(i/N,amp,tt),db=cfBendAmp((i+1)/N,amp,tt),sl=(db-da)/(yb-ya);
+    const top=Math.min(ya,yb),h=Math.abs(yb-ya)+.9;
+    X.save();X.transform(1,0,sl,1,da-sl*ya,0);X.drawImage(A,x0,y0+hy+top,cw,h,-hx,top,cw,h);X.restore();
+  }
 }
 function cfRender(X,s,x,y,size,tint,rx){
   if(CF.state!=='ready')return;
-  const A=cfAtlas(tint),k=s._sc*2.85/CF_META.len,L=s._sc*2.85,rk=rx&&rx.k;
-  const cyc=1.1+s._sw*5.8,blend=cyc<2.6,ph=s._ph,tt=ph*Math.PI*2;
-  const bob=Math.sin(tt)*(.012+.018*s._sw)*L+(rk=='angry'?Math.sin(t*50)*2.5:0);
+  const A=cfAtlas(tint),k=s._sc*2.85/CF_META.len,L=s._sc*2.85,rk=rx&&rx.k,tt=s._ph*Math.PI*2,N=(typeof PF!=='undefined'&&PF.fps>30)?9:7;
+  const bob=Math.sin(t*.7+(s.ph||0))*.008*L+(rk=='angry'?Math.sin(t*50)*2.5:0);   // chỉ nhấp nhô rất chậm như đang lơ lửng (không theo nhịp đuôi)
   X.save();X.translate(x+(rk=='angry'?Math.sin(t*50)*2.5:0),y+bob);
   if(rk=='love')X.rotate(Math.sin(t*14)*.22);
-  const sh=(rk=='shy'?.85:1)*(1+Math.sin(tt)*.012*(1-s._sw));X.scale(sh,sh);
+  const sh=rk=='shy'?.85:1,pulse=sh*(1-.08*Math.sin(Math.PI*(1-(s._tp||0))));X.scale(pulse,pulse);
   const sx=Math.sign(s._ds||1)*Math.pow(Math.abs(s._ds),.75);
-  // Mỗi lần chỉ vẽ MỘT kiểu khung (không chồng mờ) → hình luôn đặc, sắc nét; đổi kiểu có nhịp co nhẹ cho tự nhiên
-  const pulse=1-.08*Math.sin(Math.PI*(1-(s._tp||0)));X.scale(pulse,pulse);
+  // Mỗi lần chỉ vẽ MỘT kiểu (không chồng mờ) → hình luôn đặc, sắc nét
   if(s._md===2){cfCell(X,A,3,s._ds>=0?0:1,k,1,1)}                             // khi quay đầu / nói chuyện / làm nũng / ngại: quay mặt về phía người chơi
-  else if(s._md===1){X.rotate(Math.sin(tt)*.05*s._sw);cfSet(X,A,2,s._vd<0?0:6,6,ph,k,1,1,false)}
-  else{X.rotate(s._pi*Math.sign(s._ds||1)*Math.abs(s._ds)+Math.sin(tt)*.035*s._sw);cfSet(X,A,s._sm?1:0,0,12,ph,k,1,sx,blend)}
-  X.globalAlpha=1;
+  else if(s._md===1){X.scale(k,k);cfBendV(X,A,tt,CF_META.len*(.018+.058*s._sw),N,s._vd<0)}
+  else{X.rotate(s._pi*Math.sign(s._ds||1)*Math.abs(s._ds)+Math.sin(tt-.9)*.01*s._sw);X.scale(sx*k,k);cfBendSide(X,A,tt,CF_META.len*(.026+.072*s._sw),N)}
   X.restore();X.globalAlpha=1;
 }
 // Cá trong hồ
@@ -1207,6 +1222,6 @@ if('serviceWorker' in navigator)addEventListener('load',()=>{const had=!!navigat
   navigator.serviceWorker.register('sw.js').catch(()=>{});
   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=true;location.reload()}})});
 </script>
-<script>window.__where=function(l){var r="";[[355,"js/core.js"],[408,"js/fx-layers.js"],[420,"js/audio.js"],[473,"js/shop.js"],[508,"js/settings.js"],[534,"js/gallery.js"],[594,"js/chat.js"],[644,"js/fish-list.js"],[700,"js/guide.js"],[709,"js/combat.js"],[745,"js/warriors-ui.js"],[794,"js/supports-ui.js"],[844,"js/monsters-ui.js"],[869,"js/settings-tabs.js"],[881,"js/input.js"],[904,"js/update.js"],[1019,"js/render.js"],[1107,"js/fish-meta.js"],[1112,"js/fish-sprite.js"],[1190,"js/main.js"]].forEach(function(x){if(l>=x[0])r=x[1]});return r}</script>
+<script>window.__where=function(l){var r="";[[355,"js/core.js"],[408,"js/fx-layers.js"],[420,"js/audio.js"],[473,"js/shop.js"],[508,"js/settings.js"],[534,"js/gallery.js"],[594,"js/chat.js"],[644,"js/fish-list.js"],[700,"js/guide.js"],[709,"js/combat.js"],[745,"js/warriors-ui.js"],[794,"js/supports-ui.js"],[844,"js/monsters-ui.js"],[869,"js/settings-tabs.js"],[881,"js/input.js"],[904,"js/update.js"],[1019,"js/render.js"],[1107,"js/fish-meta.js"],[1116,"js/fish-sprite.js"],[1205,"js/main.js"]].forEach(function(x){if(l>=x[0])r=x[1]});return r}</script>
 </body>
 </html>
