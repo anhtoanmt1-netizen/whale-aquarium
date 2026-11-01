@@ -384,6 +384,10 @@ function sanitizeSave(){
 const cv=document.getElementById('c'),c=cv.getContext('2d'),$=id=>document.getElementById(id);
 const PERFS={eco:{fps:30,dpr:1,spk:6,bub:8,fb:10,ray:3},bal:{fps:45,dpr:1.5,spk:18,bub:18,fb:24,ray:5},high:{fps:60,dpr:2,spk:30,bub:26,fb:40,ray:5}};
 let PF=PERFS.eco,SQ=1;const SPR={},EM={},CSP={},BUB={};
+// Kích thước cá: cá mới mua nhỏ hơn 30% so với trước (×0.7); mỗi lần lớn to thêm 25% (×1.25). FS: theo cỡ màn hình (0.85 → 1.4)
+const FISH_START=.7,FISH_GROW=1.25,SZK={fish:1,sword:1,horse:1,crab:1};
+const SZB={fish:52,sword:120,horse:96,crab:64};      // kích thước mặc định (px): cá mới mua (dài) · chiến binh (dài) · support (cao) · cua (rộng)
+function szApply(){for(const k in SZB){const o=S.sz&&Number.isFinite(+S.sz[k])?+S.sz[k]:0;SZK[k]=Math.max(.35,Math.min(3,(SZB[k]+o)/SZB[k]))}}
 let W,H,DPR,TOP=110,FS=1;
 function resize(){const nd=Math.min(devicePixelRatio||1,PF.dpr);if(nd!==DPR){DPR=nd;SQ=Math.min(DPR,1.5);for(const o of[SPR,EM,CSP,BUB])for(const k in o)delete o[k]}W=innerWidth;H=innerHeight;FS=Math.max(.85,Math.min(1.4,Math.min(W,H)/380));cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);c.setTransform(DPR,0,0,DPR,0,0);TOP=$('hud').offsetHeight+6}
 addEventListener('resize',resize);resize();
@@ -391,14 +395,11 @@ const R=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>a>b?(a+b)/2:Math.max(a,Math.min
 const MAXF=50;
 
 let S=JSON.parse(localStorage.getItem('whale1')||'null')||{coins:50,lv:1,fish:[{stage:0,hunger:0},{stage:0,hunger:0}]};
+sanitizeSave();   // làm sạch ngay sau khi đọc dữ liệu lưu
 S.crabs=S.crabs||0;S.swords=S.swords||0;S.horses=S.horses||0;S.chat=S.chat!==false;S.flip=!!S.flip;S.cap=Math.min(MAXF,Math.max(S.cap||10,S.fish.length));S.snd=S.snd||'wave';S.vol=S.vol==null?.5:S.vol;S.perf=PERFS[S.perf]?S.perf:'eco';PF=PERFS[S.perf];sanitizeSave();szApply();resize();
 let fish=[],food=[],coins=[],bubbles=[],crabs=[],swords=[],horses=[],fx=[],alien=null,alienT=40,t=0,msgT=0,msgTop=-1,hudT=0;
 const IM={},DEF={},img=n=>IM[n]||DEF[n];for(const n of['crab','sword','horse']){DEF[n]=new Image();DEF[n].src=n+'.png'}
 
-// Kích thước cá: cá mới mua nhỏ hơn 30% so với trước (×0.7); mỗi lần lớn to thêm 25% (×1.25). FS: theo cỡ màn hình (0.85 → 1.4)
-const FISH_START=.7,FISH_GROW=1.25,SZK={fish:1,sword:1,horse:1,crab:1};
-var SZB={fish:52,sword:120,horse:96,crab:64};      // kích thước mặc định (px): cá mới mua (dài) · chiến binh (dài) · support (cao) · cua (rộng)
-function szApply(){for(const k in SZB){const o=S.sz&&Number.isFinite(+S.sz[k])?+S.sz[k]:0;SZK[k]=Math.max(.35,Math.min(3,(SZB[k]+o)/SZB[k]))}}
 const sz=f=>26*FISH_START*Math.pow(FISH_GROW,f.stage)*FS*SZK.fish;
 function bnd(f){const s=sz(f);return{x0:s*1.5,x1:W-s*1.5,y0:TOP+s*1.3,y1:H-s-12}}
 function newFish(stage=0,hunger=0,m={}){const f={x:0,y:0,vx:R(-30,30),vy:0,dir:1,stage,hunger,eaten:0,coinT:R(4,8),spout:0,ph:R(0,6),id:m.id||('f'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)),name:m.name||NAMES[Math.floor(Math.random()*NAMES.length)],sex:m.sex||(Math.random()<.5?'m':'f'),born:m.born||Date.now(),joy:m.joy==null?R(65,90):m.joy,say:null,rep:null,rx:null,freeze:0,petAcc:0};const b=bnd(f);f.x=R(b.x0,b.x1);f.y=R(b.y0,b.y1);f.tx=R(b.x0,b.x1);f.ty=R(b.y0,b.y1);f.x=cl(f.x,b.x0,b.x1);f.y=cl(f.y,b.y0,b.y1);return f}
@@ -943,7 +944,7 @@ $('szr').onclick=()=>{if(SZB[tab])szSet(tab,0)};
 /* ===== js/input.js ===== */
 // ================= CHẠM MÀN HÌNH =================
 let ptr=null;
-function fishAt(x,y,m=1.25){let b=null,bd=1e9;for(const f of fish){const d=Math.hypot(f.x-x,f.y-y);if(d<Math.max(sz(f)*m,28)&&d<bd){bd=d;b=f}}return b}
+function fishAt(x,y,m=1.25){let b=null,bd=1e9;for(const f of fish){const d=Math.hypot(f.x-x,f.y-y);if(d<Math.max(sz(f)*m,34)&&d<bd){bd=d;b=f}}return b}
 cv.addEventListener('pointerdown',e=>{
   const x=e.clientX,y=e.clientY;
   for(const k of coins){if(!k.dead&&Math.hypot(k.x-x,k.y-y)<34){S.coins+=k.v;k.dead=true;ting();return}}
@@ -1283,6 +1284,6 @@ if('serviceWorker' in navigator)addEventListener('load',()=>{const had=!!navigat
   navigator.serviceWorker.register('sw.js').catch(()=>{});
   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=true;location.reload()}})});
 </script>
-<script>window.__where=function(l){var r="";[[371,"js/core.js"],[429,"js/fx-layers.js"],[441,"js/audio.js"],[494,"js/shop.js"],[529,"js/settings.js"],[555,"js/gallery.js"],[615,"js/chat.js"],[665,"js/fish-list.js"],[721,"js/guide.js"],[730,"js/combat.js"],[766,"js/warriors-ui.js"],[815,"js/supports-ui.js"],[865,"js/monsters-ui.js"],[890,"js/settings-tabs.js"],[902,"js/size-tuner.js"],[942,"js/input.js"],[965,"js/update.js"],[1080,"js/render.js"],[1168,"js/fish-meta.js"],[1177,"js/fish-sprite.js"],[1266,"js/main.js"]].forEach(function(x){if(l>=x[0])r=x[1]});return r}</script>
+<script>window.__where=function(l){var r="";[[371,"js/core.js"],[430,"js/fx-layers.js"],[442,"js/audio.js"],[495,"js/shop.js"],[530,"js/settings.js"],[556,"js/gallery.js"],[616,"js/chat.js"],[666,"js/fish-list.js"],[722,"js/guide.js"],[731,"js/combat.js"],[767,"js/warriors-ui.js"],[816,"js/supports-ui.js"],[866,"js/monsters-ui.js"],[891,"js/settings-tabs.js"],[903,"js/size-tuner.js"],[943,"js/input.js"],[966,"js/update.js"],[1081,"js/render.js"],[1169,"js/fish-meta.js"],[1178,"js/fish-sprite.js"],[1267,"js/main.js"]].forEach(function(x){if(l>=x[0])r=x[1]});return r}</script>
 </body>
 </html>
