@@ -397,7 +397,7 @@ const IM={},DEF={},img=n=>IM[n]||DEF[n];for(const n of['crab','sword','horse']){
 
 // Kích thước cá: cá mới mua nhỏ hơn 30% so với trước (×0.7); mỗi lần lớn to thêm 25% (×1.25). FS: theo cỡ màn hình (0.85 → 1.4)
 const FISH_START=.7,FISH_GROW=1.25,SZK={fish:1,sword:1,horse:1,crab:1};
-const SZB={fish:52,sword:120,horse:96,crab:64};      // kích thước mặc định (px): cá mới mua (dài) · chiến binh (dài) · support (cao) · cua (rộng)
+var SZB={fish:52,sword:120,horse:96,crab:64};      // kích thước mặc định (px): cá mới mua (dài) · chiến binh (dài) · support (cao) · cua (rộng)
 function szApply(){for(const k in SZB){const o=S.sz&&Number.isFinite(+S.sz[k])?+S.sz[k]:0;SZK[k]=Math.max(.35,Math.min(3,(SZB[k]+o)/SZB[k]))}}
 const sz=f=>26*FISH_START*Math.pow(FISH_GROW,f.stage)*FS*SZK.fish;
 function bnd(f){const s=sz(f);return{x0:s*1.5,x1:W-s*1.5,y0:TOP+s*1.3,y1:H-s-12}}
