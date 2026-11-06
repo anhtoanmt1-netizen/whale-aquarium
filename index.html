@@ -150,9 +150,8 @@ p.ds{margin:0;font-size:11px;line-height:1.45;color:#6f8aa3;font-weight:500;padd
 
 /* ===== Lớp nền / hiệu ứng chạy bằng CSS (GPU) ===== */
 #bgL,#rays,#bubs,#spk{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none}
-#bgL{z-index:0;background:linear-gradient(#3aa8e0,#0b4f80);background-size:cover;background-position:center}
-#bgL::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='34'%3E%3Cpath d='M0 34V18Q15 8 30 18T60 18T90 18T120 18V34Z' fill='%23e8cf8a'/%3E%3C/svg%3E") repeat-x bottom/120px 34px}
-body.cbg #bgL::after{display:none}
+#bgL{z-index:0;background:url(bg-port.jpg) center/cover no-repeat,linear-gradient(#3aa8e0,#0b4f80)}   /* nền mặc định: dọc */
+@media (orientation:landscape){#bgL{background-image:url(bg-land.jpg),linear-gradient(#3aa8e0,#0b4f80)}}   /* nền mặc định: ngang */
 #rays{z-index:0;overflow:hidden}
 .ray{position:absolute;top:-5%;height:100%;background:linear-gradient(rgba(255,255,225,.26),rgba(255,255,225,0) 90%);transform:skewX(-14deg);transform-origin:top;will-change:transform,opacity;animation:ray 9s ease-in-out infinite alternate}
 @keyframes ray{from{transform:skewX(-14deg) translateX(-24px);opacity:.5}to{transform:skewX(-14deg) translateX(30px);opacity:1}}
@@ -307,7 +306,7 @@ body.cbg #bgL::after{display:none}
       <button class="r2" id="helps"><span>📖 Hướng dẫn chơi</span><em>›</em></button>
       <p class="ds">Xem cách chơi từng tính năng: cho ăn, xu, vuốt ve, cửa hàng, quái vật…</p>
     </section>
-    <p class="ds" style="text-align:center">Cá Voi Nhỏ · phiên bản 11</p>
+    <p class="ds" style="text-align:center">Cá Voi Nhỏ · phiên bản 12</p>
   </div>
   <input type="file" id="file" accept="image/png,image/*" hidden>
 </div></div>
@@ -565,12 +564,12 @@ for(const n in KD){const g=G[n]={k:'whale_'+n+'s',s:'whale_'+n+'sel',list:[],sel
 function gSave(n){const g=G[n];try{localStorage.setItem(g.k,JSON.stringify(g.list));localStorage.setItem(g.s,g.sel);return true}catch(e){return false}}
 function gApply(n){const g=G[n],it=g.list.find(x=>x.id==g.sel);if(n=='bg'){setBg(it?it.d:null);return}if(!it){delete IM[n];return}const i=new Image();i.onload=()=>{IM[n]=i};i.src=it.d}
 function gal(){
-  const n=tab,g=G[n],hasDef=['fish','sword','horse','crab'].includes(n);
-  let h=`<div class="tl def${hasDef?' di':''}${g.sel?'':' sel'}" data-i="">${hasDef?`<img src="${n=='fish'?'fish-icon':n}.png" alt="">`:`<span>${KD[n].e}</span>`}<b>Gốc</b></div>`;
+  const n=tab,g=G[n],hasDef=['bg','fish','sword','horse','crab'].includes(n);
+  let h=`<div class="tl def${hasDef?' di':''}${g.sel?'':' sel'}" data-i="">${hasDef?`<img src="${n=='fish'?'fish-icon.png':n=='bg'?'bg-port.jpg':n+'.png'}" alt="">`:`<span>${KD[n].e}</span>`}<b>Gốc</b></div>`;
   g.list.forEach(x=>h+=`<div class="tl${g.sel==x.id?' sel':''}" data-i="${x.id}"><img src="${x.d}" alt=""><button class="dx" data-del="${x.id}" aria-label="Xoá">✕</button></div>`);
   h+=g.list.length<5?'<div class="tl add" data-add="1"><span>＋</span><b>Thêm</b></div>':'<div class="tl add full" data-add="1"><span>🔒</span><b>Đủ 5</b></div>';
   $('gal').innerHTML=h;$('gn').textContent=g.list.length+'/5';
-  $('ghint').textContent=({bg:'Ảnh nền hồ, cắt theo tỉ lệ màn hình.',fish:'Hình cá voi, ảnh nên quay đầu sang PHẢI (nếu bị ngược, bật công tắc bên dưới).',sword:'Hình Cá Chiến Binh, ảnh nên quay đầu sang TRÁI.',horse:'Hình Cá Support, ảnh nên quay đầu sang TRÁI.',crab:'Hình cua, đi ngang ở đáy hồ để nhặt xu.',gold:'Hình xu vàng (cá cấp 2 đẻ ra).',silver:'Hình xu bạc (cá cấp 1 đẻ ra).',mgreen:'Hình Quái xanh lá (Máu 50).',mblue:'Hình Quái xanh biển (Máu 100).',mpurple:'Hình Quái tím (Máu 200).',mred:'Hình Quái đỏ (Máu 400).'})[n]+' Chạm để chọn · ✕ để xoá · tối đa 5 hình.';
+  $('ghint').textContent=({bg:'Ảnh nền hồ, cắt theo tỉ lệ màn hình. Ô "Gốc" tự dùng nền dọc hoặc nền ngang theo hướng màn hình.',fish:'Hình cá voi, ảnh nên quay đầu sang PHẢI (nếu bị ngược, bật công tắc bên dưới).',sword:'Hình Cá Chiến Binh, ảnh nên quay đầu sang TRÁI.',horse:'Hình Cá Support, ảnh nên quay đầu sang TRÁI.',crab:'Hình cua, đi ngang ở đáy hồ để nhặt xu.',gold:'Hình xu vàng (cá cấp 2 đẻ ra).',silver:'Hình xu bạc (cá cấp 1 đẻ ra).',mgreen:'Hình Quái xanh lá (Máu 50).',mblue:'Hình Quái xanh biển (Máu 100).',mpurple:'Hình Quái tím (Máu 200).',mred:'Hình Quái đỏ (Máu 400).'})[n]+' Chạm để chọn · ✕ để xoá · tối đa 5 hình.';
 }
 function tabUI(){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t==tab));$('flipw').style.display=tab=='fish'?'':'none';gal();if(typeof szUI==='function')szUI()}
 $('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.t;tabUI()};
@@ -979,7 +978,7 @@ function update(dt){
     if(f.rep){f.rep.d-=dt;if(f.rep.d<=0){f.say={t:f.rep.t,l:3.2};f.rep=null}}
     if(f.rx){f.rx.t-=dt;if(f.rx.t<=0)f.rx=null}
     f.hunger+=dt*2.2;f.joy=Math.max(0,f.joy-dt*(f.hunger>70?.5:.25));f.spout-=dt;if(Math.random()<dt*.15)f.spout=1;
-    if(Math.random()<dt*.12&&bubbles.length<PF.fb)bubbles.push({x:f.x+f.dir*s*1.1,y:f.y-s*.2,r:R(2,4.5),ph:R(0,6)});
+    if(!(CF.state==='ready'&&!IM.fish)&&Math.random()<dt*.12&&bubbles.length<PF.fb)bubbles.push({x:f.x+f.dir*s*1.1,y:f.y-s*.2,r:R(2,4.5),ph:R(0,6)});
     let target=null,best=1e9;
     if(f.hunger>35&&!(f.rx&&f.rx.k=='flee'))for(const o of food){const d=Math.hypot(o.x-f.x,o.y-f.y);if(d<best){best=d;target=o}}
     if(target){f.tx=target.x;f.ty=target.y}
@@ -990,7 +989,7 @@ function update(dt){
     f.x+=f.vx*dt;f.y+=f.vy*dt;
     const nx=cl(f.x,b.x0,b.x1),ny=cl(f.y,b.y0,b.y1);if(nx!=f.x)f.vx*=-.3;if(ny!=f.y)f.vy*=-.3;f.x=nx;f.y=ny;
     if(Math.abs(f.vx)>8)f.dir=f.vx>0?1:-1;
-    if(target&&Math.hypot(target.x-f.x,target.y-f.y)<s*1.3&&!target.dead){target.dead=true;f.hunger=0;f.joy=Math.min(100,f.joy+2);f.eaten++;if(f.eaten>=4&&f.stage<2){f.stage++;f.eaten=0;say('Cá voi lớn lên! ✨')}}
+    if(target&&Math.hypot(target.x-f.x,target.y-f.y)<s*1.3&&!target.dead){target.dead=true;f.hunger=0;f._eatAt=t;f.joy=Math.min(100,f.joy+2);f.eaten++;if(f.eaten>=4&&f.stage<2){f.stage++;f.eaten=0;say('Cá voi lớn lên! ✨')}}
     if(f.stage>0&&f.joy>0){f.coinT-=dt*(f.joy<50?.5:1);if(f.coinT<=0){f.coinT=R(7,11);coins.push({x:f.x,y:f.y,v:f.stage==1?15:40,age:0,vy:-60,ph:R(0,6),rest:0,gold:f.stage==2})}}
     if(f.hunger>110){f.dead=true;say('Một chú cá đói quá 😢')}
   }
@@ -1168,100 +1167,132 @@ function draw(){
 </script>
 <script>
 /* ===== js/fish-meta.js ===== */
-// Thông số bảng hình cá hề (tự sinh từ công cụ dựng atlas)
+// Thông số bảng hình cá hề (tự sinh từ công cụ dựng atlas; toạ độ so với tâm ô, đơn vị điểm ảnh atlas)
+// Ô: 0 nhìn phải · 1 nhìn trái · 2 thân bơi ngang (đã bỏ vây) · 3 vây ngực · 4 vây lưng · 5 vây bụng
+//    6 thân bơi lên · 7/8 cánh vây trái/phải (lên) · 9 thân bơi xuống · 10/11 cánh vây trái/phải (xuống) · 12 hàm dưới
 const CF_META={cw:276,ch:275,len:238.5,
-  // khung nền cứng cho từng hướng bơi + vùng đuôi được uốn (toạ độ so với tâm ô, đơn vị điểm ảnh của atlas)
-  side:{row:1,col:2,xs:-50,xe:-134},
-  up:{row:2,col:3,ys:35,ye:126},
-  down:{row:2,col:9,ys:-30,ye:-131}};
+  cell:{lookR:0,lookL:1,side:2,P:3,D:4,V:5,up:6,upL:7,upR:8,down:9,downL:10,downR:11,jaw:12},
+  side:{xs:-50,xe:-134},up:{ys:35,ye:126},down:{ys:-30,ye:-131},
+  fin:{P:{bb:[-14,2,50,58],pv:[-3,28]},D:{bb:[-24,-88,62,-43],pv:[20,-47]},V:{bb:[-6,54,46,87],pv:[18,57]},J:{bb:[86,22,119,47],pv:[97,26]}},
+  wing:{L:{bb:[-97,-41,-37,41],pv:[-42,0]},R:{bb:[37,-41,97,41],pv:[42,0]}},
+  mouth:{a:[98,25],b:[113,28.5]}};
 </script>
 <script>
 /* ===== js/fish-sprite.js ===== */
-// ===== Cá hề (nhân vật chính): hoạt hình từ bảng hình (atlas) =====
-// Bảng hình (12 cột): hàng 0 = đứng bơi (12 khung), hàng 1 = bơi ngang (12 khung),
-//   hàng 2 = bơi lên (cột 0-5) + bơi xuống (cột 6-11), hàng 3 = nhìn phải / trái / lên / xuống.
-// 12 khung = 6 khung gốc + 6 khung trung gian nội suy từ chính các khung gốc (cùng nét vẽ, cùng hình dáng).
+// ===== Cá hề (nhân vật chính): hoạt hình từ các mảnh hình gốc =====
+// Thân giữ nguyên hình gốc; đuôi uốn theo sóng; vây ngực / vây bụng / vây lưng (và hai cánh vây khi bơi dọc) chuyển động riêng;
+// miệng hé khi đớp mồi và khi thở bong bóng; quay đầu / lật mình được chuyển từ từ bằng cách xoay-ép hình (không đổi khung đột ngột).
 const CF={state:'loading',img:null,tint:{}};
 (function(){const i=new Image();i.onload=()=>{CF.img=i;CF.state='ready'};i.onerror=()=>{CF.state='failed'};i.src='fish-sheet.png'})();
 const cfSS=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
-// Bản tô màu (đói = xanh nhợt, giận = đỏ) tạo 1 lần khi cần
-function cfAtlas(k){
+function cfAtlas(k){   // bản tô màu (đói = xanh nhợt, giận = đỏ) tạo 1 lần khi cần
   if(k=='n')return CF.img;let c2=CF.tint[k];if(c2)return c2;
   c2=document.createElement('canvas');c2.width=CF.img.width;c2.height=CF.img.height;const x=c2.getContext('2d');x.drawImage(CF.img,0,0);
   x.globalCompositeOperation='source-atop';x.fillStyle=k=='h'?'rgba(110,190,130,.42)':'rgba(235,70,80,.36)';x.fillRect(0,0,c2.width,c2.height);
   return CF.tint[k]=c2}
-// Cập nhật trạng thái hoạt hình mượt (lọc theo thời gian, không nhảy khung)
+// ---- Trạng thái hoạt hình (làm mượt theo thời gian)
 function cfStep(s,dt,vx,vy,dir,look,size){
-  if(s._ds===undefined){s._ds=dir;s._wv=0;s._sw=0;s._ph=(s.ph||0)/6.283;s._pi=0;s._lk=0;s._sc=size;s._vd=1;s._fl=0}
-  const e=k=>1-Math.exp(-dt*k),sp=Math.hypot(vx,vy);
-  s._ds+=(dir-s._ds)*e(8);                                              // quay đầu: lật mềm, không đổi hướng đột ngột
+  if(s._ds===undefined){s._ds=dir;s._wv=0;s._sw=0;s._ph=(s.ph||0)/6.283;s._fp=s.ph||0;s._pi=0;s._lk=0;s._sc=size;s._vd=1;s._rl=0;s._vm=false;s._mo=0}
+  const e=k=>1-Math.exp(-dt*k),sp=Math.hypot(vx,vy),tn=typeof t!=='undefined'?t:0;
+  s._ds+=(dir-s._ds)*e(7);                                              // quay đầu: xoay-ép mềm, không đổi hướng đột ngột
   const ratio=Math.abs(vy)/(Math.abs(vx)+6);
-  s._wv+=((sp>24?cfSS(1.9,3.0,ratio):0)-s._wv)*e(12);                  // bơi dọc → chuyển sang khung nhìn từ trên
+  s._wv+=((sp>24?cfSS(1.9,3.0,ratio):0)-s._wv)*e(12);
   if(Math.abs(vy)>8)s._vd=vy<0?-1:1;
   s._sw+=(Math.min(1,sp/70)-s._sw)*e(5);                               // mức độ bơi (0 đứng → 1 lao nhanh)
-  s._ph=(s._ph+dt*(.45+s._sw*1.0))%1000;                                // nhịp vẫy đuôi chậm: ~0.45 Hz khi đứng, ~1.1 Hz khi bơi thường, ~1.45 Hz khi lao tới mồi
-  s._pi+=((sp>10?Math.max(-.5,Math.min(.5,Math.atan2(vy,Math.abs(vx)+14))):0)-s._pi)*e(4);   // ngóc lên / chúi xuống
+  s._ph=(s._ph+dt*(.45+s._sw*1.0))%1000;                                // nhịp vẫy đuôi chậm
+  s._fp+=dt*(5.6+5*s._sw);                                              // nhịp vẫy vây ngực (~0.9 → 1.8 Hz)
+  s._pi+=((sp>10?Math.max(-1.4,Math.min(1.4,Math.atan2(vy,Math.abs(vx)+14))):0)-s._pi)*e(4);   // ngóc lên / chúi xuống
   s._lk+=(look-s._lk)*e(6);
-  if(!s._vm&&s._wv>.6)s._vm=true;else if(s._vm&&s._wv<.35)s._vm=false;      // chế độ bơi dọc (nhìn từ trên), có độ trễ chống nhấp nháy
-  if(!s._sm&&s._sw>.5)s._sm=true;else if(s._sm&&s._sw<.22)s._sm=false;      // chế độ bơi (thay vì đứng bơi)
-  const md=(s._lk>.5||Math.abs(s._ds)<.34)?2:s._vm?1:0;                      // 0 = nhìn ngang, 1 = nhìn từ trên (bơi dọc), 2 = quay mặt 3/4
-  if(s._md!==undefined&&md!==s._md)s._tp=1;s._md=md;s._tp=Math.max(0,(s._tp||0)-dt*8);
+  if(!s._vm&&s._wv>.6)s._vm=true;else if(s._vm&&s._wv<.35)s._vm=false;
+  s._rl+=((s._vm?1:0)-s._rl)*e(9);                                      // lật mình: ngang ↔ nhìn từ trên (xoay quanh trục thân)
   s._sc+=(size-s._sc)*e(4);                                             // lớn lên từ từ khi lên cấp
+  // miệng: há nhanh rồi ngậm khi đớp mồi; hé nhẹ khi thở bong bóng
+  if(s._exNext===undefined)s._exNext=tn+1+Math.random()*3;
+  if(tn>=s._exNext){s._exAt=tn;s._exNext=tn+2.5+Math.random()*4.5;s._exPend=true}
+  let mt=0;
+  if(s._eatAt!==undefined&&tn-s._eatAt<.36)mt=Math.pow(Math.sin(Math.PI*(tn-s._eatAt)/.36),.6);
+  if(s._exAt!==undefined&&tn-s._exAt<.5)mt=Math.max(mt,.5*Math.sin(Math.PI*(tn-s._exAt)/.5));
+  s._mo+=(mt-s._mo)*e(22);
 }
-// Vẽ một khung (hàng r, cột c) tại gốc toạ độ hiện tại
-function cfCell(X,A,r,c,k,alpha,sx){
-  const cw=CF_META.cw,ch=CF_META.ch;X.globalAlpha=alpha;
-  if(sx!==1){X.save();X.scale(sx,1)}
-  X.drawImage(A,c*cw,r*ch,cw,ch,-cw*k/2,-ch*k/2,cw*k,ch*k);
-  if(sx!==1)X.restore();
-}
-// Thân + đầu giữ NGUYÊN khung nền (không lắc); chỉ phần đuôi được chia lát và uốn theo sóng lan từ gốc đuôi ra mút đuôi
+// ---- Vẽ từng phần
+function cfRegion(X,A,idx,bb){const cw=CF_META.cw,ch=CF_META.ch,r=Math.floor(idx/6),c=idx%6;
+  X.drawImage(A,c*cw+cw/2+bb[0],r*ch+ch/2+bb[1],bb[2]-bb[0],bb[3]-bb[1],bb[0],bb[1],bb[2]-bb[0],bb[3]-bb[1])}
+function cfPart(X,A,idx,o,ang){    // vẽ một mảnh (vây) xoay quanh điểm gốc của nó
+  if(!ang){cfRegion(X,A,idx,o.bb);return}
+  X.save();X.translate(o.pv[0],o.pv[1]);X.rotate(ang);X.translate(-o.pv[0],-o.pv[1]);cfRegion(X,A,idx,o.bb);X.restore()}
+function cfFull(X,A,idx){const cw=CF_META.cw,ch=CF_META.ch,r=Math.floor(idx/6),c=idx%6;X.drawImage(A,c*cw,r*ch,cw,ch,-cw/2,-ch/2,cw,ch)}
 const cfBendAmp=(u,amp,tt)=>amp*Math.pow(u,1.6)*Math.sin(tt-2.2*u);
-function cfBendSide(X,A,tt,amp,N){            // cá bơi ngang: đuôi ở bên trái ô
-  const cw=CF_META.cw,ch=CF_META.ch,b=CF_META.side,x0=b.col*cw,y0=b.row*ch,hx=cw/2,xs=b.xs,Lb=xs-b.xe;
-  X.globalAlpha=1;X.drawImage(A,x0+hx+xs,y0,hx-xs,ch,xs,-ch/2,hx-xs,ch);
+function cfBendSide(X,A,tt,amp,N){            // thân cứng + đuôi uốn sóng (cá ngang)
+  const cw=CF_META.cw,ch=CF_META.ch,b=CF_META.side,idx=CF_META.cell.side,x0=(idx%6)*cw,y0=Math.floor(idx/6)*ch,hx=cw/2,xs=b.xs,Lb=xs-b.xe;
+  X.drawImage(A,x0+hx+xs,y0,hx-xs,ch,xs,-ch/2,hx-xs,ch);
   for(let i=0;i<N;i++){
     const xa=xs-i*Lb/N,xb=xs-(i+1)*Lb/N,ya=cfBendAmp(i/N,amp,tt),yb=cfBendAmp((i+1)/N,amp,tt),sl=(yb-ya)/(xb-xa);
     X.save();X.transform(1,sl,0,1,0,ya-sl*xa);X.drawImage(A,x0+hx+xb,y0,xa-xb+.9,ch,xb,-ch/2,xa-xb+.9,ch);X.restore();
   }
 }
-function cfBendV(X,A,tt,amp,N,up){            // cá bơi dọc (nhìn từ trên): đuôi ở dưới (lên) hoặc ở trên (xuống)
-  const cw=CF_META.cw,ch=CF_META.ch,b=up?CF_META.up:CF_META.down,x0=b.col*cw,y0=b.row*ch,hx=cw/2,hy=ch/2,ys=b.ys,Lb=Math.abs(b.ye-b.ys),dir=up?1:-1;
+function cfBendV(X,A,tt,amp,N,up){            // thân cứng + đuôi uốn sóng (cá bơi dọc, nhìn từ trên)
+  const cw=CF_META.cw,ch=CF_META.ch,b=up?CF_META.up:CF_META.down,idx=up?CF_META.cell.up:CF_META.cell.down,x0=(idx%6)*cw,y0=Math.floor(idx/6)*ch,hx=cw/2,hy=ch/2,ys=b.ys,Lb=Math.abs(b.ye-b.ys),dir=up?1:-1;
   if(up)X.drawImage(A,x0,y0,cw,hy+ys,-hx,-hy,cw,hy+ys);else X.drawImage(A,x0,y0+hy+ys,cw,hy-ys,-hx,ys,cw,hy-ys);
   for(let i=0;i<N;i++){
-    const ya=ys+dir*i*Lb/N,yb=ys+dir*(i+1)*Lb/N,da=cfBendAmp(i/N,amp,tt),db=cfBendAmp((i+1)/N,amp,tt),sl=(db-da)/(yb-ya);
-    const top=Math.min(ya,yb),h=Math.abs(yb-ya)+.9;
+    const ya=ys+dir*i*Lb/N,yb=ys+dir*(i+1)*Lb/N,da=cfBendAmp(i/N,amp,tt),db=cfBendAmp((i+1)/N,amp,tt),sl=(db-da)/(yb-ya),top=Math.min(ya,yb),h=Math.abs(yb-ya)+.9;
     X.save();X.transform(1,0,sl,1,da-sl*ya,0);X.drawImage(A,x0,y0+hy+top,cw,h,-hx,top,cw,h);X.restore();
   }
 }
 function cfRender(X,s,x,y,size,tint,rx){
   if(CF.state!=='ready')return;
-  const A=cfAtlas(tint),k=s._sc*2.85/CF_META.len,L=s._sc*2.85,rk=rx&&rx.k,tt=s._ph*Math.PI*2,N=(typeof PF!=='undefined'&&PF.fps>30)?9:7;
-  const bob=Math.sin(t*.7+(s.ph||0))*.008*L+(rk=='angry'?Math.sin(t*50)*2.5:0);   // chỉ nhấp nhô rất chậm như đang lơ lửng (không theo nhịp đuôi)
-  X.save();X.translate(x+(rk=='angry'?Math.sin(t*50)*2.5:0),y+bob);
-  if(rk=='love')X.rotate(Math.sin(t*14)*.22);
-  const sh=rk=='shy'?.85:1,pulse=sh*(1-.08*Math.sin(Math.PI*(1-(s._tp||0))));X.scale(pulse,pulse);
-  const sx=Math.sign(s._ds||1)*Math.pow(Math.abs(s._ds),.75);
-  // Mỗi lần chỉ vẽ MỘT kiểu (không chồng mờ) → hình luôn đặc, sắc nét
-  if(s._md===2){cfCell(X,A,3,s._ds>=0?0:1,k,1,1)}                             // khi quay đầu / nói chuyện / làm nũng / ngại: quay mặt về phía người chơi
-  else if(s._md===1){X.scale(k,k);cfBendV(X,A,tt,CF_META.len*(.018+.058*s._sw),N,s._vd<0)}
-  else{X.rotate(s._pi*Math.sign(s._ds||1)*Math.abs(s._ds)+Math.sin(tt-.9)*.01*s._sw);X.scale(sx*k,k);cfBendSide(X,A,tt,CF_META.len*(.026+.072*s._sw),N)}
+  const A=cfAtlas(tint),k=s._sc*2.85/CF_META.len,L=s._sc*2.85,rk=rx&&rx.k,tt=s._ph*Math.PI*2,fp=s._fp,sw=s._sw,rl=s._rl;
+  const N=typeof PF==='undefined'?7:PF.fps>=60?9:PF.fps>30?7:5,tn=typeof t!=='undefined'?t:0;
+  const shake=rk=='angry'?Math.sin(tn*50)*2.5:0,bob=Math.sin(tn*.7+(s.ph||0))*.008*L+shake;
+  X.save();X.translate(x+shake,y+bob);
+  if(rk=='love')X.rotate(Math.sin(tn*14)*.22);
+  if(rk=='shy')X.scale(.85,.85);
+  const sg=Math.sign(s._ds||1),a=Math.abs(s._ds);
+  // độ ép ngang khi quay đầu / quay mặt: không bao giờ mỏng như tờ giấy (tối thiểu 35%), đổi sang khung 3/4 khi đã ép còn 62%
+  const lk=s._lk,sqL=lk<.5?1-.38*(lk*2):.62+.38*(lk*2-1),sqT=Math.max(.35,a);
+  const sq=Math.min(sqL,sqT),useLook=(lk>=.5)||(a<.62);
+  if(rl>=.5){            // ---- nhìn từ trên (bơi dọc): hai cánh vây chuyển động xen kẽ
+    const w=.4+.6*(rl*2-1),up=s._vd<0,amp=CF_META.len*(.018+.058*sw),ang=.15+.1*sw;
+    X.scale(k*w,k);cfBendV(X,A,tt,amp,N,up);
+    const ci=up?[CF_META.cell.upL,CF_META.cell.upR]:[CF_META.cell.downL,CF_META.cell.downR];
+    cfPart(X,A,ci[0],CF_META.wing.L,ang*Math.sin(fp));cfPart(X,A,ci[1],CF_META.wing.R,ang*Math.sin(fp+2.1));
+  }else if(rl<.02&&useLook){   // ---- khung 3/4 nhìn về phía người chơi (khi quay đầu / nói chuyện / ngại)
+    X.scale(sq*k,k);cfFull(X,A,sg>0?CF_META.cell.lookR:CF_META.cell.lookL);
+  }else{                 // ---- nhìn ngang (đứng bơi / bơi)
+    const ph=s._pi,rot=ph+(rl>0?(Math.PI/2*Math.sign(ph||s._vd)-ph)*(rl*2):0),sqY=1-.6*(rl*2);
+    X.rotate(rot*sg*a+Math.sin(tt-.9)*.01*sw);X.scale(sg*sq*k,k*sqY);
+    const D=CF_META.fin.D,V=CF_META.fin.V,P=CF_META.fin.P;
+    cfPart(X,A,CF_META.cell.D,D,(.05+.04*sw)*Math.sin(tt-1.2));          // vây lưng đung đưa theo sóng đuôi
+    cfBendSide(X,A,tt,CF_META.len*(.026+.072*sw),N);                    // thân + đuôi
+    cfPart(X,A,CF_META.cell.jaw,CF_META.fin.J,s._mo*.62);               // hàm dưới hạ xuống: miệng hé
+    cfPart(X,A,CF_META.cell.V,V,(.1+.07*sw)*Math.sin(fp+2.4));          // vây bụng
+    cfPart(X,A,CF_META.cell.P,P,(.17+.1*sw)*Math.sin(fp));              // vây ngực vỗ nhẹ lên xuống
+  }
   X.restore();X.globalAlpha=1;
 }
-// Cá trong hồ
+// ---- Bong bóng từ miệng (cỡ bong bóng theo cỡ cá)
+function cfMouthWorld(s){
+  const k=s._sc*2.85/CF_META.len,sg=Math.sign(s._ds||1),m=CF_META.mouth.b,th=s._pi*sg*Math.abs(s._ds),X0=sg*k*m[0],Y0=k*m[1];
+  return [s.x+X0*Math.cos(th)-Y0*Math.sin(th),s.y+X0*Math.sin(th)+Y0*Math.cos(th)]}
+function cfBubble(f,n){
+  if(typeof bubbles==='undefined'||bubbles.length>=PF.fb+8)return;const L=f._sc*2.85,p=f._rl>.5?[f.x,f.y]:cfMouthWorld(f);
+  for(let i=0;i<n;i++)bubbles.push({x:p[0]+R(-1.5,1.5),y:p[1]+R(-1,1),r:Math.max(1.6,L*(.028+Math.random()*.02)),ph:R(0,6)})}
+// ---- Cá trong hồ
 function cfGame(f){
   const dt=f._lt===undefined?0:Math.min(.1,t-f._lt);f._lt=t;
   const sp=Math.hypot(f.vx,f.vy),rk=f.rx&&f.rx.k,size=sz(f);
   const look=(f.say||rk=='love'||rk=='shy')&&sp<14?1:0;
   cfStep(f,dt,f.vx,f.vy,f.dir,look,size);
+  if(f._exPend&&t-f._exAt>.2&&f._rl<.5){f._exPend=false;cfBubble(f,1)}                 // hé miệng thở ra bong bóng nhỏ
+  if(f._eatAt!==undefined&&f._eatAt!==f._eatSeen){f._eatSeen=f._eatAt;f._eatB=f._eatAt+.14}
+  if(f._eatB&&t>=f._eatB){f._eatB=0;if(f._rl<.5)cfBubble(f,1+(Math.random()<.5?1:0))}   // đớp mồi: nhả vài bong bóng li ti
   cfRender(c,f,f.x,f.y,size,rk=='angry'?'a':f.hunger>70?'h':'n',f.rx);
 }
-// Hình cá hề nhỏ trong danh sách cá
+// ---- Hình cá hề nhỏ trong danh sách cá
 const CF_TH={};
 function cfThumb(X,f,cx,cy){
   let s=CF_TH[f.id];if(!s){s=CF_TH[f.id]={ph:f.ph,_lt:t}}
   const dt=Math.min(.1,t-s._lt);s._lt=t;const vx=Math.cos(t*.8+f.ph)*34,vy=Math.cos(t*1.6+f.ph)*6;
-  cfStep(s,dt,vx,vy,vx>=0?1:-1,0,24);cfRender(X,s,cx,cy,24,f.hunger>70?'h':'n',null);
+  s._eatAt=undefined;cfStep(s,dt,vx,vy,vx>=0?1:-1,0,24);cfRender(X,s,cx,cy,24,f.hunger>70?'h':'n',null);
 }
 </script>
 <script>
@@ -1284,6 +1315,6 @@ if('serviceWorker' in navigator)addEventListener('load',()=>{const had=!!navigat
   navigator.serviceWorker.register('sw.js').catch(()=>{});
   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=true;location.reload()}})});
 </script>
-<script>window.__where=function(l){var r="";[[371,"js/core.js"],[430,"js/fx-layers.js"],[442,"js/audio.js"],[495,"js/shop.js"],[530,"js/settings.js"],[556,"js/gallery.js"],[616,"js/chat.js"],[666,"js/fish-list.js"],[722,"js/guide.js"],[731,"js/combat.js"],[767,"js/warriors-ui.js"],[816,"js/supports-ui.js"],[866,"js/monsters-ui.js"],[891,"js/settings-tabs.js"],[903,"js/size-tuner.js"],[943,"js/input.js"],[966,"js/update.js"],[1081,"js/render.js"],[1169,"js/fish-meta.js"],[1178,"js/fish-sprite.js"],[1267,"js/main.js"]].forEach(function(x){if(l>=x[0])r=x[1]});return r}</script>
+<script>window.__where=function(l){var r="";[[370,"js/core.js"],[429,"js/fx-layers.js"],[441,"js/audio.js"],[494,"js/shop.js"],[529,"js/settings.js"],[555,"js/gallery.js"],[615,"js/chat.js"],[665,"js/fish-list.js"],[721,"js/guide.js"],[730,"js/combat.js"],[766,"js/warriors-ui.js"],[815,"js/supports-ui.js"],[865,"js/monsters-ui.js"],[890,"js/settings-tabs.js"],[902,"js/size-tuner.js"],[942,"js/input.js"],[965,"js/update.js"],[1080,"js/render.js"],[1168,"js/fish-meta.js"],[1180,"js/fish-sprite.js"],[1298,"js/main.js"]].forEach(function(x){if(l>=x[0])r=x[1]});return r}</script>
 </body>
 </html>
