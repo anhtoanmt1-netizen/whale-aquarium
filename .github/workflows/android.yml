@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   apk:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -28,10 +28,15 @@ jobs:
         with:
           python-version: '3.12'
 
-      - uses: android-actions/setup-android@v3
-
-      - name: Cài Android SDK 34
-        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+      - name: Cài Android SDK 34 (dùng SDK có sẵn trên máy chạy)
+        run: |
+          export ANDROID_HOME="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          SDKM=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | head -1)
+          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
+          echo "Dùng $SDKM"
+          set +o pipefail
+          yes | "$SDKM" --licenses > /dev/null || true
+          "$SDKM" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Chuẩn bị file web (www)
         run: |
