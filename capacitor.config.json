@@ -1,0 +1,8 @@
+{
+  "appId": "com.cavoinho.game",
+  "appName": "Cá Voi Nhỏ",
+  "webDir": "www",
+  "backgroundColor": "#0b5d8f",
+  "server": { "androidScheme": "https" },
+  "android": { "backgroundColor": "#0b5d8f", "allowMixedContent": false }
+}
