@@ -1,4 +1,4 @@
-# whale-aquarium (Cá Voi Nhỏ) — phiên bản 14
+# whale-aquarium (Cá Voi Nhỏ) — phiên bản 15
 
 Game nuôi cá kawaii kiểu Insaniquarium, chạy trên trình duyệt / PWA.
 
@@ -10,7 +10,10 @@ Game nuôi cá kawaii kiểu Insaniquarium, chạy trên trình duyệt / PWA.
 
 > Các file lẻ `index.src.html`, `style.css`, `main.js` ở thư mục gốc là bản cũ, **không** dùng khi build.
 
-## Mới ở phiên bản 14
+## Mới ở phiên bản 15
+- 🏠 Menu chính sống động; ⚔️ Hải Vực Chinh Phục (60 ải, 20 Boss, 13 kỹ năng, 1–3 ⭐, nhiệm vụ trả vàng, sát thương chạm). Xem `BAO_CAO.md`.
+
+## Phiên bản 14
 - 🔍 Tầm nhìn Gần / Rộng / Siêu rộng (nút 🔎 trên thanh trên, hoặc ⚙️ → Hiển thị).
 - 🐠 Cá tụ đàn, lo lắng và hoảng sợ khi có quái vật (`src/js/flock.js`).
 - 🦀 Cua có level 1–5, tên, tuổi, máu, kỹ năng lướt / bắn tim, danh sách, bán, mua thêm chỗ tới 50 (`crab.js`, `crab-ui.js`).

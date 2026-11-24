@@ -1,4 +1,4 @@
-const CACHE = 'whale-v15';
+const CACHE = 'whale-v16';
 const FILES = ['./', './index.html', './manifest.json', './crab.png', './coin-sheet.png', './coin-gold.png', './coin-silver.png', './bg-port.jpg', './bg-land.jpg', './fish-sheet.png', './fish-icon.png', './sword.png', './horse.png', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   // một file lỗi không làm hỏng cả service worker
