@@ -53,7 +53,7 @@ jobs:
       - name: Tạo icon + tinh chỉnh (toàn màn hình, số phiên bản)
         env:
           VERSION_CODE: ${{ github.run_number }}
-          VERSION_NAME: 14.${{ github.run_number }}
+          VERSION_NAME: 16.${{ github.run_number }}
         run: |
           pip install pillow
           python3 scripts/make_icons.py android/app/src/main/res

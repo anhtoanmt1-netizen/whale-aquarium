@@ -19,3 +19,9 @@ def theme(s):
            '        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>\n')
     return re.sub(r'(<style name="AppTheme\.NoActionBar"[^>]*>\n)', r'\1' + add, s, count=1)
 edit(base + '/src/main/res/values/styles.xml', theme)
+
+# Tăng tốc phần cứng cho WebView/canvas (mặc định đã bật, ghi tường minh để chắc chắn) và giữ màn hình sáng khi chơi
+def manifest(s):
+    if 'hardwareAccelerated' in s: return s
+    return s.replace('<application','<application android:hardwareAccelerated="true"',1)
+edit(base + '/src/main/AndroidManifest.xml', manifest)
